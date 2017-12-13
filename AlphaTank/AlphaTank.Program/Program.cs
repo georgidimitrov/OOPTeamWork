@@ -12,7 +12,7 @@ namespace AlphaTank.Program
         {
             Display.Instance.RenderDisplay();
             Display.Instance.PrintDisplay();
-
+              
             
             ////Key Press N Key Hold Handlers
             
