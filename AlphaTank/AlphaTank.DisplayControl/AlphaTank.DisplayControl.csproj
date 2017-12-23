@@ -45,15 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDisplay.cs" />
-    <Compile Include="Contracts\IMainMenu.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="LevelDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainMenu\MainMenu.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Levels\SideBar\Info.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Levels\Level1.txt" />
