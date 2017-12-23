@@ -39,7 +39,7 @@ namespace AlphaTank.DisplayControl
         {
             DateTime dt = DateTime.Now;
 
-            MoveCursor();
+            CursorMenu(1);
 
             int shellRow = 10;
             int shellCol = 20;
@@ -51,22 +51,25 @@ namespace AlphaTank.DisplayControl
                 if (elapsed.Milliseconds > 100)
                 {
 
-                    if ((!Keyboard.IsKeyUp(Key.Up) || !Keyboard.IsKeyUp(Key.Down)))
+                    if (!Keyboard.IsKeyUp(Key.Up))
                     {
-                        MoveCursor();
+                        MoveCursor('u');
+                    }
+                    else if (!Keyboard.IsKeyUp(Key.Down))
+                    {
+                        MoveCursor('d');
                     }
                     if (!Keyboard.IsKeyUp(Key.Enter))
                     {
                         if (menu == 1)
                         {
-                            return;
+                            LevelDisplay.Instance.Run();
+                            MainMenuPrint();
+                            CursorMenu(1);
                         }
                         else
                         {
-                            LevelDisplay.Instance.Run();
-                            MainMenuPrint();
-                            MoveCursor();
-                            MoveCursor();
+                            return;
                         }
                     }
 
@@ -85,9 +88,9 @@ namespace AlphaTank.DisplayControl
             }
         }
 
-        private void MoveCursor()
+        private void CursorMenu(int m)
         {
-            switch (menu)
+            switch (m)
             {
                 case 1:
                     Console.SetCursorPosition(29, 16);
@@ -99,11 +102,43 @@ namespace AlphaTank.DisplayControl
                     Console.Write('>');
                     Console.SetCursorPosition(29 + 6, 13);
                     Console.Write('<');
-
-                    menu = 2;
-
                     break;
                 case 2:
+                    Console.SetCursorPosition(29, 13);
+                    Console.Write(' ');
+                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.Write(' ');
+
+                    Console.SetCursorPosition(29, 16);
+                    Console.Write('>');
+                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.Write('<');
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void MoveCursor(char dir)
+        {
+            switch (dir)
+            {
+                case 'u':
+                    Console.SetCursorPosition(29, 16);
+                    Console.Write(' ');
+                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.Write(' ');
+
+                    Console.SetCursorPosition(29, 13);
+                    Console.Write('>');
+                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.Write('<');
+
+                    menu = 1;
+
+                    break;
+                case 'd':
                     Console.SetCursorPosition(29, 13);
                     Console.Write(' ');
                     Console.SetCursorPosition(29 + 6, 13);
@@ -115,7 +150,7 @@ namespace AlphaTank.DisplayControl
                     Console.SetCursorPosition(29 + 5, 16);
                     Console.Write('<');
 
-                    menu = 1;
+                    menu = 2;
 
                     break;
 
