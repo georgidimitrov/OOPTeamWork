@@ -48,7 +48,7 @@ namespace AlphaTank.DisplayControl
             {
                 TimeSpan elapsed = DateTime.Now - dt;
 
-                if (elapsed.Milliseconds > 1000)
+                if (elapsed.Milliseconds > 100)
                 {
 
                     if ((!Keyboard.IsKeyUp(Key.Up) || !Keyboard.IsKeyUp(Key.Down)))
@@ -79,26 +79,6 @@ namespace AlphaTank.DisplayControl
 
                     dt = DateTime.Now;
                 }
-                else
-                {
-                    if ((!Keyboard.IsKeyUp(Key.Up) || !Keyboard.IsKeyUp(Key.Down)))
-                    {
-                        MoveCursor();
-                    }
-                    if (!Keyboard.IsKeyUp(Key.Enter))
-                    {
-                        if (menu == 2)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            //shutdown
-                        }
-                    }
-                }
-
-
             }
         }
 
