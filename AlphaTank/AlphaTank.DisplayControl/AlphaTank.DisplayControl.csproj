@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{562D9C83-F5F9-44D0-85FA-59115D349666}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>AlphaTank.Program</RootNamespace>
-    <AssemblyName>AlphaTank.Program</AssemblyName>
+    <ProjectGuid>{3079C5CD-7982-46FA-BB1D-B42D1E83A418}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlphaTank.DisplayControl</RootNamespace>
+    <AssemblyName>AlphaTank.DisplayControl</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,21 +39,24 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Contracts\IDisplay.cs" />
+    <Compile Include="Contracts\IMainMenu.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="MainMenu\MainMenu.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlphaTank.DisplayControl\AlphaTank.DisplayControl.csproj">
-      <Project>{3079c5cd-7982-46fa-bb1d-b42d1e83a418}</Project>
-      <Name>AlphaTank.DisplayControl</Name>
-    </ProjectReference>
+    <None Include="Levels\SideBar\Info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Levels\Level1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
