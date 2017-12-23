@@ -63,7 +63,10 @@ namespace AlphaTank.DisplayControl
                         }
                         else
                         {
-                            //game start
+                            LevelDisplay.Instance.Run();
+                            MainMenuPrint();
+                            MoveCursor();
+                            MoveCursor();
                         }
                     }
 
@@ -135,6 +138,7 @@ namespace AlphaTank.DisplayControl
 
         private void MainMenuPrint()
         {
+            Console.SetCursorPosition(0, 0);
             for (int row = 0; row < Height; row++)
             {
                 for (int col = 0; col < Width; col++)
