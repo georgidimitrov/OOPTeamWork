@@ -161,7 +161,7 @@ namespace AlphaTank.DisplayControl
 
         private void GetDisplayDesign()
         {
-            StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\TATeamWork\AlphaTank\AlphaTank.DisplayControl\MainMenu\MainMenu.txt");
+            StreamReader read = new StreamReader(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.DisplayControl\MainMenu\MainMenu.txt");
 
             for (int row = 0; row < Height; row++)
             {

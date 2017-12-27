@@ -45,6 +45,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Contracts\IGameObject.cs" />
+    <Compile Include="Models\Contracts\IMissile.cs" />
+    <Compile Include="Models\Contracts\ITank.cs" />
+    <Compile Include="Models\GameObjects\EnemyTank.cs" />
+    <Compile Include="Models\GameObjects\GameObejct.cs" />
+    <Compile Include="Models\GameObjects\Obstacle.cs" />
+    <Compile Include="Models\GameObjects\PlayerTank.cs" />
+    <Compile Include="Models\GameObjects\Road.cs" />
+    <Compile Include="Models\GameObjects\Tank.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,5 +66,6 @@
       <Name>AlphaTank.DisplayControl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -79,7 +79,7 @@ namespace AlphaTank.DisplayControl
 
         private void GetDisplayDesign()
         {
-            StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\TATeamWork\AlphaTank\AlphaTank.DisplayControl\Levels\Level1.txt");
+            StreamReader read = new StreamReader(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.DisplayControl\Levels\Level1.txt");
 
             for (int row = 0; row < Height; row++)
             {
