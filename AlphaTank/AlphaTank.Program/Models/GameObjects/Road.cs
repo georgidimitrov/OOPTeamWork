@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlphaTank.Program.Models.GameObjects
+﻿namespace AlphaTank.Program.Models.GameObjects
 {
-    class Road
+    public class Road : GameObject
     {
+        public Road(int row, int col) : base(row, col)
+        {
+            this.Representative = ' ';
+        }
     }
 }

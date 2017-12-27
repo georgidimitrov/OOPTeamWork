@@ -1,10 +1,5 @@
-﻿using AlphaTank.DisplayControl;
-using AlphaTank.Program.Models.Contracts;
-using AlphaTank.Program.Models.GameObjects;
+﻿using AlphaTank.Program.Display;
 using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Windows.Input;
 
 namespace AlphaTank.Program
 {

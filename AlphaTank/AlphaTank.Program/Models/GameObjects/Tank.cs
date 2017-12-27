@@ -1,23 +1,22 @@
 ﻿using AlphaTank.Program.Models.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public class Tank
+    public abstract class Tank : GameObject, ITank
     {
-        public char Representative => throw new NotImplementedException();
-
-        public int RowPosition => throw new NotImplementedException();
-
-        public int ColumnPosition => throw new NotImplementedException();
-
-        public void Shoot()
+        public Tank(int row, int col) : base(row, col)
         {
-
         }
+
+        public abstract void MoveDown(IGameObject[][] map, char[][] display);
+
+        public abstract void MoveLeft(IGameObject[][] map, char[][] display);
+
+        public abstract void MoveRight(IGameObject[][] map, char[][] display);
+
+        public abstract void MoveUp(IGameObject[][] map, char[][] display);
+
+        public abstract void Shoot();
     }
 }

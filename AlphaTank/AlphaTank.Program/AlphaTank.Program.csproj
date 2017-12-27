@@ -45,11 +45,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display\Contracts\IDisplay.cs" />
+    <Compile Include="Display\Contracts\IMap.cs" />
+    <Compile Include="Display\LevelDisplay.cs" />
+    <Compile Include="Display\MainMenu.cs" />
     <Compile Include="Models\Contracts\IGameObject.cs" />
     <Compile Include="Models\Contracts\IMissile.cs" />
+    <Compile Include="Models\Contracts\IMovable.cs" />
     <Compile Include="Models\Contracts\ITank.cs" />
     <Compile Include="Models\GameObjects\EnemyTank.cs" />
-    <Compile Include="Models\GameObjects\GameObejct.cs" />
+    <Compile Include="Models\GameObjects\GameObject.cs" />
     <Compile Include="Models\GameObjects\Obstacle.cs" />
     <Compile Include="Models\GameObjects\PlayerTank.cs" />
     <Compile Include="Models\GameObjects\Road.cs" />
@@ -61,11 +66,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlphaTank.DisplayControl\AlphaTank.DisplayControl.csproj">
-      <Project>{3079c5cd-7982-46fa-bb1d-b42d1e83a418}</Project>
-      <Name>AlphaTank.DisplayControl</Name>
-    </ProjectReference>
+    <None Include="Display\Levels\Level1.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Display\MainMenu\MainMenu.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

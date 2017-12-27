@@ -1,21 +1,25 @@
-﻿using System;
-using AlphaTank.DisplayControl.Contracts;
+﻿using AlphaTank.Program.Display.Contracts;
+using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Input;
-using System.Diagnostics;
 
-namespace AlphaTank.DisplayControl
+namespace AlphaTank.Program.Display
 {
     public class MainMenu : IDisplay
     {
         //Fields
         private static readonly MainMenu instance = new MainMenu();
+
         private int menu = 1;
 
         //Ctors
         private MainMenu()
         {
+            if (Console.BufferHeight != 21 || Console.BufferWidth != 50)
+            {
+                throw new ArgumentException("Console Sizes must be (21; 50)!");
+            }
+
             this.Height = 20;
             this.Width = 50;
             this.Display = new char[Height][];
@@ -23,6 +27,7 @@ namespace AlphaTank.DisplayControl
 
         //Props
         public static MainMenu Instance { get { return instance; } }
+
         public int Height { get; }
         public int Width { get; }
         public char[][] Display { get; private set; }
@@ -161,7 +166,7 @@ namespace AlphaTank.DisplayControl
 
         private void GetDisplayDesign()
         {
-            StreamReader read = new StreamReader(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.DisplayControl\MainMenu\MainMenu.txt");
+            StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\MainMenu\MainMenu.txt");
 
             for (int row = 0; row < Height; row++)
             {

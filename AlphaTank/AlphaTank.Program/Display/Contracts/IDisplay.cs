@@ -1,11 +1,10 @@
-﻿namespace AlphaTank.DisplayControl.Contracts
+﻿namespace AlphaTank.Program.Display.Contracts
 {
-    public interface IDisplay
+    interface IDisplay
     {
         int Height { get; }
         int Width { get; }
 
         char[][] Display { get; }
-
     }
 }

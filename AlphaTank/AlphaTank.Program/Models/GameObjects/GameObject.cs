@@ -1,24 +1,30 @@
 ﻿using AlphaTank.Program.Models.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
     public abstract class GameObject : IGameObject
     {
-        private int rowPosition;
-        private int colPosition;
-
         public GameObject(int row, int col)
         {
-        }
-        
-        public int RowPosition => throw new NotImplementedException();
+            if (row < 0 || row >= Console.BufferHeight)
+            {
+                throw new ArgumentException("Row must be between [0; 20)!");
+            }
+            if (col < 0 || col >= Console.BufferWidth)
+            {
+                throw new ArgumentException("Column must be between [0; 50)!");
+            }
 
-        public int ColumnPosition => throw new NotImplementedException();
+            this.RowPosition = row;
+            this.ColumnPosition = col;
+        }
+
+        public int RowPosition { get; protected set; }
+
+        public int ColumnPosition { get; protected set; }
+
+        public char Representative { get; protected set; }
 
         public virtual void MoveDown()
         {

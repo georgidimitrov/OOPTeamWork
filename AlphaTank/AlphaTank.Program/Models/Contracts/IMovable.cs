@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlphaTank.Program.Models.Contracts
+﻿namespace AlphaTank.Program.Models.Contracts
 {
-    interface IMovable
+    public interface IMovable
     {
-        void MoveUp();
-        void MoveDown();
-        void MoveLeft();
-        void MoveRight();
+        void MoveUp(IGameObject[][] map, char[][] display);
+        void MoveDown(IGameObject[][] map, char[][] display);
+        void MoveLeft(IGameObject[][] map, char[][] display);
+        void MoveRight(IGameObject[][] map, char[][] display);
     }
 }
