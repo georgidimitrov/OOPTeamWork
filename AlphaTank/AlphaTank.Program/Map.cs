@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace AlphaTank.Program
 {
-    class Map
+    public class Map
     {
         private readonly GameObject[,] map = new GameObject[21,31];
         public Map(string directory)
         {
             ParseMap(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.DisplayControl\Levels\Level1.txt");
         }
+
+        public GameObject[,] GetMap => this.map;
 
         public void PrintMap()
         {
