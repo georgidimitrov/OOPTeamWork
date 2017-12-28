@@ -9,11 +9,10 @@ namespace AlphaTank.Program.Models.GameObjects
         {
         }
 
-        public abstract void MoveDown(IGameObject[][] map, char[][] display);
+        }
 
-        public abstract void MoveLeft(IGameObject[][] map, char[][] display);
-
-        public abstract void MoveRight(IGameObject[][] map, char[][] display);
+        public void Shoot()
+        {
 
         public abstract void MoveUp(IGameObject[][] map, char[][] display);
 

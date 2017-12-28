@@ -3,7 +3,7 @@ using System;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public abstract class GameObject : IGameObject
+    public abstract class GameObject : IGameObject, IMovable
     {
         public GameObject(int row, int col)
         {
@@ -28,6 +28,8 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public virtual void MoveDown()
         {
+            //collision
+            
         }
 
         public virtual void MoveLeft()

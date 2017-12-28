@@ -8,8 +8,10 @@ namespace AlphaTank.Program
         [STAThread]
         public static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-            MainMenu.Instance.Run();
+            Map map = new Map("asda");
+           map.PrintMap();
+           // Console.CursorVisible = false;
+           // MainMenu.Instance.Run();
         }
     }
 }
