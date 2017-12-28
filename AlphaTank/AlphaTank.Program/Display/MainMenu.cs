@@ -20,8 +20,8 @@ namespace AlphaTank.Program.Display
                 throw new ArgumentException("Console Sizes must be (21; 50)!");
             }
 
-            this.Height = 20;
-            this.Width = 50;
+            this.Height = Console.BufferHeight - 1;
+            this.Width = Console.BufferWidth;
             this.Display = new char[Height][];
         }
 

@@ -18,8 +18,8 @@ namespace AlphaTank.Program.Display
         //Ctors
         private LevelDisplay()
         {
-            this.Height = 20;
-            this.Width = 50;
+            this.Height = Console.BufferHeight - 1;
+            this.Width = Console.BufferWidth;
             this.Display = new char[Height][];
 
             this.MapHeight = 18;

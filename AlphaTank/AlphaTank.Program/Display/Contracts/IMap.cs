@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Models.GameObjects;
 
 namespace AlphaTank.Program.Display.Contracts
 {
@@ -8,5 +9,7 @@ namespace AlphaTank.Program.Display.Contracts
         int MapWidth { get; }
 
         IGameObject[][] Map { get; }
+
+        PlayerTank MyTank { get; }
     }
 }
