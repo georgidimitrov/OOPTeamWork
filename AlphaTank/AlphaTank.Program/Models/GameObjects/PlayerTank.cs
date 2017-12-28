@@ -5,12 +5,9 @@ namespace AlphaTank.Program.Models.GameObjects
 {
     class PlayerTank : Tank
     {
-        public PlayerTank(int row, int col) : base(row, col)
+        public PlayerTank(int row, int col, Map map) : base(row, col, map)
         {
-        }
-        public override void Shoot()
-
-        {
+            this.Representative = '@';
         }
     }
 }

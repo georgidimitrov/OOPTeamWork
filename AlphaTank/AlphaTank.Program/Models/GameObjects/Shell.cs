@@ -17,6 +17,23 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.map = map;
             this.direction = direction;
+            this.Spawn();
+        }
+
+        public void Spawn()
+        {
+            if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
+            {
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition,this.ColumnPosition);
+            }
+            else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
+            {
+
+            }
+            else
+            {
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
+            }
         }
         public void Move()
         {
@@ -42,11 +59,11 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
-                if (map.GetMap[this.RowPosition + 1,this.ColumnPosition] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition + 1,this.ColumnPosition] is PlayerTank)
                 {
                     //Game Over
                 }
-                else if (map.GetMap[this.RowPosition + 1, this.ColumnPosition] is EnemyTank)
+                else if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is EnemyTank)
                 {
                     map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
                 }
@@ -63,8 +80,8 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
                 return true;
             }
@@ -78,8 +95,8 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
                 return true;
             }
@@ -93,8 +110,8 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
-                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
                 return true;
             }

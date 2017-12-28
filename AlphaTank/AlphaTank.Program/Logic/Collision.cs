@@ -13,11 +13,11 @@ namespace AlphaTank.Program.Logic
         {
             if (map.GetMap[X,Y] is Road)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
     }

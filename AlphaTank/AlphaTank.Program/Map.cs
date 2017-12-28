@@ -12,7 +12,7 @@ namespace AlphaTank.Program
         private readonly GameObject[,] map = new GameObject[21,31];
         public Map(string directory)
         {
-            ParseMap(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.DisplayControl\Levels\Level1.txt");
+            ParseMap(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\Levels\Level1.txt");
         }
 
         public GameObject[,] GetMap => this.map;

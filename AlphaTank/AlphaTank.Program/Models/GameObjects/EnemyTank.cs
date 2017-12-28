@@ -9,7 +9,7 @@ namespace AlphaTank.Program.Models.GameObjects
 {
     class EnemyTank : Tank, IEnemy
     {
-        public EnemyTank(int row, int col) : base(row, col)
+        public EnemyTank(int row, int col, Map map) : base(row, col, map)
         {
         }
 

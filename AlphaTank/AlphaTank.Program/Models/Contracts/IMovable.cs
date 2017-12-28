@@ -2,9 +2,9 @@
 {
     public interface IMovable
     {
-        void MoveUp();
-        void MoveDown();
-        void MoveLeft();
-        void MoveRight();
+        bool MoveUp();
+        bool MoveDown();
+        bool MoveLeft();
+        bool MoveRight();
     }
 }

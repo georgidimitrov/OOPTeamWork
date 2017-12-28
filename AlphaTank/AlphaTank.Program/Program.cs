@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Display;
+using AlphaTank.Program.Models.GameObjects;
 using System;
 
 namespace AlphaTank.Program
@@ -8,10 +9,8 @@ namespace AlphaTank.Program
         [STAThread]
         public static void Main(string[] args)
         {
-            Map map = new Map("asda");
-           map.PrintMap();
-           // Console.CursorVisible = false;
-           // MainMenu.Instance.Run();
+           Console.CursorVisible = false;
+           MainMenu.Instance.Run();
         }
     }
 }
