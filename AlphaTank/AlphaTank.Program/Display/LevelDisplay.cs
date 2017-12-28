@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Display.Contracts;
+using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
@@ -8,7 +9,7 @@ using System.Windows.Input;
 
 namespace AlphaTank.Program.Display
 {
-    public class LevelDisplay : IDisplay, IMap
+    public class LevelDisplay : IMap
     {
         //Fields
         private static readonly LevelDisplay instance = new LevelDisplay();
@@ -18,54 +19,37 @@ namespace AlphaTank.Program.Display
         //Ctors
         private LevelDisplay()
         {
-            this.Height = Console.BufferHeight - 1;
-            this.Width = Console.BufferWidth;
-            this.Display = new char[Height][];
 
             this.MapHeight = 18;
             this.MapWidth = 28;
-            this.Map = new IGameObject[Height][];
+            this.Map = new Map(@"C:\Users\Dimitar Petrow\source\repos\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\Levels\Level1.txt");
 
-            this.MyTank = new PlayerTank(17, 13);
+            this.MyTank = new PlayerTank(18, 14, Map);
         }
 
         //Props
         public static LevelDisplay Instance { get { return instance; } }
-
-        public int Height { get; }
-
-        public int Width { get; }
-
-        public char[][] Display { get; private set; }
 
 
         public int MapHeight { get; }
 
         public int MapWidth { get; }
 
-        public IGameObject[][] Map { get; private set; }
+        public Map Map { get; private set; }
 
         public PlayerTank MyTank { get; }
 
         //Methods
         public void Run()
         {
-            GetDisplayDesign();
-            LevelPrint();
+            PrintDisplay();
             InfoWindowPrint();
-            GetMap();
             PlayGame();
         }
 
         private void PlayGame()
         {
             DateTime dt = DateTime.Now;
-
-            this.Display[MyTank.RowPosition + 1][MyTank.ColumnPosition + 1] = MyTank.Representative;
-            this.Map[MyTank.RowPosition][MyTank.ColumnPosition] = MyTank;
-
-            Console.SetCursorPosition(MyTank.ColumnPosition + 1, MyTank.RowPosition + 1);
-            Console.Write(this.Display[MyTank.RowPosition + 1][MyTank.ColumnPosition + 1]);
 
             while (true)
             {
@@ -75,19 +59,31 @@ namespace AlphaTank.Program.Display
                 {
                     if (!Keyboard.IsKeyUp(Key.Up))
                     {
-                        MyTank.MoveUp(Map, Display);
+                        if (MyTank.MoveUp())
+                        {
+                            UpdateDisplay(MyTank.RowPosition, MyTank.ColumnPosition, "Up");
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Right))
                     {
-                        MyTank.MoveRight(Map, Display);
+                        if (MyTank.MoveRight())
+                        {
+                            UpdateDisplay(MyTank.RowPosition, MyTank.ColumnPosition, "Right");
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Down))
                     {
-                        MyTank.MoveDown(Map, Display);
+                        if (MyTank.MoveDown())
+                        {
+                            UpdateDisplay(MyTank.RowPosition, MyTank.ColumnPosition, "Down");
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Left))
                     {
-                        MyTank.MoveLeft(Map, Display);
+                        if (MyTank.MoveLeft())
+                        {
+                            UpdateDisplay(MyTank.RowPosition, MyTank.ColumnPosition, "Left");
+                        }
                     }
 
                     dt = DateTime.Now;
@@ -95,28 +91,57 @@ namespace AlphaTank.Program.Display
             }
         }
 
-        private void GetDisplayDesign()
+        private void UpdateDisplay(int row, int col, string dir)
+        {
+            switch (dir)
+            {
+                case "Up":
+                    Console.SetCursorPosition(col, row);
+                    Console.Write(Map.GetMap[row, col].Representative);
+
+                    Console.SetCursorPosition(col, row + 1);
+                    Console.Write(Map.GetMap[row + 1, col].Representative);
+                    break;
+                case "Right":
+                    Console.SetCursorPosition(col, row);
+                    Console.Write(Map.GetMap[row, col].Representative);
+
+                    Console.SetCursorPosition(col - 1, row);
+                    Console.Write(Map.GetMap[row, col - 1].Representative);
+                    break;
+                case "Down":
+                    Console.SetCursorPosition(col, row);
+                    Console.Write(Map.GetMap[row, col].Representative);
+
+                    Console.SetCursorPosition(col, row - 1);
+                    Console.Write(Map.GetMap[row - 1, col].Representative);
+                    break;
+                case "Left":
+                    Console.SetCursorPosition(col, row);
+                    Console.Write(Map.GetMap[row, col].Representative);
+
+                    Console.SetCursorPosition(col + 1, row);
+                    Console.Write(Map.GetMap[row, col + 1].Representative);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void PrintDisplay()
         {
             StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\Levels\Level1.txt");
 
-            for (int row = 0; row < Height; row++)
+            Console.SetCursorPosition(0, 0);
+            for (int row = 0; row < Console.BufferHeight - 1; row++)
             {
-                Display[row] = read.ReadLine().ToCharArray();
+                Console.Write(read.ReadLine());
             }
 
             read.Close();
-        }
 
-        private void LevelPrint()
-        {
-            Console.SetCursorPosition(0, 0);
-            for (int row = 0; row < Height; row++)
-            {
-                for (int col = 0; col < Width; col++)
-                {
-                    Console.Write(Display[row][col]);
-                }
-            }
+            Console.SetCursorPosition(MyTank.ColumnPosition, MyTank.RowPosition);
+            Console.Write(MyTank.Representative);
         }
 
         private void InfoWindowPrint()
@@ -146,26 +171,6 @@ namespace AlphaTank.Program.Display
             {
                 Console.SetCursorPosition(31, r);
                 Console.Write("                  ");
-            }
-        }
-
-        private void GetMap()
-        {
-            for (int row = 1, mapRow = 0; row < 1 + MapHeight; row++, mapRow++)
-            {
-                this.Map[mapRow] = new IGameObject[MapWidth];
-
-                for (int col = 1, mapCol = 0; col < MapWidth + 1; col++, mapCol++)
-                {
-                    if (Display[row][col] != ' ')
-                    {
-                        Map[mapRow][mapCol] = new Obstacle(mapRow, mapCol);
-                    }
-                    else
-                    {
-                        Map[mapRow][mapCol] = new Road(mapRow, mapCol);
-                    }
-                }
             }
         }
     }
