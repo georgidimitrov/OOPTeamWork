@@ -1,4 +1,5 @@
-﻿using AlphaTank.Program.Models.GameObjects;
+﻿using AlphaTank.Program.Models;
+using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
