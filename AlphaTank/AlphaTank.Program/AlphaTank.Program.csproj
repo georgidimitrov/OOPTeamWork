@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\Collision.cs" />
-    <Compile Include="Map.cs" />
     <Compile Include="Models\Contracts\IEnemy.cs" />
     <Compile Include="Display\Contracts\IDisplay.cs" />
     <Compile Include="Display\Contracts\IMap.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="Models\GameObjects\Road.cs" />
     <Compile Include="Models\GameObjects\Shell.cs" />
     <Compile Include="Models\GameObjects\Tank.cs" />
+    <Compile Include="Models\Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

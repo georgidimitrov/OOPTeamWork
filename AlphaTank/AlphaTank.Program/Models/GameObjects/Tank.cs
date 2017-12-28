@@ -1,6 +1,7 @@
-﻿using AlphaTank.Program.Logic;
-using AlphaTank.Program.Models.Contracts;
+﻿using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program;
 using System;
+using AlphaTank.Program.Logic;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -8,6 +9,7 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         private string direction = "Up";
         private readonly Map map;
+
         public Tank(int row, int col, Map map) : base(row, col)
         {
             if (map == null)
@@ -17,6 +19,7 @@ namespace AlphaTank.Program.Models.GameObjects
             this.map = map;
             this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
         }
+
         public string Direction
         {
             get { return this.direction; }
@@ -32,6 +35,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
             }
         }
+
         public bool MoveDown()
         {
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
@@ -100,21 +104,22 @@ namespace AlphaTank.Program.Models.GameObjects
             switch (this.Direction)
             {
                 case "Down":
-                     new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "down");
+                    new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "down");
                     break;
                 case "Left":
-                     new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "left");
+                    new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "left");
                     break;
                 case "Right":
-                     new Shell(this.RowPosition, this.ColumnPosition + 1, this.map , "right");
+                    new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "right");
                     break;
                 case "Up":
-                    new Shell(this.RowPosition - 1, this.ColumnPosition, this.map , "up");
+                    new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "up");
                     break;
                 default:
                     break;
             }
         }
+
         public void Destroy()
         {
             Console.WriteLine("Waddup");

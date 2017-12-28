@@ -1,10 +1,5 @@
 ﻿using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -15,6 +10,7 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public Shell(int row, int col, Map map, string direction) : base(row, col)
         {
+            this.Representative = '*';
             this.map = map;
             this.direction = direction;
             this.Spawn();
@@ -24,7 +20,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
             {
-                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition,this.ColumnPosition);
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
             }
             else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
             {
@@ -35,6 +31,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
             }
         }
+
         public void Move()
         {
             switch (direction)
@@ -55,11 +52,12 @@ namespace AlphaTank.Program.Models.GameObjects
                     break;
             }
         }
+
         public bool MoveDown()
         {
             if (Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
-                if (this.map.GetMap[this.RowPosition + 1,this.ColumnPosition] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is PlayerTank)
                 {
                     //Game Over
                 }

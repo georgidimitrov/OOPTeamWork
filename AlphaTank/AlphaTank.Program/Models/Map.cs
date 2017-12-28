@@ -1,25 +1,21 @@
 ﻿using AlphaTank.Program.Models.GameObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AlphaTank.Program
+namespace AlphaTank.Program.Models
 {
     public class Map
     {
-        private readonly GameObject[,] map = new GameObject[21,31];
+        private readonly GameObject[,] map = new GameObject[21, 31];
         public Map(string directory)
         {
-            ParseMap(@"C:\Users\Gosho\source\TeamWorkProject\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\Levels\Level1.txt");
+            ParseMap(directory);
         }
 
         public GameObject[,] GetMap => this.map;
 
         public void PrintMap()
         {
-            if(map == null)
+            if (map == null)
             {
                 throw new ArgumentException("There is no map instance.");
             }
@@ -28,11 +24,12 @@ namespace AlphaTank.Program
                 for (int col = 0; col < map.GetLength(1) - 1; col++)
                 {
                     Console.Write(map[row, col].Representative);
-                    
+
                 }
                 Console.WriteLine();
             }
         }
+
         private void ParseMap(string directory)
         {
             string[] lines;
@@ -51,10 +48,10 @@ namespace AlphaTank.Program
                     switch (lines[i][j])
                     {
                         case '#':
-                            map[i,j] = new Obstacle(i, j);
+                            map[i, j] = new Obstacle(i, j);
                             break;
                         case ' ':
-                            map[i,j] = new Road(i, j);
+                            map[i, j] = new Road(i, j);
                             break;
                         default:
                             break;
