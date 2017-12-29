@@ -21,7 +21,7 @@ namespace AlphaTank.Program.Display
         {
             this.MapHeight = 18;
             this.MapWidth = 28;
-            this.Map = new Map(@"C:\Users\Dimitar Petrow\source\repos\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\Levels\Level1.txt");
+            this.Map = new Map("../../Display/Levels/Level1.txt");
 
             this.MyTank = new PlayerTank(18, 14, Map);
         }
