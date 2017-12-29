@@ -1,7 +1,9 @@
-﻿namespace AlphaTank.Program.Models.Contracts
+﻿using AlphaTank.Program.Models.GameObjects;
+
+namespace AlphaTank.Program.Models.Contracts
 {
     public interface ITank : IMovableGameObject
     {
-        void Shoot();
+        Shell Shoot();
     }
 }

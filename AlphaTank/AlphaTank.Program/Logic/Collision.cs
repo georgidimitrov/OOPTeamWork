@@ -7,7 +7,7 @@ namespace AlphaTank.Program.Logic
     {
         public static bool DetectCollision(Map map, int X, int Y)
         {
-            if (map.Get[X, Y] is Road)
+            if (map.GetMap[X, Y] is Road)
             {
                 return false;
             }

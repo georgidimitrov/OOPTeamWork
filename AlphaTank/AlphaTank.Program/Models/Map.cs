@@ -7,15 +7,13 @@ namespace AlphaTank.Program.Models
     public class Map
     {
         private readonly IGameObject[,] map = new IGameObject[21, 31];
-        private readonly IMovableGameObject[,] mapMov = new IMovableGameObject[21, 31];
 
         public Map(string directory)
         {
             ParseMap(directory);
         }
 
-        public IGameObject[,] Get => this.map;
-        public IMovableGameObject[,] GetMov => this.mapMov;
+        public IGameObject[,] GetMap => this.map;
 
         public void PrintMap()
         {
@@ -54,10 +52,8 @@ namespace AlphaTank.Program.Models
                         case '#':
                             map[i, j] = new Obstacle(i, j);
                             break;
-                        case ' ':
-                            map[i, j] = new Road(i, j);
-                            break;
                         default:
+                            map[i, j] = new Road(i, j);
                             break;
                     }
                 }

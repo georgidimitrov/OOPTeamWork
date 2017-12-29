@@ -1,5 +1,7 @@
 ﻿using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
+using System;
+using System.Threading;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -20,157 +22,135 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public void Spawn()
         {
-            if (this.map.GetMov[this.RowPosition, this.ColumnPosition] is Tank)
+            if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
             {
-                this.map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                this.map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-            }
-            else if (this.map.Get[this.RowPosition, this.ColumnPosition] is Obstacle)
-            {
-
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
             }
             else
             {
-                this.map.GetMov[this.RowPosition, this.ColumnPosition] = this;
+                this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
             }
         }
 
-        public void Move()
+        public bool Move()
         {
-            switch (Direction)
-            {
-                case "Up":
-                    this.MoveUp();
-                    break;
-                case "Down":
-                    this.MoveDown();
-                    break;
-                case "Left":
-                    this.MoveLeft();
-                    break;
-                case "Right":
-                    this.MoveRight();
-                    break;
-                default:
-                    break;
+                switch (Direction)
+                {
+                    case "Up":
+                        return this.MoveUp();
+                        break;
+                    case "Down":
+                        return this.MoveDown();
+                        break;
+                    case "Left":
+                        return this.MoveLeft();
+                        break;
+                    case "Right":
+                        return this.MoveRight();
+                        break;
+                    default:
+                        return false;
             }
+            return false;
         }
 
         public bool MoveDown()
         {
-            if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
+            if (Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
-                if (this.map.GetMov[this.RowPosition + 1, this.ColumnPosition] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is PlayerTank)
                 {
-                    //Game Over
+                    Thread.Sleep(1000);
                 }
-                else if (this.map.GetMov[this.RowPosition + 1, this.ColumnPosition] is EnemyTank)
+                else if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is EnemyTank)
                 {
-                    map.Get[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
-                    map.GetMov[this.RowPosition + 1, this.ColumnPosition] = null;
+                    map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
                 }
-
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-
-                map.GetMov[this.RowPosition + 1, this.ColumnPosition] = this;
-                this.RowPosition++;
-
-                return true;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                
+                return false;
             }
             else
             {
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-                return false;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
+                this.RowPosition++;
+                return true;
             }
         }
 
         public bool MoveLeft()
         {
-            if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
+            if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
-                if (this.map.GetMov[this.RowPosition, this.ColumnPosition - 1] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] is PlayerTank)
                 {
+                    Thread.Sleep(1000);
                     //Game Over
                 }
-                else if (this.map.GetMov[this.RowPosition, this.ColumnPosition - 1] is EnemyTank)
+                else if (this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] is EnemyTank)
                 {
-                    map.Get[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
-                    map.GetMov[this.RowPosition, this.ColumnPosition - 1] = null;
+                    map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                 }
-
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-
-                map.GetMov[this.RowPosition, this.ColumnPosition - 1] = this;
-                this.ColumnPosition--;
-                return true;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                return false;
             }
             else
             {
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-                return false;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
+                this.ColumnPosition--;
+                return true;
             }
         }
 
         public bool MoveRight()
         {
-            if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
+            if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
-                if (this.map.GetMov[this.RowPosition, this.ColumnPosition + 1] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition, this.ColumnPosition + 1] is PlayerTank)
                 {
+                    Thread.Sleep(1000);
                     //Game Over
                 }
-                else if (this.map.GetMov[this.RowPosition, this.ColumnPosition + 1] is EnemyTank)
+                else if (this.map.GetMap[this.RowPosition, this.ColumnPosition + 1] is EnemyTank)
                 {
-                    map.Get[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
-                    map.GetMov[this.RowPosition, this.ColumnPosition + 1] = null;
+                    map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                 }
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-
-                map.GetMov[this.RowPosition, this.ColumnPosition + 1] = this;
-                this.ColumnPosition++;
-
-                return true;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                
+                return false;
             }
             else
             {
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-                return false;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
+                this.ColumnPosition++;
+                return true;
             }
         }
 
         public bool MoveUp()
         {
-            if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
+            if (Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
-                if (this.map.GetMov[this.RowPosition - 1, this.ColumnPosition] is PlayerTank)
+                if (this.map.GetMap[this.RowPosition - 1, this.ColumnPosition] is PlayerTank)
                 {
-                    //Game Over
+                    Thread.Sleep(1000);
                 }
-                else if (this.map.GetMov[this.RowPosition - 1, this.ColumnPosition] is EnemyTank)
+                else if (this.map.GetMap[this.RowPosition - 1, this.ColumnPosition] is EnemyTank)
                 {
-                    map.Get[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
-                    map.GetMov[this.RowPosition - 1, this.ColumnPosition] = null;
+                    map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
                 }
-
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-
-                map.GetMov[this.RowPosition - 1, this.ColumnPosition] = this;
-                this.RowPosition--;
-
-                return true;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                return false;
             }
             else
             {
-                map.Get[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
-                return false;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
+                this.RowPosition--;
+                return true;
             }
         }
     }

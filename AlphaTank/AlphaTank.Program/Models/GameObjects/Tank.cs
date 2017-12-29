@@ -17,7 +17,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 throw new ArgumentException("Tank: No map instance.");
             }
             this.map = map;
-            this.map.GetMov[base.RowPosition, base.ColumnPosition] = this;
+            this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
         }
 
         public string Direction
@@ -38,7 +38,6 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public void Move()
         {
-            throw new NotImplementedException();
         }
 
         public bool MoveDown()
@@ -46,8 +45,8 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Direction = "Down";
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
-                map.GetMov[this.RowPosition + 1, this.ColumnPosition] = this;
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
+                map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition++;
                 return true;
             }
@@ -62,8 +61,8 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Direction = "Left";
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
-                map.GetMov[this.RowPosition, this.ColumnPosition - 1] = this;
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
+                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
                 return true;
             }
@@ -78,8 +77,8 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Direction = "Right";
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
-                map.GetMov[this.RowPosition, this.ColumnPosition + 1] = this;
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
+                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
                 return true;
             }
@@ -94,35 +93,31 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Direction = "Up";
             if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
-                map.GetMov[this.RowPosition - 1, this.ColumnPosition] = this;
-                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
+                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
+                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
                 return true;
-            }
+            }   
             else
             {
                 return false;
             }
         }
 
-        public void Shoot()
+        public Shell Shoot()
         {
             switch (this.Direction)
             {
                 case "Down":
-                    new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "Down");
-                    break;
+                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "Down");
                 case "Left":
-                    new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "Left");
-                    break;
+                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "Left");
                 case "Right":
-                    new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "Right");
-                    break;
+                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "Right");
                 case "Up":
-                    new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "Up");
-                    break;
+                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "Up");
                 default:
-                    break;
+                    return null;
             }
         }
 
