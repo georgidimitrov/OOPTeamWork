@@ -50,7 +50,7 @@
     <Compile Include="Models\Contracts\IEnemy.cs" />
     <Compile Include="Display\Contracts\IDisplay.cs" />
     <Compile Include="Display\Contracts\IMap.cs" />
-    <Compile Include="Display\LevelDisplay.cs" />
+    <Compile Include="Display\Display.cs" />
     <Compile Include="Display\MainMenu.cs" />
     <Compile Include="Models\Contracts\IGameObject.cs" />
     <Compile Include="Models\Contracts\IMissile.cs" />

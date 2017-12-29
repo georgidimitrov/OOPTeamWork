@@ -9,75 +9,31 @@ using System.Windows.Input;
 
 namespace AlphaTank.Program.Display
 {
-    public class LevelDisplay : IMap
+    public class Display
     {
         //Fields
-        private static readonly LevelDisplay instance = new LevelDisplay();
+        private static readonly Display instance = new Display();
         private int infoScoreRow = 5;
         private List<int> scores = new List<int>();
 
         //Ctors
-        private LevelDisplay()
+        private Display()
         {
-            this.MapHeight = 18;
-            this.MapWidth = 28;
         }
 
         //Props
-        public static LevelDisplay Instance { get { return instance; } }
-
-
-        public int MapHeight { get; }
-
-        public int MapWidth { get; }
+        public static Display Instance { get { return instance; } }
 
         public Map Map { get; private set; }
 
         public PlayerTank MyTank { get; }
+
 
         //Methods
         public void Run()
         {
             PrintDisplay();
             InfoWindowPrint();
-        }
-
-        private void UpdateDisplay(int row, int col, string dir)
-        {
-            switch (dir)
-            {
-                case "Up":
-                    Console.SetCursorPosition(col, row);
-                    Console.Write(Map.GetMap[row, col].Representative);
-
-                    Console.SetCursorPosition(col, row + 1);
-                    Console.Write(Map.GetMap[row + 1, col].Representative);
-                    break;
-                case "Right":
-                    Console.SetCursorPosition(col, row);
-                    Console.Write(Map.GetMap[row, col].Representative);
-
-                    Console.SetCursorPosition(col - 1, row);
-                    Console.Write(Map.GetMap[row, col - 1].Representative);
-                    break;
-                case "Down":
-                    Console.SetCursorPosition(col, row);
-                    Console.Write(Map.GetMap[row, col].Representative);
-
-                    Console.SetCursorPosition(col, row - 1);
-                    Console.Write(Map.GetMap[row - 1, col].Representative);
-                    break;
-                case "Left":
-                    Console.SetCursorPosition(col, row);
-                    Console.Write(Map.GetMap[row, col].Representative);
-
-                    Console.SetCursorPosition(col + 1, row);
-                    Console.Write(Map.GetMap[row, col + 1].Representative);
-                    break;
-                default:
-                    break;
-            }
-
         }
 
         private void PrintDisplay()
@@ -124,6 +80,13 @@ namespace AlphaTank.Program.Display
                 Console.SetCursorPosition(31, r);
                 Console.Write("                  ");
             }
+        }
+
+        public void Resize()
+        {
+            Console.CursorVisible = false;
+            Console.SetBufferSize(30, 21);
+            Console.SetWindowSize(30, 21);
         }
     }
 }

@@ -25,10 +25,24 @@ namespace AlphaTank.Program.Models
             {
                 for (int col = 0; col < map.GetLength(1) - 1; col++)
                 {
-                    Console.Write(map[row, col].Representative);
+                    if (this.map[row, col] is PlayerTank)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write(map[row, col].Representative);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else if (this.map[row, col] is Shell)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write(map[row, col].Representative);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.Write(map[row, col].Representative);
+                    }
 
                 }
-                Console.WriteLine();
             }
         }
 

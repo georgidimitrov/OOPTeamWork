@@ -1,4 +1,5 @@
-﻿using AlphaTank.Program.Models;
+﻿using AlphaTank.Program.Display;
+using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ namespace AlphaTank.Program.Engine
         private readonly List<Shell> toDestroy = new List<Shell>();
         private static Engine instance;
         private DateTime timer;
+        private DateTime shellTimer;
+
         private Engine() { }
-        
+
 
         public static Engine Instance
         {
@@ -32,17 +35,19 @@ namespace AlphaTank.Program.Engine
 
         public void Start()
         {
-            Console.CursorVisible = false;
+            Display.Display.Instance.Resize();
+
             timer = DateTime.Now;
-            //Display.Resize()
             Map map = new Map("../../Display/Levels/Level1.txt");
             PlayerTank playerTank = new PlayerTank(18, 14, map);
             //Enemy
-            //Display Main menu
+
+            MainMenu.Instance.Run();
+
             //After Start
             while (true)
             {
-                if (TimePassed())
+                if (GameTimePassed())
                 {
                     foreach (var shell in enemies)
                     {
@@ -51,9 +56,9 @@ namespace AlphaTank.Program.Engine
                             toDestroy.Add(shell);
                         }
                     }
-                    if (!Keyboard.IsKeyUp(Key.Space))
+                    if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
                     {
-                                enemies.Add(playerTank.Shoot());
+                        enemies.Add(playerTank.Shoot());
                     }
                     else if (!Keyboard.IsKeyUp(Key.Up))
                     {
@@ -70,9 +75,7 @@ namespace AlphaTank.Program.Engine
                     }
                     else if (!Keyboard.IsKeyUp(Key.Right))
                     {
-                        if (playerTank.MoveRight())
-                        {
-                        }
+                        playerTank.MoveRight();
                     }
                     Console.SetCursorPosition(0, 0);
                     map.PrintMap();
@@ -85,13 +88,29 @@ namespace AlphaTank.Program.Engine
             }
 
         }
-        private bool TimePassed()
+
+        private bool GameTimePassed()
         {
-            TimeSpan check = new TimeSpan(0, 0, 0, 0, 200);
+            TimeSpan check = new TimeSpan(0, 0, 0, 0, 150);
             TimeSpan timespan = DateTime.Now - timer;
             if (timespan > check)
             {
                 timer = DateTime.Now;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool ShellTimePassed()
+        {
+            TimeSpan check = new TimeSpan(0, 0, 0, 0, 600);
+            TimeSpan timespan = DateTime.Now - shellTimer;
+            if (timespan > check)
+            {
+                shellTimer = DateTime.Now;
                 return true;
             }
             else

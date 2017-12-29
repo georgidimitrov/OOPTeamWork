@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace AlphaTank.Program.Display
 {
-    public class MainMenu : IDisplay
+    public class MainMenu
     {
         //Fields
         private static readonly MainMenu instance = new MainMenu();
@@ -15,21 +15,17 @@ namespace AlphaTank.Program.Display
         //Ctors
         private MainMenu()
         {
-            if (Console.BufferHeight != 21 || Console.BufferWidth != 50)
+            if (Console.BufferHeight != 21 || Console.BufferWidth != 30)
             {
-                throw new ArgumentException("Console Sizes must be (21; 50)!");
+                throw new ArgumentException("Console Sizes must be (21; 30)!");
             }
 
-            this.Height = Console.BufferHeight - 1;
-            this.Width = Console.BufferWidth;
-            this.Display = new char[Height][];
+            this.Display = new char[Console.BufferHeight][];
         }
 
         //Props
         public static MainMenu Instance { get { return instance; } }
 
-        public int Height { get; }
-        public int Width { get; }
         public char[][] Display { get; private set; }
 
         //Methods
@@ -47,7 +43,7 @@ namespace AlphaTank.Program.Display
             CursorMenu(1);
 
             int shellRow = 10;
-            int shellCol = 20;
+            int shellCol = 18;
 
             while (true)
             {
@@ -68,9 +64,11 @@ namespace AlphaTank.Program.Display
                     {
                         if (menu == 1)
                         {
-                            LevelDisplay.Instance.Run();
-                            MainMenuPrint();
-                            CursorMenu(1);
+                            //AlphaTank.Program.Display.Display.Instance.Run();
+                            //MainMenuPrint();
+                            //CursorMenu(1);
+                            Console.Clear();
+                            return;
                         }
                         else
                         {
@@ -81,9 +79,9 @@ namespace AlphaTank.Program.Display
                     Console.SetCursorPosition(shellCol, shellRow);
                     Console.Write(' ');
                     shellCol++;
-                    if (shellCol == 48)
+                    if (shellCol == 28)
                     {
-                        shellCol = 20;
+                        shellCol = 18;
                     }
                     Console.SetCursorPosition(shellCol, shellRow);
                     Console.Write('*');
@@ -98,25 +96,25 @@ namespace AlphaTank.Program.Display
             switch (m)
             {
                 case 1:
-                    Console.SetCursorPosition(29, 16);
+                    Console.SetCursorPosition(17, 16);
                     Console.Write(' ');
-                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.SetCursorPosition(17 + 5, 16);
                     Console.Write(' ');
 
-                    Console.SetCursorPosition(29, 13);
+                    Console.SetCursorPosition(17, 13);
                     Console.Write('>');
-                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.SetCursorPosition(17 + 6, 13);
                     Console.Write('<');
                     break;
                 case 2:
-                    Console.SetCursorPosition(29, 13);
+                    Console.SetCursorPosition(17, 13);
                     Console.Write(' ');
-                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.SetCursorPosition(17 + 6, 13);
                     Console.Write(' ');
 
-                    Console.SetCursorPosition(29, 16);
+                    Console.SetCursorPosition(17, 16);
                     Console.Write('>');
-                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.SetCursorPosition(17 + 5, 16);
                     Console.Write('<');
                     break;
 
@@ -130,29 +128,29 @@ namespace AlphaTank.Program.Display
             switch (dir)
             {
                 case 'u':
-                    Console.SetCursorPosition(29, 16);
+                    Console.SetCursorPosition(17, 16);
                     Console.Write(' ');
-                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.SetCursorPosition(17 + 5, 16);
                     Console.Write(' ');
 
-                    Console.SetCursorPosition(29, 13);
+                    Console.SetCursorPosition(17, 13);
                     Console.Write('>');
-                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.SetCursorPosition(17 + 6, 13);
                     Console.Write('<');
 
                     menu = 1;
 
                     break;
                 case 'd':
-                    Console.SetCursorPosition(29, 13);
+                    Console.SetCursorPosition(17, 13);
                     Console.Write(' ');
-                    Console.SetCursorPosition(29 + 6, 13);
+                    Console.SetCursorPosition(17 + 6, 13);
                     Console.Write(' ');
 
 
-                    Console.SetCursorPosition(29, 16);
+                    Console.SetCursorPosition(17, 16);
                     Console.Write('>');
-                    Console.SetCursorPosition(29 + 5, 16);
+                    Console.SetCursorPosition(17 + 5, 16);
                     Console.Write('<');
 
                     menu = 2;
@@ -168,7 +166,7 @@ namespace AlphaTank.Program.Display
         {
             StreamReader read = new StreamReader("../../Display/MainMenu/MainMenu.txt");
 
-            for (int row = 0; row < Height; row++)
+            for (int row = 0; row < Console.BufferHeight - 1; row++)
             {
                 Display[row] = read.ReadLine().ToCharArray();
             }
@@ -179,9 +177,9 @@ namespace AlphaTank.Program.Display
         private void MainMenuPrint()
         {
             Console.SetCursorPosition(0, 0);
-            for (int row = 0; row < Height; row++)
+            for (int row = 0; row < Console.BufferHeight - 1; row++)
             {
-                for (int col = 0; col < Width; col++)
+                for (int col = 0; col < Console.BufferWidth; col++)
                 {
                     Console.Write(Display[row][col]);
                 }

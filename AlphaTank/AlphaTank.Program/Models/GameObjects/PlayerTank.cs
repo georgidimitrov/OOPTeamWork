@@ -7,7 +7,26 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         public PlayerTank(int row, int col, Map map) : base(row, col, map)
         {
-            this.Representative = '@';
+            this.Representative = '^';
+        }
+
+        public override char Representative
+        {
+            get
+            {
+                switch (this.Direction)
+                {
+                    case "Up":
+                        return '^';
+                    case "Right":
+                        return '>';
+                    case "Down":
+                        return 'v';
+                    case "Left":
+                        return '<';
+                }
+                return '@';
+            }
         }
     }
 }
