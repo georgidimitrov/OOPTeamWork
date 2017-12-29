@@ -12,6 +12,7 @@ namespace AlphaTank.Program.Engine
     public class Engine
     {
         private readonly List<Shell> enemies = new List<Shell>();
+        private readonly List<Shell> toDestroy = new List<Shell>();
         private static Engine instance;
         private DateTime timer;
         private Engine() { }
@@ -45,7 +46,10 @@ namespace AlphaTank.Program.Engine
                 {
                     foreach (var shell in enemies)
                     {
-                        shell.Move();
+                        if (!shell.Move())
+                        {
+                            toDestroy.Add(shell);
+                        }
                     }
                     if (!Keyboard.IsKeyUp(Key.Space))
                     {
@@ -72,13 +76,18 @@ namespace AlphaTank.Program.Engine
                     }
                     Console.SetCursorPosition(0, 0);
                     map.PrintMap();
+
+                    foreach (var bb in toDestroy)
+                    {
+                        enemies.Remove(bb);
+                    }
                 }
             }
 
         }
         private bool TimePassed()
         {
-            TimeSpan check = new TimeSpan(0, 0, 0, 0, 450);
+            TimeSpan check = new TimeSpan(0, 0, 0, 0, 200);
             TimeSpan timespan = DateTime.Now - timer;
             if (timespan > check)
             {

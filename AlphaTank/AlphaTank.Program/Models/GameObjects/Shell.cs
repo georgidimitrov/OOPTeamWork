@@ -7,7 +7,7 @@ namespace AlphaTank.Program.Models.GameObjects
 {
     public class Shell : GameObject, IMovableGameObject
     {
-        private readonly Map map;
+        private Map map;
         private readonly string direction;
 
         public Shell(int row, int col, Map map, string direction) : base(row, col)
@@ -26,30 +26,38 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
             }
-            else
+            else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
+            {
+                this.Destroy();
+            } 
+            else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Road)
             {
                 this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
             }
         }
 
+        private void Destroy()
+        {
+            this.map = null;
+        }
+
         public bool Move()
         {
+            if (map != null)
+            {
                 switch (Direction)
                 {
                     case "Up":
                         return this.MoveUp();
-                        break;
                     case "Down":
                         return this.MoveDown();
-                        break;
                     case "Left":
                         return this.MoveLeft();
-                        break;
                     case "Right":
                         return this.MoveRight();
-                        break;
                     default:
                         return false;
+                }
             }
             return false;
         }
@@ -67,7 +75,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                
+                this.Destroy();
                 return false;
             }
             else
@@ -93,6 +101,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.Destroy();
                 return false;
             }
             else
@@ -118,7 +127,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                
+                this.Destroy();
                 return false;
             }
             else
@@ -143,6 +152,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.Destroy();
                 return false;
             }
             else
