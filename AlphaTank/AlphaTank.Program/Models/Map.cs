@@ -6,7 +6,7 @@ namespace AlphaTank.Program.Models
 {
     public class Map
     {
-        private readonly IGameObject[,] map = new GameObject[21, 31];
+        private readonly IGameObject[,] map = new IGameObject[21, 31];
         private readonly IMovableGameObject[,] mapMov = new IMovableGameObject[21, 31];
 
         public Map(string directory)
