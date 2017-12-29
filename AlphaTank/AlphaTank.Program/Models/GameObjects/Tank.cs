@@ -5,7 +5,7 @@ using AlphaTank.Program.Logic;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public abstract class Tank : GameObject, ITank, IMovable
+    public abstract class Tank : GameObject, ITank, IMovableGameObject
     {
         private string direction = "Up";
         private readonly Map map;
@@ -17,13 +17,13 @@ namespace AlphaTank.Program.Models.GameObjects
                 throw new ArgumentException("Tank: No map instance.");
             }
             this.map = map;
-            this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
+            this.map.GetMov[base.RowPosition, base.ColumnPosition] = this;
         }
 
         public string Direction
         {
             get { return this.direction; }
-            set
+            protected set
             {
                 if (value == "Up" || value == "Down" || value == "Left" || value == "Right")
                 {
@@ -36,12 +36,18 @@ namespace AlphaTank.Program.Models.GameObjects
             }
         }
 
+        public void Move()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool MoveDown()
         {
+            this.Direction = "Down";
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
-                map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMov[this.RowPosition + 1, this.ColumnPosition] = this;
+                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
                 this.RowPosition++;
                 return true;
             }
@@ -53,12 +59,12 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveLeft()
         {
+            this.Direction = "Left";
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMov[this.RowPosition, this.ColumnPosition - 1] = this;
+                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
                 this.ColumnPosition--;
-                direction = "Left";
                 return true;
             }
             else
@@ -69,12 +75,12 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveRight()
         {
+            this.Direction = "Right";
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMov[this.RowPosition, this.ColumnPosition + 1] = this;
+                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
                 this.ColumnPosition++;
-                direction = "Right";
                 return true;
             }
             else
@@ -85,12 +91,12 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveUp()
         {
+            this.Direction = "Up";
             if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
-                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                map.GetMov[this.RowPosition - 1, this.ColumnPosition] = this;
+                map.GetMov[this.RowPosition, this.ColumnPosition] = null;
                 this.RowPosition--;
-                direction = "Up";
                 return true;
             }
             else
@@ -104,16 +110,16 @@ namespace AlphaTank.Program.Models.GameObjects
             switch (this.Direction)
             {
                 case "Down":
-                    new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "down");
+                    new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "Down");
                     break;
                 case "Left":
-                    new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "left");
+                    new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "Left");
                     break;
                 case "Right":
-                    new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "right");
+                    new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "Right");
                     break;
                 case "Up":
-                    new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "up");
+                    new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "Up");
                     break;
                 default:
                     break;
@@ -124,6 +130,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             Console.WriteLine("Waddup");
         }
+
     }
 }
 

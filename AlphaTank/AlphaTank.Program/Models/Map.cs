@@ -1,17 +1,21 @@
-﻿using AlphaTank.Program.Models.GameObjects;
+﻿using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Models.GameObjects;
 using System;
 
 namespace AlphaTank.Program.Models
 {
     public class Map
     {
-        private readonly GameObject[,] map = new GameObject[21, 31];
+        private readonly IGameObject[,] map = new GameObject[21, 31];
+        private readonly IMovableGameObject[,] mapMov = new IMovableGameObject[21, 31];
+
         public Map(string directory)
         {
             ParseMap(directory);
         }
 
-        public GameObject[,] GetMap => this.map;
+        public IGameObject[,] Get => this.map;
+        public IMovableGameObject[,] GetMov => this.mapMov;
 
         public void PrintMap()
         {
