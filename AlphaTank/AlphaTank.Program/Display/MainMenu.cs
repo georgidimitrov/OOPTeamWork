@@ -166,7 +166,7 @@ namespace AlphaTank.Program.Display
 
         private void GetDisplayDesign()
         {
-            StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\OOPTeamWork\AlphaTank\AlphaTank.Program\Display\MainMenu\MainMenu.txt");
+            StreamReader read = new StreamReader(@"C:\Users\Dimitar Petrow\source\repos\TA\TW\AlphaTank.Program\Display\MainMenu\MainMenu.txt");
 
             for (int row = 0; row < Height; row++)
             {

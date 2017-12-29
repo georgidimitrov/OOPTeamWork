@@ -1,6 +1,6 @@
 ﻿namespace AlphaTank.Program.Models.Contracts
 {
-    public interface ITank : IMovable
+    public interface ITank : IMovableGameObject
     {
         void Shoot();
     }

@@ -9,8 +9,11 @@ namespace AlphaTank.Program
         [STAThread]
         public static void Main(string[] args)
         {
-           Console.CursorVisible = false;
-           MainMenu.Instance.Run();
+            Console.SetWindowSize(50, 21);
+            Console.SetBufferSize(50, 21);
+            Console.CursorVisible = false;
+
+            MainMenu.Instance.Run();
         }
     }
 }

@@ -25,7 +25,5 @@ namespace AlphaTank.Program.Models.GameObjects
         public int ColumnPosition { get; protected set; }
 
         public char Representative { get; protected set; }
-
-        
     }
 }
