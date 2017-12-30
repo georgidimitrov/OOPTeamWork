@@ -1,5 +1,4 @@
-﻿using AlphaTank.Program.Display.Contracts;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Input;
 
