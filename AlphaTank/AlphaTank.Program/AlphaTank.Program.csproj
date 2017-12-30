@@ -45,19 +45,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Display\Contracts\ICollisionInfo.cs" />
-    <Compile Include="Display\CollisionInfo.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Logic\Collision.cs" />
     <Compile Include="Models\Contracts\IEnemy.cs" />
+    <Compile Include="Display\Contracts\IDisplay.cs" />
+    <Compile Include="Display\Contracts\IMap.cs" />
     <Compile Include="Display\Display.cs" />
     <Compile Include="Display\MainMenu.cs" />
     <Compile Include="Models\Contracts\IGameObject.cs" />
     <Compile Include="Models\Contracts\IMissile.cs" />
     <Compile Include="Models\Contracts\IMovableGameObject.cs" />
     <Compile Include="Models\Contracts\ITank.cs" />
-    <Compile Include="Models\GameObjects\Common\Direction.cs" />
-    <Compile Include="Models\GameObjects\Common\GameObjectType.cs" />
     <Compile Include="Models\GameObjects\EnemyTank.cs" />
     <Compile Include="Models\GameObjects\GameObject.cs" />
     <Compile Include="Models\GameObjects\Obstacle.cs" />
