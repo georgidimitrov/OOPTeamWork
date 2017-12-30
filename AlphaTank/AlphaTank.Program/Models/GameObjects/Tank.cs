@@ -2,12 +2,15 @@
 using AlphaTank.Program;
 using System;
 using AlphaTank.Program.Logic;
+using AlphaTank.Program.Display.Contracts;
+using AlphaTank.Program.Display;
+using AlphaTank.Program.Models.GameObjects.Common;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
     public abstract class Tank : GameObject, ITank, IMovableGameObject
     {
-        private string direction = "Up";
+        private Direction direction = Direction.Up;
         private readonly Map map;
 
         public Tank(int row, int col, Map map) : base(row, col)
@@ -20,87 +23,77 @@ namespace AlphaTank.Program.Models.GameObjects
             this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
         }
 
-        public string Direction
+        public Direction Direction
         {
             get { return this.direction; }
-            protected set
-            {
-                if (value == "Up" || value == "Down" || value == "Left" || value == "Right")
-                {
-                    this.direction = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Tank direction invalid.");
-                }
-            }
+            protected set { this.direction = value; }
         }
 
         public void Move()
         {
         }
 
-        public bool MoveDown()
+        public ICollisionInfo MoveDown()
         {
-            this.Direction = "Down";
+            this.Direction = Direction.Down;
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
                 map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition++;
-                return true;
+                return new CollisionInfo(false);
             }
             else
             {
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
         }
 
-        public bool MoveLeft()
+        public ICollisionInfo MoveLeft()
         {
-            this.Direction = "Left";
+            this.Direction = Direction.Left;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
-                return true;
+                return new CollisionInfo(false);
             }
             else
             {
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
         }
 
-        public bool MoveRight()
+        public ICollisionInfo MoveRight()
         {
-            this.Direction = "Right";
+            this.Direction = Direction.Right;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
-                return true;
+                return new CollisionInfo(false);
             }
             else
             {
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
         }
 
-        public bool MoveUp()
+        public ICollisionInfo MoveUp()
         {
-            this.Direction = "Up";
+            this.Direction = Direction.Up;
             if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
                 map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
-                return true;
-            }   
+                return new CollisionInfo(false);
+            }
             else
             {
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
         }
 
@@ -108,14 +101,46 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             switch (this.Direction)
             {
-                case "Down":
-                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "Down");
-                case "Left":
-                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "Left");
-                case "Right":
-                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "Right");
-                case "Up":
-                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "Up");
+                case Direction.Down:
+                    var shell = new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, Direction.Down);
+                    if (shell.Spawn())
+                    {
+                        return shell;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                case Direction.Left:
+                    shell = new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, Direction.Left);
+                    if (shell.Spawn())
+                    {
+                        return shell;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                case Direction.Right:
+                    shell = new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, Direction.Right);
+                    if (shell.Spawn())
+                    {
+                        return shell;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                case Direction.Up:
+                    shell = new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, Direction.Up);
+                    if (shell.Spawn())
+                    {
+                        return shell;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 default:
                     return null;
             }

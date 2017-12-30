@@ -1,5 +1,8 @@
-﻿using AlphaTank.Program.Logic;
+﻿using AlphaTank.Program.Display;
+using AlphaTank.Program.Display.Contracts;
+using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 using System.Threading;
 
@@ -8,159 +11,161 @@ namespace AlphaTank.Program.Models.GameObjects
     public class Shell : GameObject, IMovableGameObject
     {
         private Map map;
-        private readonly string direction;
+        private readonly Direction direction;
 
-        public Shell(int row, int col, Map map, string direction) : base(row, col)
+        public Shell(int row, int col, Map map, Direction direction) : base(row, col)
         {
+            this.Type = GameObjectType.Shell;
             this.Representative = '+';
+            this.Color = ConsoleColor.DarkRed;
+
             this.map = map;
             this.direction = direction;
-            this.Spawn();
         }
 
-        public string Direction => direction;
+        public Direction Direction => direction;
 
-        public void Spawn()
+        public bool Spawn()
         {
             if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
             {
                 this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                return false;
             }
             else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
             {
-                this.Destroy();
+                return false;
             }
             else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Road)
             {
                 this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
+                return true;
             }
+            return false;
         }
 
-        private void Destroy()
-        {
-            this.map = null;
-        }
-
-        public bool Move()
+        public ICollisionInfo Move()
         {
             if (map != null)
             {
                 switch (Direction)
                 {
-                    case "Up":
+                    case Direction.Up:
                         return this.MoveUp();
-                    case "Down":
+                    case Direction.Down:
                         return this.MoveDown();
-                    case "Left":
+                    case Direction.Left:
                         return this.MoveLeft();
-                    case "Right":
+                    case Direction.Right:
                         return this.MoveRight();
-                    default:
-                        return false;
                 }
             }
-            return false;
+            throw new ArgumentException("No Map!");
         }
 
-        public bool MoveDown()
+        public ICollisionInfo MoveDown()
         {
             if (Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
                 if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is PlayerTank)
                 {
                     Thread.Sleep(1000);
+                    return new CollisionInfo(true, GameObjectType.PlayerTank);
                 }
                 else if (this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] is EnemyTank)
                 {
                     map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                    return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                this.Destroy();
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
             else
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
                 this.RowPosition++;
-                return true;
+                return new CollisionInfo(false);
             }
         }
 
-        public bool MoveLeft()
+        public ICollisionInfo MoveLeft()
         {
             if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
                 if (this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] is PlayerTank)
                 {
                     Thread.Sleep(1000);
+                    return new CollisionInfo(true, GameObjectType.PlayerTank);
                     //Game Over
                 }
                 else if (this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] is EnemyTank)
                 {
                     map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                this.Destroy();
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
             else
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
                 this.ColumnPosition--;
-                return true;
+                return new CollisionInfo(false);
             }
         }
 
-        public bool MoveRight()
+        public ICollisionInfo MoveRight()
         {
             if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
                 if (this.map.GetMap[this.RowPosition, this.ColumnPosition + 1] is PlayerTank)
                 {
                     Thread.Sleep(1000);
+                    return new CollisionInfo(true, GameObjectType.PlayerTank);
                     //Game Over
                 }
                 else if (this.map.GetMap[this.RowPosition, this.ColumnPosition + 1] is EnemyTank)
                 {
                     map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                this.Destroy();
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
             else
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
                 this.ColumnPosition++;
-                return true;
+                return new CollisionInfo(false);
             }
         }
 
-        public bool MoveUp()
+        public ICollisionInfo MoveUp()
         {
             if (Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
                 if (this.map.GetMap[this.RowPosition - 1, this.ColumnPosition] is PlayerTank)
                 {
                     Thread.Sleep(1000);
+                    return new CollisionInfo(true, GameObjectType.PlayerTank);
                 }
                 else if (this.map.GetMap[this.RowPosition - 1, this.ColumnPosition] is EnemyTank)
                 {
                     map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                    return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                this.Destroy();
-                return false;
+                return new CollisionInfo(true, GameObjectType.Obstacle);
             }
             else
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
                 this.RowPosition--;
-                return true;
+                return new CollisionInfo(false);
             }
         }
     }
