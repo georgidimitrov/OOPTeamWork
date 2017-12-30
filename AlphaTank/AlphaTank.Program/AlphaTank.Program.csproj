@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Logic\Collision.cs" />
+    <Compile Include="Models\Contracts\CollisionInfo.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Models\Contracts\IEnemy.cs" />
     <Compile Include="Display\Contracts\IDisplay.cs" />
     <Compile Include="Display\Contracts\IMap.cs" />
@@ -58,11 +60,13 @@
     <Compile Include="Models\Contracts\ITank.cs" />
     <Compile Include="Models\GameObjects\EnemyTank.cs" />
     <Compile Include="Models\GameObjects\GameObject.cs" />
+    <Compile Include="Models\GameObjects\ICollisionInfo.cs" />
     <Compile Include="Models\GameObjects\Obstacle.cs" />
     <Compile Include="Models\GameObjects\PlayerTank.cs" />
     <Compile Include="Models\GameObjects\Road.cs" />
     <Compile Include="Models\GameObjects\Shell.cs" />
     <Compile Include="Models\GameObjects\Tank.cs" />
+    <Compile Include="Enums\GameObjectType.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

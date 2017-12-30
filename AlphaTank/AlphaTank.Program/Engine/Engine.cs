@@ -55,7 +55,6 @@ namespace AlphaTank.Program.Engine
                     {
                         var info = enemies[shell].Move();
                         Display.Display.Instance.Update(map, enemies[shell], info);
-
                         if (info.IsCollided)
                         {
                             enemies.Remove(enemies[shell]);

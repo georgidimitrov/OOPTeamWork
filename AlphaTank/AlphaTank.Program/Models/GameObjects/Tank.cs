@@ -5,44 +5,28 @@ using AlphaTank.Program.Logic;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public abstract class Tank : GameObject, ITank, IMovableGameObject
+    public abstract class Tank : GameObject, ITank
     {
-        private string direction = "Up";
-        private readonly Map map;
+        private Direction direction = Direction.Up;
+        private Map map;
 
         public Tank(int row, int col, Map map) : base(row, col)
         {
-            if (map == null)
-            {
-                throw new ArgumentException("Tank: No map instance.");
-            }
-            this.map = map;
+            this.map = map ?? throw new ArgumentException("Tank: No map instance.");
             this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
+            this.Representative = '^';
         }
 
-        public string Direction
+        public Direction Direction
         {
             get { return this.direction; }
-            protected set
-            {
-                if (value == "Up" || value == "Down" || value == "Left" || value == "Right")
-                {
-                    this.direction = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Tank direction invalid.");
-                }
-            }
+            protected set { this.direction = value; }
         }
 
-        public void Move()
+        public virtual bool MoveDown()
         {
-        }
-
-        public bool MoveDown()
-        {
-            this.Direction = "Down";
+            this.Representative = 'v';
+            this.Direction = Direction.Down;
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
             {
                 map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
@@ -56,9 +40,10 @@ namespace AlphaTank.Program.Models.GameObjects
             }
         }
 
-        public bool MoveLeft()
+        public virtual bool MoveLeft()
         {
-            this.Direction = "Left";
+            this.Representative = '<';
+            this.Direction = Direction.Left;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
@@ -74,7 +59,8 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveRight()
         {
-            this.Direction = "Right";
+            this.Representative = '>';
+            this.Direction = Direction.Right;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
             {
                 map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
@@ -90,7 +76,8 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveUp()
         {
-            this.Direction = "Up";
+            this.Representative = '^';
+            this.Direction = Direction.Up;
             if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
             {
                 map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
@@ -102,28 +89,25 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 return false;
             }
-        }
-
+        }  
         public Shell Shoot()
         {
             switch (this.Direction)
             {
-                case "Down":
-                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, "Down");
-                case "Left":
-                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, "Left");
-                case "Right":
-                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, "Right");
-                case "Up":
-                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, "Up");
+                case Direction.Down:
+                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, this.Direction);
+                case Direction.Left:
+                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, this.Direction);
+                case Direction.Right: 
+                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, this.Direction);
                 default:
-                    return null;
+                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, this.Direction);
             }
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
-            Console.WriteLine("Waddup");
+            this.map = null;
         }
 
     }

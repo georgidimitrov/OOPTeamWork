@@ -1,11 +1,10 @@
-﻿using AlphaTank.Program.Models.GameObjects.Common;
+﻿using AlphaTank.Program.Models.GameObjects;
 using System;
 
 namespace AlphaTank.Program.Models.Contracts
 {
     public interface IGameObject
     {
-        GameObjectType Type { get; }
         int RowPosition { get; }
         int ColumnPosition { get; }
         char Representative { get; }

@@ -2,7 +2,7 @@
 
 namespace AlphaTank.Program.Models.Contracts
 {
-    public interface ITank : IMovableGameObject
+    public interface ITank
     {
         Shell Shoot();
     }

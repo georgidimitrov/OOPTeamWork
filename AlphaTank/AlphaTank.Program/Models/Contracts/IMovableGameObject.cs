@@ -1,5 +1,5 @@
-﻿using AlphaTank.Program.Display.Contracts;
-using AlphaTank.Program.Models.GameObjects.Common;
+﻿using AlphaTank.Program.Display;
+using AlphaTank.Program.Models.GameObjects;
 
 namespace AlphaTank.Program.Models.Contracts
 {
