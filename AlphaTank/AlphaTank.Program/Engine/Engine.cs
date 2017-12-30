@@ -3,9 +3,6 @@ using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AlphaTank.Program.Engine
@@ -42,7 +39,12 @@ namespace AlphaTank.Program.Engine
             PlayerTank playerTank = new PlayerTank(18, 14, map);
             //Enemy
 
-            MainMenu.Instance.Run();
+            if (!MainMenu.Instance.Run())
+            {
+                return;
+            }
+
+            Display.Display.Instance.Print(map);
 
             //After Start
             while (true)
@@ -56,29 +58,39 @@ namespace AlphaTank.Program.Engine
                             toDestroy.Add(shell);
                         }
                     }
+
                     if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
                     {
                         enemies.Add(playerTank.Shoot());
                     }
                     else if (!Keyboard.IsKeyUp(Key.Up))
                     {
-                        playerTank.MoveUp();
-
+                        if (playerTank.MoveUp())
+                        {
+                            //Display.Display.Instance.Update(map, playerTank);
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Down))
                     {
-                        playerTank.MoveDown();
+                        if (playerTank.MoveDown())
+                        {
+                            //Display.Display.Instance.Update(map, playerTank);
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Left))
                     {
-                        playerTank.MoveLeft();
+                        if (playerTank.MoveLeft())
+                        {
+                            //Display.Display.Instance.Update(map, playerTank);
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Right))
                     {
-                        playerTank.MoveRight();
+                        if (playerTank.MoveRight())
+                        {
+                            //Display.Display.Instance.Update(map, playerTank);
+                        }
                     }
-                    Console.SetCursorPosition(0, 0);
-                    map.PrintMap();
 
                     foreach (var bb in toDestroy)
                     {

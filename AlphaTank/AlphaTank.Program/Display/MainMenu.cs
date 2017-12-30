@@ -29,14 +29,14 @@ namespace AlphaTank.Program.Display
         public char[][] Display { get; private set; }
 
         //Methods
-        public void Run()
+        public bool Run()
         {
             GetDisplayDesign();
             MainMenuPrint();
-            WaitingForPlayer();
+            return WaitingForPlayer();
         }
 
-        private void WaitingForPlayer()
+        private bool WaitingForPlayer()
         {
             DateTime dt = DateTime.Now;
 
@@ -68,11 +68,11 @@ namespace AlphaTank.Program.Display
                             //MainMenuPrint();
                             //CursorMenu(1);
                             Console.Clear();
-                            return;
+                            return true;
                         }
                         else
                         {
-                            return;
+                            return false;
                         }
                     }
 

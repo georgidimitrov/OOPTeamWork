@@ -6,7 +6,7 @@ namespace AlphaTank.Program.Models
 {
     public class Map
     {
-        private readonly IGameObject[,] map = new IGameObject[21, 31];
+        private readonly IGameObject[,] map = new IGameObject[21, 30];
 
         public Map(string directory)
         {
@@ -23,7 +23,7 @@ namespace AlphaTank.Program.Models
             }
             for (int row = 0; row < map.GetLength(0) - 1; row++)
             {
-                for (int col = 0; col < map.GetLength(1) - 1; col++)
+                for (int col = 0; col < map.GetLength(1); col++)
                 {
                     if (this.map[row, col] is PlayerTank)
                     {
@@ -59,7 +59,7 @@ namespace AlphaTank.Program.Models
             }
             for (int i = 0; i < map.GetLength(0) - 1; i++)
             {
-                for (int j = 0; j < map.GetLength(1) - 1; j++)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
                     switch (lines[i][j])
                     {
