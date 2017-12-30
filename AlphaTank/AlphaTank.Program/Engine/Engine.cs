@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Display;
+using AlphaTank.Program.Display.Contracts;
 using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.GameObjects;
 using System;
@@ -10,7 +11,6 @@ namespace AlphaTank.Program.Engine
     public class Engine
     {
         private readonly List<Shell> enemies = new List<Shell>();
-        private readonly List<Shell> toDestroy = new List<Shell>();
         private static Engine instance;
         private DateTime timer;
         private DateTime shellTimer;
@@ -51,54 +51,48 @@ namespace AlphaTank.Program.Engine
             {
                 if (GameTimePassed())
                 {
-                    foreach (var shell in enemies)
+                    for (int shell = enemies.Count - 1; shell >= 0; shell--)
                     {
-                        if (!shell.Move())
+                        var info = enemies[shell].Move();
+                        Display.Display.Instance.Update(map, enemies[shell], info);
+
+                        if (info.IsCollided)
                         {
-                            toDestroy.Add(shell);
+                            enemies.Remove(enemies[shell]);
                         }
                     }
 
                     if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
                     {
-                        enemies.Add(playerTank.Shoot());
+                        var shell = playerTank.Shoot();
+                        if (shell != null)
+                        {
+                            enemies.Add(shell);
+                            Display.Display.Instance.Update(map, shell, new CollisionInfo(false));
+                        }
                     }
                     else if (!Keyboard.IsKeyUp(Key.Up))
                     {
-                        if (playerTank.MoveUp())
-                        {
-                            //Display.Display.Instance.Update(map, playerTank);
-                        }
+                        var info = playerTank.MoveUp();
+                        Display.Display.Instance.Update(map, playerTank, info);
                     }
                     else if (!Keyboard.IsKeyUp(Key.Down))
                     {
-                        if (playerTank.MoveDown())
-                        {
-                            //Display.Display.Instance.Update(map, playerTank);
-                        }
+                        var info = playerTank.MoveDown();
+                        Display.Display.Instance.Update(map, playerTank, info);
                     }
                     else if (!Keyboard.IsKeyUp(Key.Left))
                     {
-                        if (playerTank.MoveLeft())
-                        {
-                            //Display.Display.Instance.Update(map, playerTank);
-                        }
+                        var info = playerTank.MoveLeft();
+                        Display.Display.Instance.Update(map, playerTank, info);
                     }
                     else if (!Keyboard.IsKeyUp(Key.Right))
                     {
-                        if (playerTank.MoveRight())
-                        {
-                            //Display.Display.Instance.Update(map, playerTank);
-                        }
-                    }
-
-                    foreach (var bb in toDestroy)
-                    {
-                        enemies.Remove(bb);
+                        var info = playerTank.MoveRight();
+                        Display.Display.Instance.Update(map, playerTank, info);
                     }
                 }
             }
-
         }
 
         private bool GameTimePassed()
