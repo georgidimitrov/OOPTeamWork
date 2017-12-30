@@ -1,5 +1,6 @@
 ﻿using AlphaTank.Program.Models.Contracts;
 using System;
+using AlphaTank.Program.Models.GameObjects.Common;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -20,10 +21,14 @@ namespace AlphaTank.Program.Models.GameObjects
             this.ColumnPosition = col;
         }
 
+        public GameObjectType Type { get; protected set; }
+
         public int RowPosition { get; protected set; }
 
         public int ColumnPosition { get; protected set; }
 
         public virtual char Representative { get; protected set; }
+
+        public ConsoleColor Color { get; protected set; }
     }
 }

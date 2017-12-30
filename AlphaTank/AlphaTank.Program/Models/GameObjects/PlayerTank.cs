@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 
 namespace AlphaTank.Program.Models.GameObjects
@@ -7,7 +8,9 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         public PlayerTank(int row, int col, Map map) : base(row, col, map)
         {
+            this.Type = GameObjectType.PlayerTank;
             this.Representative = '^';
+            this.Color = ConsoleColor.Yellow;
         }
 
         public override char Representative
@@ -16,13 +19,13 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 switch (this.Direction)
                 {
-                    case "Up":
+                    case Direction.Up:
                         return '^';
-                    case "Right":
+                    case Direction.Right:
                         return '>';
-                    case "Down":
+                    case Direction.Down:
                         return 'v';
-                    case "Left":
+                    case Direction.Left:
                         return '<';
                 }
                 return '@';

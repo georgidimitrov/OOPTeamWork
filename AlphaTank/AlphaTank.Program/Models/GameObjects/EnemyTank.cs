@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         public EnemyTank(int row, int col, Map map) : base(row, col, map)
         {
+            this.Type = GameObjectType.EnemyTank;
+            this.Color = ConsoleColor.Red;
         }
 
         public void DetectPlayer(PlayerTank playerTank)
@@ -27,7 +30,7 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public void Move()
         {
-            
+
         }
     }
 }
