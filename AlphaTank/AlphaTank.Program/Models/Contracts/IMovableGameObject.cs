@@ -1,11 +1,14 @@
-﻿namespace AlphaTank.Program.Models.Contracts
+﻿using AlphaTank.Program.Display.Contracts;
+using AlphaTank.Program.Models.GameObjects.Common;
+
+namespace AlphaTank.Program.Models.Contracts
 {
     public interface IMovableGameObject : IGameObject
     {
-        string Direction { get; }
-        bool MoveUp();
-        bool MoveDown();
-        bool MoveLeft();
-        bool MoveRight();
+        Direction Direction { get; }
+        ICollisionInfo MoveUp();
+        ICollisionInfo MoveDown();
+        ICollisionInfo MoveLeft();
+        ICollisionInfo MoveRight();
     }
 }
