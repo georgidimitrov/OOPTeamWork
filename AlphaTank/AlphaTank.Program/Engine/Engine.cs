@@ -62,7 +62,7 @@ namespace AlphaTank.Program.Engine
                         }
                     }
 
-                    if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
+                    if (!Keyboard.IsKeyUp(Key.Space ) && ShellTimePassed())
                     {
                         var shell = playerTank.Shoot();
                         if (shell != null)

@@ -28,8 +28,8 @@ namespace AlphaTank.Program.Display
         public void Resize()
         {
             Console.CursorVisible = false;
-            Console.SetBufferSize(30, 21);
             Console.SetWindowSize(30, 21);
+            Console.SetBufferSize(30, 21);
         }
 
         public void Print(Map map)
