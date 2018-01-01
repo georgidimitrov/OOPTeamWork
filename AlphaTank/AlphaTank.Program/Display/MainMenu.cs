@@ -14,12 +14,15 @@ namespace AlphaTank.Program.Display
         //Ctors
         private MainMenu()
         {
-            if (Console.BufferHeight != 21 || Console.BufferWidth != 30)
+            this.Display = new char[Console.BufferHeight][];
+
+            this.GetDisplayDesign();
+
+            if (Console.BufferHeight != Display.Length || Console.BufferWidth != Display[0].Length)
             {
                 throw new ArgumentException("Console Sizes must be (21; 30)!");
             }
 
-            this.Display = new char[Console.BufferHeight][];
         }
 
         //Props
@@ -30,7 +33,6 @@ namespace AlphaTank.Program.Display
         //Methods
         public bool Run()
         {
-            GetDisplayDesign();
             MainMenuPrint();
             return WaitingForPlayer();
         }

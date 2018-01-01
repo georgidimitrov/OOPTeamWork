@@ -1,5 +1,5 @@
 ﻿using AlphaTank.Program.Display;
-using AlphaTank.Program.Display.Contracts;
+using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.GameObjects;
 using System;
@@ -10,6 +10,7 @@ namespace AlphaTank.Program.Engine
 {
     public class Engine
     {
+        private GameSettings gameSettings;
         private readonly List<Shell> enemies = new List<Shell>();
         private static Engine instance;
         private DateTime timer;
@@ -32,7 +33,9 @@ namespace AlphaTank.Program.Engine
 
         public void Start()
         {
-            Display.Display.Instance.Resize();
+            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 150), new TimeSpan(0, 0, 0, 0, 600));
+
+            Display.Display.Instance.Resize(gameSettings.RowsSize, gameSettings.ColsSize);
 
             timer = DateTime.Now;
             Map map = new Map("../../Display/Levels/Level1.txt");
@@ -61,7 +64,7 @@ namespace AlphaTank.Program.Engine
                         }
                     }
 
-                    if (!Keyboard.IsKeyUp(Key.Space ) && ShellTimePassed())
+                    if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
                     {
                         var shell = playerTank.Shoot();
                         if (shell != null)
@@ -96,9 +99,8 @@ namespace AlphaTank.Program.Engine
 
         private bool GameTimePassed()
         {
-            TimeSpan check = new TimeSpan(0, 0, 0, 0, 150);
             TimeSpan timespan = DateTime.Now - timer;
-            if (timespan > check)
+            if (timespan > gameSettings.RefreshRate)
             {
                 timer = DateTime.Now;
                 return true;
@@ -111,9 +113,8 @@ namespace AlphaTank.Program.Engine
 
         private bool ShellTimePassed()
         {
-            TimeSpan check = new TimeSpan(0, 0, 0, 0, 600);
             TimeSpan timespan = DateTime.Now - shellTimer;
-            if (timespan > check)
+            if (timespan > gameSettings.ShellCooldown)
             {
                 shellTimer = DateTime.Now;
                 return true;
@@ -123,6 +124,5 @@ namespace AlphaTank.Program.Engine
                 return false;
             }
         }
-
     }
 }

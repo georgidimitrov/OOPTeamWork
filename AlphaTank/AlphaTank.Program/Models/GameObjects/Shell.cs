@@ -1,4 +1,5 @@
-﻿using AlphaTank.Program.Logic;
+﻿using AlphaTank.Program.Enums_and_Structs;
+using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
 using System;
 using System.Threading;

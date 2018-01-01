@@ -2,6 +2,7 @@
 using AlphaTank.Program;
 using System;
 using AlphaTank.Program.Logic;
+using AlphaTank.Program.Enums_and_Structs;
 
 namespace AlphaTank.Program.Models.GameObjects
 {

@@ -1,4 +1,4 @@
-﻿namespace AlphaTank.Program.Models.Contracts
+﻿namespace AlphaTank.Program.Enums_and_Structs
 {
     public enum Direction
     {

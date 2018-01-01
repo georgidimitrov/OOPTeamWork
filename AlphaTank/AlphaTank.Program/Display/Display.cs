@@ -1,8 +1,6 @@
-﻿using AlphaTank.Program.Display.Contracts;
-using AlphaTank.Program.Models;
+﻿using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
-using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,11 +23,11 @@ namespace AlphaTank.Program.Display
 
 
         //Methods
-        public void Resize()
+        public void Resize(int rowsSize, int colSize)
         {
             Console.CursorVisible = false;
-            Console.SetWindowSize(30, 21);
-            Console.SetBufferSize(30, 21);
+            Console.SetWindowSize(colSize, rowsSize);
+            Console.SetBufferSize(colSize, rowsSize);
         }
 
         public void Print(Map map)
@@ -45,151 +43,13 @@ namespace AlphaTank.Program.Display
             }
         }
 
-        public void Update(Map map, IMovableGameObject gameObj, ICollisionInfo info)
+        public void Update(Map map, int oldX, int oldY, int newX, int newY, char representative)
         {
-            switch (gameObj.Type)
-            {
-                case GameObjectType.EnemyTank:
-                    if (info.IsCollided)
-                    {
-                        switch (info.Type)
-                        {
-                            case GameObjectType.Road:
-                                break;
-                            case GameObjectType.Obstacle:
+            Console.SetCursorPosition(oldY, oldX);
+            Console.Write(' ');
 
-                                break;
-                            case GameObjectType.EnemyTank:
-                                break;
-                            case GameObjectType.Shell:
-                                break;
-                            case GameObjectType.PlayerTank:
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                    {
-
-                    }
-                    break;
-                case GameObjectType.Shell:
-                    if (info.IsCollided)
-                    {
-                        switch (info.Type)
-                        {
-                            case GameObjectType.Obstacle:
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition);
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition].Representative);
-                                break;
-                            case GameObjectType.EnemyTank:
-                                switch (gameObj.Direction)
-                                {
-                                    case Direction.Up:
-                                        Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition - 1);
-                                        Console.Write(map.GetMap[gameObj.RowPosition - 1, gameObj.ColumnPosition].Representative);
-                                        break;
-                                    case Direction.Right:
-                                        Console.SetCursorPosition(gameObj.ColumnPosition + 1, gameObj.RowPosition);
-                                        Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition + 1].Representative);
-                                        break;
-                                    case Direction.Down:
-                                        Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition + 1);
-                                        Console.Write(map.GetMap[gameObj.RowPosition + 1, gameObj.ColumnPosition].Representative);
-                                        break;
-                                    case Direction.Left:
-                                        Console.SetCursorPosition(gameObj.ColumnPosition - 1, gameObj.RowPosition);
-                                        Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition - 1].Representative);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition);
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition].Representative);
-                                break;
-                            case GameObjectType.Shell:
-                                break;
-                            case GameObjectType.PlayerTank:
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (gameObj.Direction)
-                        {
-                            case Direction.Up:
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition + 1);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition + 1, gameObj.ColumnPosition].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition + 1, gameObj.ColumnPosition].Representative);
-                                break;
-                            case Direction.Right:
-                                Console.SetCursorPosition(gameObj.ColumnPosition - 1, gameObj.RowPosition);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition - 1].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition - 1].Representative);
-                                break;
-                            case Direction.Down:
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition - 1);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition - 1, gameObj.ColumnPosition].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition - 1, gameObj.ColumnPosition].Representative);
-                                break;
-                            case Direction.Left:
-                                Console.SetCursorPosition(gameObj.ColumnPosition + 1, gameObj.RowPosition);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition + 1].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition + 1].Representative);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition);
-                        Console.ForegroundColor = gameObj.Color;
-                        Console.Write(gameObj.Representative);
-                    }
-                    break;
-                case GameObjectType.PlayerTank:
-                    if (info.IsCollided)
-                    {
-                        //switch (info.Type)
-                    }
-                    else
-                    {
-                        switch (gameObj.Direction)
-                        {
-                            case Direction.Up:
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition + 1);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition + 1, gameObj.ColumnPosition].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition + 1, gameObj.ColumnPosition].Representative);
-                                break;
-                            case Direction.Right:
-                                Console.SetCursorPosition(gameObj.ColumnPosition - 1, gameObj.RowPosition);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition - 1].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition - 1].Representative);
-                                break;
-                            case Direction.Down:
-                                Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition - 1);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition - 1, gameObj.ColumnPosition].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition - 1, gameObj.ColumnPosition].Representative);
-                                break;
-                            case Direction.Left:
-                                Console.SetCursorPosition(gameObj.ColumnPosition + 1, gameObj.RowPosition);
-                                Console.ForegroundColor = map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition + 1].Color;
-                                Console.Write(map.GetMap[gameObj.RowPosition, gameObj.ColumnPosition + 1].Representative);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        Console.SetCursorPosition(gameObj.ColumnPosition, gameObj.RowPosition);
-                        Console.ForegroundColor = gameObj.Color;
-                        Console.Write(gameObj.Representative);
-                    }
-                    break;
-            }
+            Console.SetCursorPosition(newY, newX);
+            Console.Write(representative);
         }
     }
 }

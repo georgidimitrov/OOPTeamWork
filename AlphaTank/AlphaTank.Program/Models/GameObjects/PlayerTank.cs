@@ -1,5 +1,4 @@
 ﻿using AlphaTank.Program.Models.Contracts;
-using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 
 namespace AlphaTank.Program.Models.GameObjects

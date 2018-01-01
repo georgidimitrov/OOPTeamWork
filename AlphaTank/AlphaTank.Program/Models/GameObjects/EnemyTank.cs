@@ -1,6 +1,5 @@
 ﻿using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
-using AlphaTank.Program.Models.GameObjects.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
