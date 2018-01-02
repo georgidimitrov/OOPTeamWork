@@ -19,7 +19,7 @@ A simple console game made with C#
 
 ## Authors
 
-[Dimitar Perov](https://github.com/dimpetrow)
+[Dimitar Petrov](https://github.com/dimpetrow)
 
 [Georgi Dimitrov](https://github.com/georgidimitrov)
 
