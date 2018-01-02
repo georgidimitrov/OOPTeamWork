@@ -78,7 +78,8 @@
     <None Include="Display\Levels\Level1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Display\GameOver\GameOver.txt" />
+    <Content Include="Display\EndScreen\GameOver.txt" />
+    <Content Include="Display\EndScreen\Victory.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Display\MainMenu\MainMenu.txt" />

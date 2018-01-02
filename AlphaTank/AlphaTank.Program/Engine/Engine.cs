@@ -189,6 +189,11 @@ namespace AlphaTank.Program.Engine
                                 enemyTanks.RemoveAt(tank);
                             }
                         }
+                        if (enemyTanks.Count == 0)
+                        {
+                            MainMenu.Instance.Victory();
+                            return;
+                        }
                         //Enemy Tanks Update
 
                         if (map.GetMap[playerTank.RowPosition, playerTank.ColumnPosition] is Road)
@@ -200,7 +205,7 @@ namespace AlphaTank.Program.Engine
                 }
             }
 
-            MainMenu.Instance.GameOver(/*shots*/);
+            MainMenu.Instance.GameOver();
 
         }
 

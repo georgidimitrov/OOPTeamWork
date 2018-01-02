@@ -188,6 +188,24 @@ namespace AlphaTank.Program.Display
             }
         }
 
+        public void Victory()
+        {
+            StreamReader read = new StreamReader("../../Display/EndScreen/Victory.txt");
+
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            for (int row = 0; row < Console.BufferHeight - 1; row++)
+            {
+                Console.Write(read.ReadLine());
+            }
+
+            read.Close();
+
+            Thread.Sleep(10000);
+        }
+
         public void GameOver()
         {
             StreamReader read = new StreamReader("../../Display/GameOver/GameOver.txt");
