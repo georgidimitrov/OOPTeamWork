@@ -82,6 +82,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 else if (gameObject is EnemyTank)
                 {
                     this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                    this.RowPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
@@ -117,6 +118,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 else if (gameObject is EnemyTank)
                 {
                     this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    this.ColumnPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
@@ -152,6 +154,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 else if (gameObject is EnemyTank)
                 {
                     map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
+                    this.ColumnPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
@@ -188,6 +191,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 else if (gameObject is EnemyTank)
                 {
                     map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                    this.RowPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
@@ -214,7 +218,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 throw new NoMapException("No map to move shell in.");
             }
-        } 
+        }
     }
 
 }

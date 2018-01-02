@@ -16,6 +16,18 @@ namespace AlphaTank.Program.Logic
                 return true;
             }
         }
+
+        public static bool IsObstacleOrAlly(Map map, int X, int Y)
+        {
+            if (map.GetMap[X, Y] is Obstacle || map.GetMap[X, Y] is EnemyTank)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

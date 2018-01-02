@@ -55,7 +55,6 @@
     <Compile Include="Display\Display.cs" />
     <Compile Include="Display\MainMenu.cs" />
     <Compile Include="Models\Contracts\IGameObject.cs" />
-    <Compile Include="Models\Contracts\IMissile.cs" />
     <Compile Include="Models\Contracts\IMovableGameObject.cs" />
     <Compile Include="Models\Contracts\ITank.cs" />
     <Compile Include="Models\GameObjects\EnemyTank.cs" />

@@ -25,6 +25,13 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public virtual ICollisionInfo MoveDown()
         {
+            if (this.Direction != Direction.Down)
+            {
+                Direction = Direction.Down;
+                this.Representative = 'v';
+                return new CollisionInfo(false);
+            }
+
             this.Representative = 'v';
             this.Direction = Direction.Down;
             if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
@@ -42,6 +49,13 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public virtual ICollisionInfo MoveLeft()
         {
+            if (this.Direction != Direction.Left)
+            {
+                Direction = Direction.Left;
+                this.Representative = '<';
+                return new CollisionInfo(false);
+            }
+
             this.Representative = '<';
             this.Direction = Direction.Left;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
@@ -59,6 +73,13 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public virtual ICollisionInfo MoveRight()
         {
+            if (this.Direction != Direction.Right)
+            {
+                Direction = Direction.Right;
+                this.Representative = '>';
+                return new CollisionInfo(false);
+            }
+
             this.Representative = '>';
             this.Direction = Direction.Right;
             if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
@@ -76,6 +97,13 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public virtual ICollisionInfo MoveUp()
         {
+            if (this.Direction != Direction.Up)
+            {
+                Direction = Direction.Up;
+                this.Representative = '^';
+                return new CollisionInfo(false);
+            }
+
             this.Representative = '^';
             this.Direction = Direction.Up;
             if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
@@ -84,12 +112,12 @@ namespace AlphaTank.Program.Models.GameObjects
                 map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
                 return new CollisionInfo(true);
-            }   
+            }
             else
             {
                 return new CollisionInfo(false);
             }
-        }  
+        }
         public Shell Shoot()
         {
             switch (this.Direction)
@@ -98,7 +126,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, this.Direction);
                 case Direction.Left:
                     return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, this.Direction);
-                case Direction.Right: 
+                case Direction.Right:
                     return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, this.Direction);
                 default:
                     return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, this.Direction);

@@ -72,7 +72,7 @@ namespace AlphaTank.Program.Models.GameObjects
         public Shell DetectPlayer()
         {
 
-            if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCoolDown())
+            if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCooldown())
             {
                 if (playerTank.ColumnPosition > this.ColumnPosition)
                 {
@@ -85,7 +85,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     return this.Shoot();
                 }
             }
-            else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCoolDown())
+            else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCooldown())
             {
                 if (playerTank.RowPosition > this.RowPosition)
                 {
@@ -100,21 +100,12 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             return null;
         }
+
         private bool ShellCooldown()
         {
-            if (cooldown < DateTime.Now - time)
+            if (this.cooldown < DateTime.Now - this.time)
             {
-                time = DateTime.Now;
-                return true;
-            }
-            return false;
-        }
-
-        private bool ShellCoolDown()
-        {
-            if (cooldown < DateTime.Now - time)
-            {
-                time = DateTime.Now;
+                this.time = DateTime.Now;
                 return true;
             }
             return false;
@@ -124,9 +115,9 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (this.ColumnPosition > playerColumn)
             {
-                for (int i = this.ColumnPosition + 1; i < playerColumn; i++)
+                for (int i = this.ColumnPosition - 1; i > playerColumn; i--)
                 {
-                    if (Collision.DetectCollision(this.map, this.RowPosition, i))
+                    if (Collision.IsObstacleOrAlly(this.map, this.RowPosition, i))
                     {
                         return false;
                     }
@@ -135,9 +126,9 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             else
             {
-                for (int i = this.ColumnPosition - 1; i > playerColumn; i--)
+                for (int i = this.ColumnPosition + 1; i < playerColumn; i++)
                 {
-                    if (Collision.DetectCollision(this.map, this.RowPosition, i))
+                    if (Collision.IsObstacleOrAlly(this.map, this.RowPosition, i))
                     {
                         return false;
                     }
@@ -152,7 +143,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.RowPosition - 1; i > playerRow; i--)
                 {
-                    if (Collision.DetectCollision(this.map, i, this.ColumnPosition))
+                    if (Collision.IsObstacleOrAlly(this.map, i, this.ColumnPosition))
                     {
                         return false;
                     }
@@ -163,7 +154,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.RowPosition + 1; i < playerRow; i++)
                 {
-                    if (Collision.DetectCollision(this.map, i, this.ColumnPosition))
+                    if (Collision.IsObstacleOrAlly(this.map, i, this.ColumnPosition))
                     {
                         return false;
                     }
