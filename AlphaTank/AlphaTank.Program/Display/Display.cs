@@ -9,9 +9,7 @@ namespace AlphaTank.Program.Display
         private static readonly Display instance = new Display();
 
         //Ctors
-        private Display()
-        {
-        }
+        private Display() { }
 
         //Props
         public static Display Instance { get { return instance; } }

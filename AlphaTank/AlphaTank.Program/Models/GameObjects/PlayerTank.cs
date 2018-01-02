@@ -12,6 +12,7 @@ namespace AlphaTank.Program.Models.GameObjects
         }
 
         public event EventHandler Shots;
+
         public void OnShots()
         {
             this.Shots?.Invoke(this, null);

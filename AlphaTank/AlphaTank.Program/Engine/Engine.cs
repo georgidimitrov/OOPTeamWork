@@ -46,17 +46,24 @@ namespace AlphaTank.Program.Engine
 
         public void Start()
         {
-            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 200), new TimeSpan(0, 0, 0, 0, 600));
+            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 150), new TimeSpan(0, 0, 0, 0, 600));
 
             Display.Display.Instance.Resize(gameSettings.RowsSize, gameSettings.ColsSize);
 
             timer = DateTime.Now;
             Map map = new Map("../../Display/Levels/Level1.txt");
             PlayerTank playerTank = new PlayerTank(18, 14, map);
+
             EnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
+            EnemyTank enemy2 = new EnemyTank(2, 20, map, playerTank);
+            EnemyTank enemy3 = new EnemyTank(4, 28, map, playerTank);
             enemyTanks.Add(enemy1);
+            enemyTanks.Add(enemy2);
+            enemyTanks.Add(enemy3);
+
             playerTank.Shots += new EventHandler(ShotCount);
             playerTank.OnShots();
+
             //Enemy
 
             if (!MainMenu.Instance.Run())
@@ -75,7 +82,10 @@ namespace AlphaTank.Program.Engine
                     {
                         objOldX = shells[shell].RowPosition;
                         objOldY = shells[shell].ColumnPosition;
-                            ICollisionInfo info = shells[shell].Move();
+
+                        //if (shells[shell].Map.GetMap != null)
+                        //{
+                        ICollisionInfo info = shells[shell].Move();
 
                             if (info.Type == GameObjectType.PlayerTank)
                             {
@@ -87,10 +97,11 @@ namespace AlphaTank.Program.Engine
 
                             Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY/*, enemies[shell].Representative*/);
 
-                            if (info.CollisionStatus)
-                            {
-                                shells.Remove(shells[shell]);
-                            }
+                        if (info.CollisionStatus)
+                        {
+                            shells.Remove(shells[shell]);
+                        }
+                        //}
 
                     }
                     //Shell Move Update
@@ -149,8 +160,9 @@ namespace AlphaTank.Program.Engine
 
                         Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY/*, playerTank.Representative*/);
                     }
+                    //Player Tank Update
 
-                    for (int tank = 0; tank < enemyTanks.Count; tank++)
+                    for (int tank = enemyTanks.Count - 1; tank >= 0; tank--)
                     {
                         if (enemyTanks[tank].IsEnemyInMap())
                         {
@@ -160,7 +172,7 @@ namespace AlphaTank.Program.Engine
                             if (shell != null)
                             {
                                 shells.Add(shell);
-                                continue;
+                                //continue;
                             }
                             else if (enemyTanks[tank].Move())
                             {
@@ -172,21 +184,29 @@ namespace AlphaTank.Program.Engine
                         }
                         else
                         {
-
                             Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY);
+                            enemyTanks.RemoveAt(tank);
                         }
                     }
-                    if (map.GetMap[playerTank.RowPosition, playerTank.ColumnPosition] is Road) isPlayerAlive = false;
+                    //Enemy Tanks Update
+
+                    if (map.GetMap[playerTank.RowPosition, playerTank.ColumnPosition] is Road)
+                    {
+                        isPlayerAlive = false;
+                    }
+
                 }
             }
 
             MainMenu.Instance.GameOver(/*shots*/);
 
         }
+
         private static void ShotCount(object sender, EventArgs args)
         {
             shots++;
         }
+
         private bool GameTimePassed()
         {
             TimeSpan timespan = DateTime.Now - timer;

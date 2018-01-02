@@ -9,7 +9,7 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         private readonly PlayerTank playerTank;
         private Map map;
-        private TimeSpan cooldown = new TimeSpan(0, 0, 0 , 0, 1800);
+        private TimeSpan cooldown = new TimeSpan(0, 0, 0, 0, 1800);
         private DateTime time;
 
         public EnemyTank(int row, int col, Map map, PlayerTank playerTank) : base(row, col, map)
@@ -20,9 +20,10 @@ namespace AlphaTank.Program.Models.GameObjects
             this.playerTank = playerTank;
             this.time = DateTime.Now;
         }
+
         public bool IsEnemyInMap()
         {
-            if (map.GetMap[this.RowPosition,this.ColumnPosition] == this)
+            if (map.GetMap[this.RowPosition, this.ColumnPosition] == this)
             {
                 return true;
             }
@@ -31,6 +32,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 return false;
             }
         }
+
         public bool Move()
         {
             int maxTries = 0;
@@ -69,35 +71,46 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public Shell DetectPlayer()
         {
-                if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCooldown())
+
+            if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCoolDown())
+            {
+                if (playerTank.ColumnPosition > this.ColumnPosition)
                 {
-                    if (playerTank.ColumnPosition > this.ColumnPosition)
-                    {
-                        this.Direction = Direction.Right;
-                        return this.Shoot();
-                    }
-                    else
-                    {
-                        this.Direction = Direction.Left;
-                        return this.Shoot();
-                    }
+                    this.Direction = Direction.Right;
+                    return this.Shoot();
                 }
-                else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCooldown())
+                else
                 {
-                    if (playerTank.RowPosition > this.RowPosition)
-                    {
-                        this.Direction = Direction.Down;
-                        return this.Shoot();
-                    }
-                    else
-                    {
-                        this.Direction = Direction.Up;
-                        return this.Shoot();
-                    }
+                    this.Direction = Direction.Left;
+                    return this.Shoot();
                 }
+            }
+            else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCoolDown())
+            {
+                if (playerTank.RowPosition > this.RowPosition)
+                {
+                    this.Direction = Direction.Down;
+                    return this.Shoot();
+                }
+                else
+                {
+                    this.Direction = Direction.Up;
+                    return this.Shoot();
+                }
+            }
             return null;
         }
         private bool ShellCooldown()
+        {
+            if (cooldown < DateTime.Now - time)
+            {
+                time = DateTime.Now;
+                return true;
+            }
+            return false;
+        }
+
+        private bool ShellCoolDown()
         {
             if (cooldown < DateTime.Now - time)
             {
