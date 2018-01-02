@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Input;
 
 namespace AlphaTank.Program.Display
@@ -185,6 +186,24 @@ namespace AlphaTank.Program.Display
                     Console.Write(Display[row][col]);
                 }
             }
+        }
+
+        public void GameOver()
+        {
+            StreamReader read = new StreamReader("../../Display/GameOver/GameOver.txt");
+
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int row = 0; row < Console.BufferHeight - 1; row++)
+            {
+                Console.Write(read.ReadLine());
+            }
+
+            read.Close();
+
+            Thread.Sleep(10000);
         }
     }
 }

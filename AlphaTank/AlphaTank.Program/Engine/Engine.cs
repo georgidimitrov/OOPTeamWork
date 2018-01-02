@@ -5,6 +5,7 @@ using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Input;
 
 namespace AlphaTank.Program.Engine
@@ -23,6 +24,8 @@ namespace AlphaTank.Program.Engine
         private int objNewX;
         private int objNewY;
 
+        private bool isPlayerAlive = true;
+
         private Engine() { }
 
 
@@ -40,13 +43,16 @@ namespace AlphaTank.Program.Engine
 
         public void Start()
         {
-            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 150), new TimeSpan(0, 0, 0, 0, 600));
+            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 1000), new TimeSpan(0, 0, 0, 0, 600));
 
             Display.Display.Instance.Resize(gameSettings.RowsSize, gameSettings.ColsSize);
 
             timer = DateTime.Now;
             Map map = new Map("../../Display/Levels/Level1.txt");
             PlayerTank playerTank = new PlayerTank(18, 14, map);
+
+            Shell shelll = new Shell(15, 14, map, Direction.Down);
+            enemies.Add(shelll);
             //Enemy
 
             if (!MainMenu.Instance.Run())
@@ -57,7 +63,7 @@ namespace AlphaTank.Program.Engine
             Display.Display.Instance.Print(map);
 
             //After Start
-            while (true)
+            while (isPlayerAlive)
             {
                 if (GameTimePassed())
                 {
@@ -67,6 +73,11 @@ namespace AlphaTank.Program.Engine
                         objOldY = enemies[shell].ColumnPosition;
 
                         ICollisionInfo info = enemies[shell].Move();
+
+                        if (info.Type == GameObjectType.PlayerTank)
+                        {
+                            isPlayerAlive = false;
+                        }
 
                         objNewX = enemies[shell].RowPosition;
                         objNewY = enemies[shell].ColumnPosition;
@@ -136,6 +147,9 @@ namespace AlphaTank.Program.Engine
                     //Player Tank Update
                 }
             }
+            
+            MainMenu.Instance.GameOver();
+            
         }
 
         private bool GameTimePassed()

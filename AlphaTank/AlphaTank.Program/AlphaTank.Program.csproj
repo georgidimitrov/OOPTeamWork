@@ -76,7 +76,9 @@
   <ItemGroup>
     <None Include="Display\Levels\Level1.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Display\GameOver\GameOver.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Display\MainMenu\MainMenu.txt" />
   </ItemGroup>
