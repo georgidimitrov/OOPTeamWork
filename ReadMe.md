@@ -6,7 +6,7 @@ A simple console game made with C#
 
 1.Open map file in Engine
 
-2.Create an Player tank in Engine
+2.Create a Player tank in Engine
  ```
  new PlayerTank(x, y, map) 
  ```
