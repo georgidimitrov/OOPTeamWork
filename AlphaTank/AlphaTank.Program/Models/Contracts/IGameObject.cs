@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaTank.Program.Enums_and_Structs;
+using System;
 
 namespace AlphaTank.Program.Models.Contracts
 {
@@ -7,6 +8,7 @@ namespace AlphaTank.Program.Models.Contracts
         int RowPosition { get; }
         int ColumnPosition { get; }
         char Representative { get; }
+        GameObjectType Type { get; }
         ConsoleColor Color { get; }
     }
 }

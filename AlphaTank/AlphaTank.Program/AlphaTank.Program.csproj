@@ -45,6 +45,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomExceptions\NoMapException.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Enums and Structs\GameSettings.cs" />
     <Compile Include="Logic\Collision.cs" />
@@ -74,6 +75,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Class Diagram.cd" />
     <None Include="Display\Levels\Level1.txt" />
   </ItemGroup>
   <ItemGroup>

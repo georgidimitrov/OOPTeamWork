@@ -1,4 +1,5 @@
-﻿using AlphaTank.Program.Enums_and_Structs;
+﻿using AlphaTank.Program.CustomExceptions;
+using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
 using System;
@@ -6,7 +7,7 @@ using System.Threading;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public class Shell : GameObject, IMovableGameObject
+    public class Shell : GameObject, IMissile
     {
         private Map map;
         private readonly Direction direction;
@@ -46,7 +47,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.map = null;
         }
-        
+
         public ICollisionInfo Move()
         {
             if (map != null)
@@ -122,7 +123,7 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 else if (gameObject is Shell)
                 {
-                    this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1); 
+                    this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.Shell);
                 }
@@ -212,7 +213,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             if (this.map == null)
             {
-                throw new ArgumentNullException("No map to move shell in.");
+                throw new NoMapException("No map to move shell in.");
             }
         }
     }

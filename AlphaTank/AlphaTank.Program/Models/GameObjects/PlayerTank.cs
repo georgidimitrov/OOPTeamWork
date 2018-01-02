@@ -10,5 +10,11 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Type = GameObjectType.PlayerTank;
             this.Color = ConsoleColor.Yellow;
         }
+
+        public event EventHandler Shots;
+        public void OnShots()
+        {
+            this.Shots?.Invoke(this, null);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AlphaTank.Program.Models.Contracts;
+﻿using AlphaTank.Program.CustomExceptions;
+using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 
@@ -19,7 +20,7 @@ namespace AlphaTank.Program.Models
         {
             if (map == null)
             {
-                throw new ArgumentException("There is no map instance.");
+                throw new NoMapException("There is no map instance.");
             }
             for (int row = 0; row < map.GetLength(0) - 1; row++)
             {

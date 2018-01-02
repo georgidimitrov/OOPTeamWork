@@ -6,6 +6,7 @@
         Shell,
         EnemyTank,
         Obstacle,
-        Road
+        Road,
+        Destroyed
     }
 }

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AlphaTank.Program.Display.Display" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAEEAAA=</HashCode>
+      <FileName>Display\Display.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Display.MainMenu" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAQAAMAAAAAAAQiAAABAAAAAQAAAAACAAAI=</HashCode>
+      <FileName>Display\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Engine.Engine" Collapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAMAwACAAAAABAAAAAAAAAABAAAAhQAEAAQAAAAA=</HashCode>
+      <FileName>Engine\Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Logic.Collision" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\Collision.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.CollisionInfo" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAABAAAIAQAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\CollisionInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.EnemyTank" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAEAIAAIAAAAAAAAABAAAAAIAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\EnemyTank.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.GameObject" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABACAAAAAAAAAIAAAAAAAAAAAQAAgAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\GameObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.Obstacle" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\Obstacle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.PlayerTank" Collapsed="true">
+    <Position X="1.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\PlayerTank.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.Road" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\Road.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.Shell" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAQJAAIAAAACEAAAAAAABAAAAIQAAAEAAAABA=</HashCode>
+      <FileName>Models\GameObjects\Shell.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlphaTank.Program.Models.GameObjects.Tank" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAAAAJAAAACAAAAAAAABAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Models\GameObjects\Tank.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlphaTank.Program.Models.Map" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaTank.Program.Program" Collapsed="true">
+    <Position X="13.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="AlphaTank.Program.Enums_and_Structs.GameSettings" Collapsed="true">
+    <Position X="13.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAgAAAQAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Enums and Structs\GameSettings.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="AlphaTank.Program.Models.Contracts.ICollisionInfo" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Contracts\ICollisionInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlphaTank.Program.Models.Contracts.IEnemy" Collapsed="true">
+    <Position X="15" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Contracts\IEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlphaTank.Program.Models.Contracts.IGameObject" Collapsed="true">
+    <Position X="1.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABACAAAAAAAAAIAAAAAAAAAAAQAAgAAAAAA=</HashCode>
+      <FileName>Models\Contracts\IGameObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlphaTank.Program.Models.Contracts.IMissile" Collapsed="true">
+    <Position X="16.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAACAAAAAAAAAAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Contracts\IMissile.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlphaTank.Program.Models.Contracts.IMovableGameObject" Collapsed="true">
+    <Position X="1.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAACAAAAAAAAAAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Contracts\IMovableGameObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlphaTank.Program.Models.Contracts.ITank" Collapsed="true">
+    <Position X="13.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Contracts\ITank.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AlphaTank.Program.Enums_and_Structs.Direction" Collapsed="true">
+    <Position X="13.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>Enums and Structs\Direction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlphaTank.Program.Enums_and_Structs.GameObjectType" Collapsed="true">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAIAAARAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums and Structs\GameObjectType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

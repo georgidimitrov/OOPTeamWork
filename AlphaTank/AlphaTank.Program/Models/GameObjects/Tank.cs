@@ -5,7 +5,7 @@ using AlphaTank.Program.Enums_and_Structs;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public abstract class Tank : GameObject, ITank
+    public abstract class Tank : GameObject, ITank, IMovableGameObject
     {
         private Direction direction = Direction.Up;
         private Map map;
