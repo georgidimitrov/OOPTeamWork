@@ -1,10 +1,7 @@
 ﻿using AlphaTank.Program.Logic;
 using AlphaTank.Program.Models.Contracts;
+using AlphaTank.Program.Enums_and_Structs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -22,6 +19,11 @@ namespace AlphaTank.Program.Models.GameObjects
             this.playerTank = playerTank;
         }
 
+        public void DetectPlayer(PlayerTank playerTank)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Move()
         {
 
@@ -32,7 +34,7 @@ namespace AlphaTank.Program.Models.GameObjects
         }
         private void DetectPlayer(int playerRow, int playerColumn)
         {
-            if (playerRow == this.RowPosition && IsRowClean())
+            if (playerRow == this.RowPosition)
             {
 
             }

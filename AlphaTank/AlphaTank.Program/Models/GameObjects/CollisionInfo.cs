@@ -1,8 +1,7 @@
 ﻿using AlphaTank.Program.Enums_and_Structs;
-using AlphaTank.Program.Models.GameObjects;
-using System;
+using AlphaTank.Program.Models.Contracts;
 
-namespace AlphaTank.Program.Models.Contracts
+namespace AlphaTank.Program.Models.GameObjects
 {
     public class CollisionInfo : ICollisionInfo
     {

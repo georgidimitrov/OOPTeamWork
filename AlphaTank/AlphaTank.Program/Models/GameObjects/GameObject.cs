@@ -1,6 +1,6 @@
 ﻿using AlphaTank.Program.Models.Contracts;
 using System;
-using AlphaTank.Program.Models.GameObjects;
+using AlphaTank.Program.Enums_and_Structs;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -22,6 +22,7 @@ namespace AlphaTank.Program.Models.GameObjects
         }
 
         public GameObjectType Type { get; protected set; }
+
         public int RowPosition { get; protected set; }
 
         public int ColumnPosition { get; protected set; }

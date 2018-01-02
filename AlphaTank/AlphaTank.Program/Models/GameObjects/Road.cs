@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaTank.Program.Enums_and_Structs;
+using System;
 
 namespace AlphaTank.Program.Models.GameObjects
 {

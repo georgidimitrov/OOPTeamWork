@@ -1,10 +1,5 @@
 ﻿using AlphaTank.Program.Models;
-using AlphaTank.Program.Models.Contracts;
-using AlphaTank.Program.Models.GameObjects;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Input;
 
 namespace AlphaTank.Program.Display
 {
@@ -43,13 +38,15 @@ namespace AlphaTank.Program.Display
             }
         }
 
-        public void Update(Map map, int oldX, int oldY, int newX, int newY, char representative)
+        public void Update(Map map, int oldX, int oldY, int newX, int newY/*, char representative*/)
         {
             Console.SetCursorPosition(oldY, oldX);
-            Console.Write(' ');
+            Console.ForegroundColor = map.GetMap[oldX, oldY].Color;
+            Console.Write(map.GetMap[oldX, oldY].Representative/*' '*/);
 
             Console.SetCursorPosition(newY, newX);
-            Console.Write(representative);
+            Console.ForegroundColor = map.GetMap[newX, newY].Color;
+            Console.Write(map.GetMap[newX, newY].Representative/*representative*/);
         }
     }
 }

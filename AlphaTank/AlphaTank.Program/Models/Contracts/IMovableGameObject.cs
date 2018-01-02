@@ -1,5 +1,4 @@
-﻿using AlphaTank.Program.Display;
-using AlphaTank.Program.Enums_and_Structs;
+﻿using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.Models.GameObjects;
 
 namespace AlphaTank.Program.Models.Contracts

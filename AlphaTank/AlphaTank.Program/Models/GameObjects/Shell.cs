@@ -24,6 +24,7 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public GameObjectType GameObjectType => this.gameObjectType;
         public Direction Direction => this.direction;
+        public Map Map => this.map;
 
         private void Spawn()
         {
@@ -65,6 +66,7 @@ namespace AlphaTank.Program.Models.GameObjects
             this.IsThereAMap();
             return new CollisionInfo(false);
         }
+
         public ICollisionInfo MoveDown()
         {
             this.IsThereAMap();
