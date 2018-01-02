@@ -4,7 +4,7 @@ A simple console game made with C#
 
 ## Getting Started
 
-1.Open map file
+1.Open map file in Engine
 
 2.Create an Player tank in Engine
  ```
