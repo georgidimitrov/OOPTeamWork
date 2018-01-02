@@ -33,8 +33,9 @@ namespace AlphaTank.Program.Models.GameObjects
         }
         public bool Move()
         {
+            int maxTries = 0;
             Random rand = new Random();
-            while (true)
+            while (maxTries < 100)
             {
                 bool change = TryToMove(this.Direction);
                 if (change == true)
@@ -45,8 +46,9 @@ namespace AlphaTank.Program.Models.GameObjects
                 {
                     this.Direction = (Direction)Enum.Parse(typeof(Direction), rand.Next(0, 4).ToString());
                 }
+                maxTries++;
             }
-            
+            return false;
         }
 
         private bool TryToMove(Direction direction)
@@ -54,22 +56,20 @@ namespace AlphaTank.Program.Models.GameObjects
             switch (direction)
             {
                 case Direction.Up:
-                    return this.MoveUp();
+                    return this.MoveUp().CollisionStatus;
                 case Direction.Down:
-                    return this.MoveDown();
+                    return this.MoveDown().CollisionStatus;
                 case Direction.Left:
-                    return this.MoveLeft();
+                    return this.MoveLeft().CollisionStatus;
                 case Direction.Right:
-                    return this.MoveRight();
+                    return this.MoveRight().CollisionStatus;
             }
             return false;
         }
 
         public Shell DetectPlayer()
         {
-            if (cooldown < DateTime.Now - time) {
-                time = DateTime.Now;
-                if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition))
+                if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCooldown())
                 {
                     if (playerTank.ColumnPosition > this.ColumnPosition)
                     {
@@ -82,7 +82,7 @@ namespace AlphaTank.Program.Models.GameObjects
                         return this.Shoot();
                     }
                 }
-                else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition))
+                else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCooldown())
                 {
                     if (playerTank.RowPosition > this.RowPosition)
                     {
@@ -95,8 +95,16 @@ namespace AlphaTank.Program.Models.GameObjects
                         return this.Shoot();
                     }
                 }
-            }
             return null;
+        }
+        private bool ShellCooldown()
+        {
+            if (cooldown < DateTime.Now - time)
+            {
+                time = DateTime.Now;
+                return true;
+            }
+            return false;
         }
 
         private bool IsRowClean(int playerColumn)

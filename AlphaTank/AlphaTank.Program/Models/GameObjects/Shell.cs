@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public class Shell : GameObject, IMissile
+    public class Shell : GameObject, IMovableGameObject
     {
         private Map map;
         private readonly Direction direction;
@@ -64,7 +64,6 @@ namespace AlphaTank.Program.Models.GameObjects
                         return this.MoveRight();
                 }
             }
-            this.IsThereAMap();
             return new CollisionInfo(false);
         }
 
@@ -215,7 +214,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 throw new NoMapException("No map to move shell in.");
             }
-        }
+        } 
     }
 
 }

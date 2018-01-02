@@ -75,22 +75,22 @@ namespace AlphaTank.Program.Engine
                     {
                         objOldX = shells[shell].RowPosition;
                         objOldY = shells[shell].ColumnPosition;
-                        ICollisionInfo info = shells[shell].Move();
+                            ICollisionInfo info = shells[shell].Move();
 
-                        if (info.Type == GameObjectType.PlayerTank)
-                        {
-                            isPlayerAlive = false;
-                        }
+                            if (info.Type == GameObjectType.PlayerTank)
+                            {
+                                isPlayerAlive = false;
+                            }
 
-                        objNewX = shells[shell].RowPosition;
-                        objNewY = shells[shell].ColumnPosition;
+                            objNewX = shells[shell].RowPosition;
+                            objNewY = shells[shell].ColumnPosition;
 
-                        Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY/*, enemies[shell].Representative*/);
+                            Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY/*, enemies[shell].Representative*/);
 
-                        if (info.CollisionStatus)
-                        {
-                            shells.Remove(shells[shell]);
-                        }
+                            if (info.CollisionStatus)
+                            {
+                                shells.Remove(shells[shell]);
+                            }
 
                     }
                     //Shell Move Update
@@ -172,9 +172,11 @@ namespace AlphaTank.Program.Engine
                         }
                         else
                         {
-                            Display.Display.Instance.Update(map, objOldX, objOldY, objOldX, objOldY);
+
+                            Display.Display.Instance.Update(map, objOldX, objOldY, objNewX, objNewY);
                         }
                     }
+                    if (map.GetMap[playerTank.RowPosition, playerTank.ColumnPosition] is Road) isPlayerAlive = false;
                 }
             }
 
