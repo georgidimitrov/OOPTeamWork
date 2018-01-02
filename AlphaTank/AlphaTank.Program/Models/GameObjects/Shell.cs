@@ -9,7 +9,6 @@ namespace AlphaTank.Program.Models.GameObjects
 {
     public class Shell : GameObject, IMovableGameObject
     {
-        private Map map;
         private readonly Direction direction;
         private readonly GameObjectType gameObjectType;
 
@@ -17,7 +16,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.Representative = '+';
             this.Color = ConsoleColor.DarkRed;
-            this.map = map;
+            this.Map = map;
             this.direction = direction;
             this.gameObjectType = GameObjectType.Shell;
             this.Spawn();
@@ -25,32 +24,26 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public GameObjectType GameObjectType => this.gameObjectType;
         public Direction Direction => this.direction;
-        public Map Map => this.map;
 
         private void Spawn()
         {
-            if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
+            if (this.Map.GetMap[this.RowPosition, this.ColumnPosition] is Tank)
             {
-                this.map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                this.Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
             }
-            else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
+            else if (this.Map.GetMap[this.RowPosition, this.ColumnPosition] is Obstacle)
             {
                 this.Destroy();
             }
-            else if (this.map.GetMap[this.RowPosition, this.ColumnPosition] is Road)
+            else if (this.Map.GetMap[this.RowPosition, this.ColumnPosition] is Road)
             {
-                this.map.GetMap[this.RowPosition, this.ColumnPosition] = this;
+                this.Map.GetMap[this.RowPosition, this.ColumnPosition] = this;
             }
-        }
-
-        public void Destroy()
-        {
-            this.map = null;
         }
 
         public ICollisionInfo Move()
         {
-            if (map != null)
+            if (Map != null)
             {
                 switch (Direction)
                 {
@@ -70,10 +63,10 @@ namespace AlphaTank.Program.Models.GameObjects
         public ICollisionInfo MoveDown()
         {
             this.IsThereAMap();
-            map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
+            Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+            if (Collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
-                IGameObject gameObject = this.map.GetMap[this.RowPosition + 1, this.ColumnPosition];
+                IGameObject gameObject = this.Map.GetMap[this.RowPosition + 1, this.ColumnPosition];
                 if (gameObject is PlayerTank)
                 {
                     this.Destroy();
@@ -81,14 +74,16 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 else if (gameObject is EnemyTank)
                 {
-                    this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                    this.Map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
                     this.RowPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 else if (gameObject is Shell)
                 {
-                    this.map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                    this.Map.GetMap[this.RowPosition + 1, this.ColumnPosition].Destroy();
+                    this.Map.GetMap[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                    this.RowPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.Shell);
                 }
@@ -97,7 +92,7 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             else
             {
-                map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
+                Map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
                 this.RowPosition++;
                 return new CollisionInfo(false);
             }
@@ -106,10 +101,10 @@ namespace AlphaTank.Program.Models.GameObjects
         public ICollisionInfo MoveLeft()
         {
             this.IsThereAMap();
-            map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
+            Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+            if (Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
-                IGameObject gameObject = this.map.GetMap[this.RowPosition, this.ColumnPosition - 1];
+                IGameObject gameObject = this.Map.GetMap[this.RowPosition, this.ColumnPosition - 1];
                 if (gameObject is PlayerTank)
                 {
                     this.Destroy();
@@ -117,14 +112,16 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 else if (gameObject is EnemyTank)
                 {
-                    this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    this.Map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
                     this.ColumnPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 else if (gameObject is Shell)
                 {
-                    this.map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    this.Map.GetMap[this.RowPosition, this.ColumnPosition - 1].Destroy();
+                    this.Map.GetMap[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                    this.ColumnPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.Shell);
                 }
@@ -133,7 +130,7 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             else
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
                 this.ColumnPosition--;
                 return new CollisionInfo(false);
             }
@@ -142,10 +139,10 @@ namespace AlphaTank.Program.Models.GameObjects
         public ICollisionInfo MoveRight()
         {
             this.IsThereAMap();
-            map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
+            Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+            if (Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
-                IGameObject gameObject = this.map.GetMap[this.RowPosition, this.ColumnPosition + 1];
+                IGameObject gameObject = this.Map.GetMap[this.RowPosition, this.ColumnPosition + 1];
                 if (gameObject is PlayerTank)
                 {
                     this.Destroy();
@@ -153,14 +150,16 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 else if (gameObject is EnemyTank)
                 {
-                    map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
+                    Map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
                     this.ColumnPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 else if (gameObject is Shell)
                 {
-                    map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
+                    Map.GetMap[this.RowPosition, this.ColumnPosition + 1].Destroy();
+                    Map.GetMap[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
+                    this.ColumnPosition++;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.Shell);
                 }
@@ -169,8 +168,8 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             else
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
                 this.ColumnPosition++;
                 return new CollisionInfo(false);
             }
@@ -179,10 +178,10 @@ namespace AlphaTank.Program.Models.GameObjects
         public ICollisionInfo MoveUp()
         {
             this.IsThereAMap();
-            map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
+            Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+            if (Collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
-                IGameObject gameObject = this.map.GetMap[this.RowPosition - 1, this.ColumnPosition];
+                IGameObject gameObject = this.Map.GetMap[this.RowPosition - 1, this.ColumnPosition];
                 if (gameObject is PlayerTank)
                 {
                     this.Destroy();
@@ -190,14 +189,16 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 else if (gameObject is EnemyTank)
                 {
-                    map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                    Map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
                     this.RowPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.EnemyTank);
                 }
                 else if (gameObject is Shell)
                 {
-                    map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                    Map.GetMap[this.RowPosition - 1, this.ColumnPosition].Destroy();
+                    Map.GetMap[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                    this.RowPosition--;
                     this.Destroy();
                     return new CollisionInfo(true, GameObjectType.Shell);
                 }
@@ -206,7 +207,7 @@ namespace AlphaTank.Program.Models.GameObjects
             }
             else
             {
-                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
+                Map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
                 this.RowPosition--;
                 return new CollisionInfo(false);
             }
@@ -214,7 +215,7 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public void IsThereAMap()
         {
-            if (this.map == null)
+            if (this.Map == null)
             {
                 throw new NoMapException("No map to move shell in.");
             }

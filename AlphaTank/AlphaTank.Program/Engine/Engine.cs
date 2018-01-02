@@ -5,6 +5,7 @@ using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 
@@ -47,7 +48,7 @@ namespace AlphaTank.Program.Engine
 
         public void Start()
         {
-            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 300), new TimeSpan(0, 0, 0, 0, 600), new TimeSpan(0, 0, 0, 0, 150));
+            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 200), new TimeSpan(0, 0, 0, 0, 600), new TimeSpan(0, 0, 0, 0, 100));
 
             Display.Display.Instance.Resize(gameSettings.RowsSize, gameSettings.ColsSize);
 
@@ -59,9 +60,23 @@ namespace AlphaTank.Program.Engine
             EnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
             EnemyTank enemy2 = new EnemyTank(2, 20, map, playerTank);
             EnemyTank enemy3 = new EnemyTank(4, 28, map, playerTank);
+            EnemyTank enemy4 = new EnemyTank(4, 4, map, playerTank);
+            EnemyTank enemy5 = new EnemyTank(4, 5, map, playerTank);
+            EnemyTank enemy6 = new EnemyTank(9, 2, map, playerTank);
+            EnemyTank enemy7 = new EnemyTank(9, 4, map, playerTank);
+            EnemyTank enemy8 = new EnemyTank(9, 5, map, playerTank);
+            EnemyTank enemy9 = new EnemyTank(9, 7, map, playerTank);
+            EnemyTank enemy10 = new EnemyTank(9, 12, map, playerTank);
             enemyTanks.Add(enemy1);
             enemyTanks.Add(enemy2);
             enemyTanks.Add(enemy3);
+            enemyTanks.Add(enemy4);
+            enemyTanks.Add(enemy5);
+            enemyTanks.Add(enemy6);
+            enemyTanks.Add(enemy7);
+            enemyTanks.Add(enemy8);
+            enemyTanks.Add(enemy9);
+            enemyTanks.Add(enemy10);
 
             playerTank.Shots += new EventHandler(ShotCount);
             playerTank.OnShots();
@@ -82,6 +97,11 @@ namespace AlphaTank.Program.Engine
                 {
                     for (int shell = shells.Count - 1; shell >= 0; shell--)
                     {
+                        if (shells[shell].Map == null)
+                        {
+                            continue;
+                        }
+
                         objOldX = shells[shell].RowPosition;
                         objOldY = shells[shell].ColumnPosition;
 

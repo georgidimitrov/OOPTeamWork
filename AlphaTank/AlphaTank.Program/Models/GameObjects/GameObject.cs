@@ -21,6 +21,8 @@ namespace AlphaTank.Program.Models.GameObjects
             this.ColumnPosition = col;
         }
 
+        public Map Map { get; protected set; }
+
         public GameObjectType Type { get; protected set; }
 
         public int RowPosition { get; protected set; }
@@ -30,5 +32,11 @@ namespace AlphaTank.Program.Models.GameObjects
         public char Representative { get; protected set; }
 
         public ConsoleColor Color { get; protected set; }
+
+
+        public void Destroy()
+        {
+            this.Map = null;
+        }
     }
 }

@@ -8,12 +8,11 @@ namespace AlphaTank.Program.Models.GameObjects
     public abstract class Tank : GameObject, ITank, IMovableGameObject
     {
         private Direction direction = Direction.Up;
-        private Map map;
 
         public Tank(int row, int col, Map map) : base(row, col)
         {
-            this.map = map ?? throw new ArgumentException("Tank: No map instance.");
-            this.map.GetMap[base.RowPosition, base.ColumnPosition] = this;
+            this.Map = map ?? throw new ArgumentException("Tank: No map instance.");
+            this.Map.GetMap[base.RowPosition, base.ColumnPosition] = this;
             this.Representative = '^';
         }
 
@@ -34,10 +33,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = 'v';
             this.Direction = Direction.Down;
-            if (!Collision.DetectCollision(this.map, this.RowPosition + 1, this.ColumnPosition))
+            if (!Collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
-                map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition++;
                 return new CollisionInfo(true);
             }
@@ -58,10 +57,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '<';
             this.Direction = Direction.Left;
-            if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition - 1))
+            if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
                 return new CollisionInfo(true);
             }
@@ -82,10 +81,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '>';
             this.Direction = Direction.Right;
-            if (!Collision.DetectCollision(this.map, this.RowPosition, this.ColumnPosition + 1))
+            if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
-                map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
                 return new CollisionInfo(true);
             }
@@ -106,10 +105,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '^';
             this.Direction = Direction.Up;
-            if (!Collision.DetectCollision(this.map, this.RowPosition - 1, this.ColumnPosition))
+            if (!Collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
-                map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
-                map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
+                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
                 return new CollisionInfo(true);
             }
@@ -118,26 +117,21 @@ namespace AlphaTank.Program.Models.GameObjects
                 return new CollisionInfo(false);
             }
         }
+
         public Shell Shoot()
         {
             switch (this.Direction)
             {
                 case Direction.Down:
-                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.map, this.Direction);
+                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.Map, this.Direction);
                 case Direction.Left:
-                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.map, this.Direction);
+                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.Map, this.Direction);
                 case Direction.Right:
-                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.map, this.Direction);
+                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.Map, this.Direction);
                 default:
-                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.map, this.Direction);
+                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.Map, this.Direction);
             }
         }
-
-        public virtual void Destroy()
-        {
-            this.map = null;
-        }
-
     }
 }
 

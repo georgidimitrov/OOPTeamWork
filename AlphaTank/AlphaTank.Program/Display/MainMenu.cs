@@ -208,7 +208,7 @@ namespace AlphaTank.Program.Display
 
         public void GameOver()
         {
-            StreamReader read = new StreamReader("../../Display/GameOver/GameOver.txt");
+            StreamReader read = new StreamReader("../../Display/EndScreen/GameOver.txt");
 
             Console.Clear();
             Console.SetCursorPosition(0, 0);
