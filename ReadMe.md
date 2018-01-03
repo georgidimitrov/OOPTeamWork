@@ -1,6 +1,5 @@
 # Alpha Tank
 
-A simple console game made with C#
 ![](https://image.ibb.co/mwz6Pw/Game.png)
 
 ## Getting Started
