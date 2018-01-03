@@ -16,6 +16,8 @@ A simple console game made with C#
  EnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
  enemyTanks.Add(enemy1);
  ```
+## Architecture
+ ![alt text](https://ibb.co/k9qMPw)
 
 ## Authors
 
