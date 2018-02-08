@@ -2,8 +2,10 @@
 
 namespace AlphaTank.Program.Models.Contracts
 {
-    interface IEnemy
+    public interface IEnemyTank : IMovableGameObject
     {
-        Shell DetectPlayer();
+        bool Move();
+
+        IShell DetectPlayer();
     }
 }

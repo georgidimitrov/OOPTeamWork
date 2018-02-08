@@ -4,6 +4,6 @@ namespace AlphaTank.Program.Models.Contracts
 {
     public interface ITank
     {
-        Shell Shoot();
+        IShell Shoot();
     }
 }

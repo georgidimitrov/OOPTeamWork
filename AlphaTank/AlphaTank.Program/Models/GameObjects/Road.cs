@@ -7,7 +7,6 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         public Road(int row, int col) : base(row, col)
         {
-            this.Type = GameObjectType.Road;
             this.Representative = ' ';
             this.Color = ConsoleColor.Black;
         }

@@ -1,19 +1,17 @@
-﻿using System;
+﻿using AlphaTank.Program.Contracts;
+using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Input;
 
-namespace AlphaTank.Program.Display
+namespace AlphaTank.Program.GameDisplay
 {
-    public class MainMenu
+    public class MainMenu : IMainMenu
     {
-        //Fields
-        private static readonly MainMenu instance = new MainMenu();
-
         private int menu = 1;
 
         //Ctors
-        private MainMenu()
+        public MainMenu()
         {
             this.Display = new char[Console.BufferHeight][];
 
@@ -25,10 +23,6 @@ namespace AlphaTank.Program.Display
             }
 
         }
-
-        //Props
-        public static MainMenu Instance { get { return instance; } }
-
         public char[][] Display { get; private set; }
 
         //Methods
@@ -166,7 +160,7 @@ namespace AlphaTank.Program.Display
 
         private void GetDisplayDesign()
         {
-            StreamReader read = new StreamReader("../../Display/MainMenu/MainMenu.txt");
+            StreamReader read = new StreamReader("../../GameDisplay/MainMenu/MainMenu.txt");
 
             for (int row = 0; row < Console.BufferHeight - 1; row++)
             {
@@ -190,7 +184,7 @@ namespace AlphaTank.Program.Display
 
         public void Victory()
         {
-            StreamReader read = new StreamReader("../../Display/EndScreen/Victory.txt");
+            StreamReader read = new StreamReader("../../GameDisplay/EndScreen/Victory.txt");
 
             Console.Clear();
             Console.SetCursorPosition(0, 0);

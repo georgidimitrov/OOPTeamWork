@@ -5,32 +5,19 @@ using System;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    class EnemyTank : Tank, IEnemy
+    class EnemyTank : Tank, IEnemyTank
     {
-        private readonly PlayerTank playerTank;
-        private Map map;
+        private readonly IPlayerTank playerTank;
+        private IMap map;
         private TimeSpan cooldown = new TimeSpan(0, 0, 0, 0, 1800);
         private DateTime time;
 
-        public EnemyTank(int row, int col, Map map, PlayerTank playerTank) : base(row, col, map)
+        public EnemyTank(int row, int col, IMap map, IPlayerTank playerTank) : base(row, col, map)
         {
-            this.Type = GameObjectType.EnemyTank;
             this.Color = ConsoleColor.Red;
             this.map = map;
             this.playerTank = playerTank;
             this.time = DateTime.Now;
-        }
-
-        public bool IsEnemyInMap()
-        {
-            if (map.GetMap[this.RowPosition, this.ColumnPosition] == this)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public bool Move()
@@ -58,18 +45,18 @@ namespace AlphaTank.Program.Models.GameObjects
             switch (direction)
             {
                 case Direction.Up:
-                    return this.MoveUp().CollisionStatus;
+                    return this.MoveUp();
                 case Direction.Down:
-                    return this.MoveDown().CollisionStatus;
+                    return this.MoveDown();
                 case Direction.Left:
-                    return this.MoveLeft().CollisionStatus;
+                    return this.MoveLeft();
                 case Direction.Right:
-                    return this.MoveRight().CollisionStatus;
+                    return this.MoveRight();
             }
             return false;
         }
 
-        public Shell DetectPlayer()
+        public IShell DetectPlayer()
         {
 
             if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCooldown())

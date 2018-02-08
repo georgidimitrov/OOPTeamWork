@@ -5,7 +5,7 @@ using System;
 
 namespace AlphaTank.Program.Models
 {
-    public class Map
+    public class Map : IMap
     {
         private readonly IGameObject[,] map = new IGameObject[21, 30];
 
@@ -14,37 +14,11 @@ namespace AlphaTank.Program.Models
             ParseMap(directory);
         }
 
-        public IGameObject[,] GetMap => this.map;
+        public IGameObject this[int row, int col] { get { return this.map[row, col]; } set { this.map[row, col] = value; } }
 
-        public void PrintMap()
+        public int GetLength(int dimention)
         {
-            if (map == null)
-            {
-                throw new NoMapException("There is no map instance.");
-            }
-            for (int row = 0; row < map.GetLength(0) - 1; row++)
-            {
-                for (int col = 0; col < map.GetLength(1); col++)
-                {
-                    if (this.map[row, col] is PlayerTank)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write(map[row, col].Representative);
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else if (this.map[row, col] is Shell)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write(map[row, col].Representative);
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else
-                    {
-                        Console.Write(map[row, col].Representative);
-                    }
-
-                }
-            }
+            return map.GetLength(dimention);
         }
 
         private void ParseMap(string directory)

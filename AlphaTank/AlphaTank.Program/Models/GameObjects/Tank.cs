@@ -9,10 +9,10 @@ namespace AlphaTank.Program.Models.GameObjects
     {
         private Direction direction = Direction.Up;
 
-        public Tank(int row, int col, Map map) : base(row, col)
+        public Tank(int row, int col, IMap map) : base(row, col)
         {
             this.Map = map ?? throw new ArgumentException("Tank: No map instance.");
-            this.Map.GetMap[base.RowPosition, base.ColumnPosition] = this;
+            this.Map[base.RowPosition, base.ColumnPosition] = this;
             this.Representative = '^';
         }
 
@@ -22,103 +22,103 @@ namespace AlphaTank.Program.Models.GameObjects
             protected set { this.direction = value; }
         }
 
-        public virtual ICollisionInfo MoveDown()
+        public virtual bool MoveDown()
         {
             if (this.Direction != Direction.Down)
             {
                 Direction = Direction.Down;
                 this.Representative = 'v';
-                return new CollisionInfo(false);
+                return false;
             }
 
             this.Representative = 'v';
             this.Direction = Direction.Down;
             if (!Collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
-                Map.GetMap[this.RowPosition + 1, this.ColumnPosition] = this;
-                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition + 1, this.ColumnPosition] = this;
+                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition++;
-                return new CollisionInfo(true);
+                return true;
             }
             else
             {
-                return new CollisionInfo(false);
+                return false;
             }
         }
 
-        public virtual ICollisionInfo MoveLeft()
+        public virtual bool MoveLeft()
         {
             if (this.Direction != Direction.Left)
             {
                 Direction = Direction.Left;
                 this.Representative = '<';
-                return new CollisionInfo(false);
+                return false;
             }
 
             this.Representative = '<';
             this.Direction = Direction.Left;
             if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
-                Map.GetMap[this.RowPosition, this.ColumnPosition - 1] = this;
-                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition - 1] = this;
+                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
-                return new CollisionInfo(true);
+                return true;
             }
             else
             {
-                return new CollisionInfo(false);
+                return false;
             }
         }
 
-        public virtual ICollisionInfo MoveRight()
+        public virtual bool MoveRight()
         {
             if (this.Direction != Direction.Right)
             {
                 Direction = Direction.Right;
                 this.Representative = '>';
-                return new CollisionInfo(false);
+                return false;
             }
 
             this.Representative = '>';
             this.Direction = Direction.Right;
             if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
-                Map.GetMap[this.RowPosition, this.ColumnPosition + 1] = this;
-                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition + 1] = this;
+                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
-                return new CollisionInfo(true);
+                return true;
             }
             else
             {
-                return new CollisionInfo(false);
+                return false;
             }
         }
 
-        public virtual ICollisionInfo MoveUp()
+        public virtual bool MoveUp()
         {
             if (this.Direction != Direction.Up)
             {
                 Direction = Direction.Up;
                 this.Representative = '^';
-                return new CollisionInfo(false);
+                return false;
             }
 
             this.Representative = '^';
             this.Direction = Direction.Up;
             if (!Collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
-                Map.GetMap[this.RowPosition - 1, this.ColumnPosition] = this;
-                Map.GetMap[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition - 1, this.ColumnPosition] = this;
+                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
-                return new CollisionInfo(true);
+                return true;
             }
             else
             {
-                return new CollisionInfo(false);
+                return false;
             }
         }
 
-        public Shell Shoot()
+        public IShell Shoot()
         {
             switch (this.Direction)
             {

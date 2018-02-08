@@ -1,13 +1,13 @@
 ﻿using AlphaTank.Program.Enums_and_Structs;
+using AlphaTank.Program.Models.Contracts;
 using System;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public class PlayerTank : Tank
+    public class PlayerTank : Tank, IPlayerTank
     {
-        public PlayerTank(int row, int col, Map map) : base(row, col, map)
+        public PlayerTank(int row, int col, IMap map) : base(row, col, map)
         {
-            this.Type = GameObjectType.PlayerTank;
             this.Color = ConsoleColor.Yellow;
         }
 

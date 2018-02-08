@@ -32,9 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Input.Manipulations" />
     <Reference Include="System.Xml.Linq" />
@@ -45,21 +52,28 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRapper.cs" />
     <Compile Include="CustomExceptions\NoMapException.cs" />
-    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Contracts\IDisplay.cs" />
+    <Compile Include="Contracts\IMainMenu.cs" />
+    <Compile Include="GameDisplay\Ghetto\Rapper.cs" />
+    <Compile Include="GameEngine\Engine.cs" />
     <Compile Include="Enums and Structs\GameSettings.cs" />
+    <Compile Include="Factories\ShellFactory.cs" />
+    <Compile Include="Injections\DIModule.cs" />
     <Compile Include="Logic\Collision.cs" />
-    <Compile Include="Models\GameObjects\CollisionInfo.cs" />
+    <Compile Include="Models\Contracts\IMap.cs" />
+    <Compile Include="Models\Contracts\IPlayerTank.cs" />
+    <Compile Include="Models\Contracts\IShell.cs" />
     <Compile Include="Enums and Structs\Direction.cs" />
-    <Compile Include="Models\Contracts\IEnemy.cs" />
-    <Compile Include="Display\Display.cs" />
-    <Compile Include="Display\MainMenu.cs" />
+    <Compile Include="Models\Contracts\IEnemyTank.cs" />
+    <Compile Include="GameDisplay\Display.cs" />
+    <Compile Include="GameDisplay\MainMenu.cs" />
     <Compile Include="Models\Contracts\IGameObject.cs" />
     <Compile Include="Models\Contracts\IMovableGameObject.cs" />
     <Compile Include="Models\Contracts\ITank.cs" />
     <Compile Include="Models\GameObjects\EnemyTank.cs" />
     <Compile Include="Models\GameObjects\GameObject.cs" />
-    <Compile Include="Models\Contracts\ICollisionInfo.cs" />
     <Compile Include="Models\GameObjects\Obstacle.cs" />
     <Compile Include="Models\GameObjects\PlayerTank.cs" />
     <Compile Include="Models\GameObjects\Road.cs" />
@@ -72,17 +86,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Class Diagram.cd" />
-    <None Include="Display\Levels\Level1.txt" />
+    <None Include="GameDisplay\Levels\Level1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Display\EndScreen\GameOver.txt" />
-    <Content Include="Display\EndScreen\Victory.txt" />
+    <Content Include="GameDisplay\EndScreen\GameOver.txt" />
+    <Content Include="GameDisplay\EndScreen\Victory.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Display\MainMenu\MainMenu.txt" />
+    <None Include="GameDisplay\MainMenu\MainMenu.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

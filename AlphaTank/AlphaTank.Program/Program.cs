@@ -1,7 +1,9 @@
-﻿using AlphaTank.Program.Display;
+﻿using AlphaTank.Program.GameDisplay;
 using AlphaTank.Program.Models.GameObjects;
-using AlphaTank.Program.Engine;
+using AlphaTank.Program.GameEngine;
 using System;
+using Autofac;
+using System.Reflection;
 
 namespace AlphaTank.Program
 {
@@ -10,7 +12,15 @@ namespace AlphaTank.Program
         [STAThread]
         public static void Main(string[] args)
         {
-            Engine.Engine.Instance.Start();
+            var builder = new ContainerBuilder();
+
+            builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
+            var container = builder.Build();
+
+            var engine = container.Resolve<Engine>();
+
+            engine.Start();
         }
     }
 }

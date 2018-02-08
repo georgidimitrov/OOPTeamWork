@@ -21,9 +21,7 @@ namespace AlphaTank.Program.Models.GameObjects
             this.ColumnPosition = col;
         }
 
-        public Map Map { get; protected set; }
-
-        public GameObjectType Type { get; protected set; }
+        public IMap Map { get; protected set; }
 
         public int RowPosition { get; protected set; }
 

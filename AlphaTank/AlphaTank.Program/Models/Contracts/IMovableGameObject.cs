@@ -6,9 +6,9 @@ namespace AlphaTank.Program.Models.Contracts
     public interface IMovableGameObject : IGameObject
     {
         Direction Direction { get; }
-        ICollisionInfo MoveUp();
-        ICollisionInfo MoveDown();
-        ICollisionInfo MoveLeft();
-        ICollisionInfo MoveRight();
+        bool MoveUp();
+        bool MoveDown();
+        bool MoveLeft();
+        bool MoveRight();
     }
 }
