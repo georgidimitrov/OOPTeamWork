@@ -1,6 +1,6 @@
 # Alpha Tank
 
-A simple console game made with C#
+![](https://image.ibb.co/mwz6Pw/Game.png)
 
 ## Getting Started
 
@@ -16,6 +16,8 @@ A simple console game made with C#
  EnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
  enemyTanks.Add(enemy1);
  ```
+## Architecture
+ ![](https://preview.ibb.co/bZuWPw/Class_Diagram.png)
 
 ## Authors
 
