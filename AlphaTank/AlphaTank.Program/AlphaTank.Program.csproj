@@ -64,6 +64,7 @@
     <Compile Include="Injections\DIModule.cs" />
     <Compile Include="Logic\Collision.cs" />
     <Compile Include="Logic\Contracts\ICollision.cs" />
+    <Compile Include="Models\Contracts\IIndestructable.cs" />
     <Compile Include="Models\Contracts\IMap.cs" />
     <Compile Include="Models\Contracts\IObstacle.cs" />
     <Compile Include="Models\Contracts\IPlayerTank.cs" />

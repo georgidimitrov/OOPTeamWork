@@ -10,14 +10,12 @@ namespace AlphaTank.Program.Models.GameObjects
     class EnemyTank : Tank, IEnemyTank
     {
         private readonly IPlayerTank playerTank;
-        private IMap map;
         private TimeSpan cooldown = new TimeSpan(0, 0, 0, 0, 1800);
         private DateTime time;
 
         public EnemyTank(int row, int col, IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, map, environmentFactory, collision)
         {
             this.Color = ConsoleColor.Red;
-            this.map = map;
             this.playerTank = playerTank;
             this.time = DateTime.Now;
         }
@@ -106,7 +104,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.ColumnPosition - 1; i > playerColumn; i--)
                 {
-                    if (Collision.IsObstacleOrAlly(this.map, this.RowPosition, i))
+                    if (Collision.IsObstacleOrAlly(this.Map, this.RowPosition, i))
                     {
                         return false;
                     }
@@ -117,7 +115,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.ColumnPosition + 1; i < playerColumn; i++)
                 {
-                    if (Collision.IsObstacleOrAlly(this.map, this.RowPosition, i))
+                    if (Collision.IsObstacleOrAlly(this.Map, this.RowPosition, i))
                     {
                         return false;
                     }
@@ -132,7 +130,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.RowPosition - 1; i > playerRow; i--)
                 {
-                    if (Collision.IsObstacleOrAlly(this.map, i, this.ColumnPosition))
+                    if (Collision.IsObstacleOrAlly(this.Map, i, this.ColumnPosition))
                     {
                         return false;
                     }
@@ -143,7 +141,7 @@ namespace AlphaTank.Program.Models.GameObjects
             {
                 for (int i = this.RowPosition + 1; i < playerRow; i++)
                 {
-                    if (Collision.IsObstacleOrAlly(this.map, i, this.ColumnPosition))
+                    if (Collision.IsObstacleOrAlly(this.Map, i, this.ColumnPosition))
                     {
                         return false;
                     }

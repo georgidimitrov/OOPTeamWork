@@ -13,8 +13,8 @@ namespace AlphaTank.Program.Models
 
         public Map(string directory, IEnvironmentFactory environmentFactory)
         {
-            ParseMap(directory);
             this.environmentFactory = environmentFactory;
+            ParseMap(directory);
         }
 
         public IGameObject this[int row, int col] { get { return this.map[row, col]; } set { this.map[row, col] = value; } }
@@ -43,10 +43,10 @@ namespace AlphaTank.Program.Models
                     switch (lines[i][j])
                     {
                         case '#':
-                            map[i, j] = environmentFactory.CreateObstacle(i, j);
+                            map[i, j] = environmentFactory.CreateObstacle(i, j, this);
                             break;
                         default:
-                            map[i, j] = environmentFactory.CreateRoad(i, j);
+                            map[i, j] = environmentFactory.CreateRoad(i, j, this);
                             break;
                     }
                 }

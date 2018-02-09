@@ -18,14 +18,14 @@ namespace AlphaTank.Program.Factories
             return new EnemyTank(row, col, map, playerTank, factory, collision);
         }
 
-        public IObstacle CreateObstacle(int row, int col)
+        public IObstacle CreateObstacle(int row, int col, IMap map)
         {
-            return new Obstacle(row, col);
+            return new Obstacle(row, col, map);
         }
 
-        public INonObstacle CreateRoad(int row, int col)
+        public INonObstacle CreateRoad(int row, int col, IMap map)
         {
-            return new Road(row, col);
+            return new Road(row, col, map);
         }
 
         public IShell CreateShell(int row, int col, IMap map, Direction direction, IEnvironmentFactory factory, ICollision collision)

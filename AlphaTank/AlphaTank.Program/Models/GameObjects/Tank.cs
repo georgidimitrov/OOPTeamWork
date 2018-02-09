@@ -13,13 +13,14 @@ namespace AlphaTank.Program.Models.GameObjects
         private readonly IEnvironmentFactory environmentFactory;
         private readonly ICollision collision;
 
-        public Tank(int row, int col, IMap map, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col)
+        public Tank(int row, int col, IMap map, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, map)
         {
-            this.Map = map ?? throw new ArgumentException("Tank: No map instance.");
-            this.Map[base.RowPosition, base.ColumnPosition] = this;
             this.Representative = '^';
-            this.environmentFactory = environmentFactory;
-            this.collision = collision;
+
+            this.environmentFactory = environmentFactory ?? throw new ArgumentNullException();
+            this.collision = collision ?? throw new ArgumentNullException();
+
+            this.Map[base.RowPosition, base.ColumnPosition] = this;
         }
 
         public ICollision Collision => this.collision;
@@ -43,7 +44,7 @@ namespace AlphaTank.Program.Models.GameObjects
             if (!collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
                 Map[this.RowPosition + 1, this.ColumnPosition] = this;
-                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
                 this.RowPosition++;
                 return true;
             }
@@ -67,7 +68,7 @@ namespace AlphaTank.Program.Models.GameObjects
             if (!collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
                 Map[this.RowPosition, this.ColumnPosition - 1] = this;
-                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
                 this.ColumnPosition--;
                 return true;
             }
@@ -91,7 +92,7 @@ namespace AlphaTank.Program.Models.GameObjects
             if (!collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
                 Map[this.RowPosition, this.ColumnPosition + 1] = this;
-                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
                 this.ColumnPosition++;
                 return true;
             }
@@ -115,7 +116,7 @@ namespace AlphaTank.Program.Models.GameObjects
             if (!collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
                 Map[this.RowPosition - 1, this.ColumnPosition] = this;
-                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
                 this.RowPosition--;
                 return true;
             }

@@ -6,6 +6,6 @@ namespace AlphaTank.UnitTests.Models.MapTests
     public class Constructor_Should
     {
         //[TestMethod]
-        //public void 
+        //public void
     }
 }

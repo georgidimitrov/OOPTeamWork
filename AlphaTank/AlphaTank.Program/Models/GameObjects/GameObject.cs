@@ -1,20 +1,23 @@
 ﻿using AlphaTank.Program.Models.Contracts;
 using System;
 using AlphaTank.Program.Enums_and_Structs;
+using AlphaTank.Program.CustomExceptions;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
     public abstract class GameObject : IGameObject
     {
-        public GameObject(int row, int col)
+        public GameObject(int row, int col, IMap map)
         {
-            if (row < 0 || row >= Console.BufferHeight)
+            this.Map = map ?? throw new NoMapException();
+
+            if (row < 0 || row >= this.Map.GetLength(0))
             {
-                throw new ArgumentException("Row must be between [0; 20)!");
+                throw new ArgumentException();
             }
-            if (col < 0 || col >= Console.BufferWidth)
+            if (col < 0 || col >= this.Map.GetLength(1))
             {
-                throw new ArgumentException("Column must be between [0; 50)!");
+                throw new ArgumentException();
             }
 
             this.RowPosition = row;

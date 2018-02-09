@@ -18,15 +18,15 @@ namespace AlphaTank.UnitTests.Logic.CollisionTests
         public void Return_False_IfObject_IsNot_Obstacle()
         {
             //arrange
-            var mockMap = new Mock<IMap>();
-            var mockNotObstacle = new Mock<INonObstacle>();
+            var mapMock = new Mock<IMap>();
+            var notObstacleStub = new Mock<INonObstacle>();
 
-            mockMap.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(mockNotObstacle.Object);
+            mapMock.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(notObstacleStub.Object);
 
             var collision = new Collision();
 
             //act
-            bool detectResult = collision.DetectCollision(mockMap.Object, 0, 0);
+            bool detectResult = collision.DetectCollision(mapMock.Object, 0, 0);
 
             //assert
             Assert.IsFalse(detectResult);
@@ -36,15 +36,15 @@ namespace AlphaTank.UnitTests.Logic.CollisionTests
         public void Return_True_IfObject_IsNot_NotObstacle()
         {
             //arrange
-            var mockMap = new Mock<IMap>();
-            var mockObstacle = new Mock<IPlayerTank>();
+            var mapMock = new Mock<IMap>();
+            var obstacleStub = new Mock<IPlayerTank>();
 
-            mockMap.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(mockObstacle.Object);
+            mapMock.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(obstacleStub.Object);
 
             var collision = new Collision();
 
             //act
-            bool detectResult = collision.DetectCollision(mockMap.Object, 0, 0);
+            bool detectResult = collision.DetectCollision(mapMock.Object, 0, 0);
 
             //assert
             Assert.IsTrue(detectResult);
