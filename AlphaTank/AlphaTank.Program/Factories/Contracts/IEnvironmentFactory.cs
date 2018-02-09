@@ -12,8 +12,8 @@ namespace AlphaTank.Program.Factories.Contracts
     public interface IEnvironmentFactory
     {
         IShell CreateShell(int row, int col, IMap map, Direction direction, IEnvironmentFactory environmentFactory, ICollision collision);
-        IGameObject CreateRoad(int row, int col);
+        INonObstacle CreateRoad(int row, int col);
         IEnemyTank CreateEnemyTank(int row, int col, IMap map, IPlayerTank playerTank, IEnvironmentFactory factory, ICollision collision);
-
+        IObstacle CreateObstacle(int row, int col);
     }
 }

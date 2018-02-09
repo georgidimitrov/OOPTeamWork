@@ -18,7 +18,12 @@ namespace AlphaTank.Program.Factories
             return new EnemyTank(row, col, map, playerTank, factory, collision);
         }
 
-        public IGameObject CreateRoad(int row, int col)
+        public IObstacle CreateObstacle(int row, int col)
+        {
+            return new Obstacle(row, col);
+        }
+
+        public INonObstacle CreateRoad(int row, int col)
         {
             return new Road(row, col);
         }

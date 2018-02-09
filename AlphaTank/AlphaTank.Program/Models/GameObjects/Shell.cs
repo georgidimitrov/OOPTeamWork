@@ -21,8 +21,10 @@ namespace AlphaTank.Program.Models.GameObjects
             this.Color = ConsoleColor.DarkRed;
             this.Map = map;
             this.direction = direction;
+
             this.environmentFactory = environmentFactory;
             this.collision = collision;
+
             this.Spawn();
         }
 
@@ -69,7 +71,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.IsThereAMap();
             Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
-            if (collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
+            if (this.collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition + 1, this.ColumnPosition];
                 if (gameObject is Obstacle)
@@ -94,7 +96,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.IsThereAMap();
             Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
-            if (collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
+            if (this.collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition - 1];
 
@@ -120,7 +122,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.IsThereAMap();
             Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
-            if (collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
+            if (this.collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition + 1];
                 if (gameObject is Obstacle)
@@ -145,7 +147,7 @@ namespace AlphaTank.Program.Models.GameObjects
         {
             this.IsThereAMap();
             Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
-            if (collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
+            if (this.collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition - 1, this.ColumnPosition];
 

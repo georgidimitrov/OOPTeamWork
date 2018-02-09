@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlphaTank.Program.CustomExceptions
 {
-    class NoMapException : Exception
+    public class NoMapException : Exception
     {
         public NoMapException()
         {

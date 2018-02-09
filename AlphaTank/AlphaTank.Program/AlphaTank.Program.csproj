@@ -65,7 +65,9 @@
     <Compile Include="Logic\Collision.cs" />
     <Compile Include="Logic\Contracts\ICollision.cs" />
     <Compile Include="Models\Contracts\IMap.cs" />
+    <Compile Include="Models\Contracts\IObstacle.cs" />
     <Compile Include="Models\Contracts\IPlayerTank.cs" />
+    <Compile Include="Models\Contracts\INonObstacle.cs" />
     <Compile Include="Models\Contracts\IShell.cs" />
     <Compile Include="Enums and Structs\Direction.cs" />
     <Compile Include="Models\Contracts\IEnemyTank.cs" />

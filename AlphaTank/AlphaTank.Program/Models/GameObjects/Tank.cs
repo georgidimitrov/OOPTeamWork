@@ -7,7 +7,7 @@ using AlphaTank.Program.Logic.Contracts;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
-    public abstract class Tank : GameObject, ITank, IMovableGameObject
+    public abstract class Tank : GameObject, ITank, IMovableGameObject, IObstacle
     {
         private Direction direction = Direction.Up;
         private readonly IEnvironmentFactory environmentFactory;

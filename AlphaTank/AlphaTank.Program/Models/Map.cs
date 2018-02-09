@@ -9,10 +9,12 @@ namespace AlphaTank.Program.Models
     public class Map : IMap
     {
         private readonly IGameObject[,] map = new IGameObject[21, 30];
+        private readonly IEnvironmentFactory environmentFactory;
 
         public Map(string directory, IEnvironmentFactory environmentFactory)
         {
             ParseMap(directory);
+            this.environmentFactory = environmentFactory;
         }
 
         public IGameObject this[int row, int col] { get { return this.map[row, col]; } set { this.map[row, col] = value; } }
@@ -33,6 +35,7 @@ namespace AlphaTank.Program.Models
             {
                 throw new ArgumentException("Invalid Level directory.");
             }
+
             for (int i = 0; i < map.GetLength(0) - 1; i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
@@ -40,10 +43,10 @@ namespace AlphaTank.Program.Models
                     switch (lines[i][j])
                     {
                         case '#':
-                            map[i, j] = new Obstacle(i, j);
+                            map[i, j] = environmentFactory.CreateObstacle(i, j);
                             break;
                         default:
-                            map[i, j] = new Road(i, j);
+                            map[i, j] = environmentFactory.CreateRoad(i, j);
                             break;
                     }
                 }
