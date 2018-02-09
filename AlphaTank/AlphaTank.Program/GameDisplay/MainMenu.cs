@@ -1,5 +1,6 @@
 ﻿using AlphaTank.Program.Contracts;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Input;
@@ -164,7 +165,15 @@ namespace AlphaTank.Program.GameDisplay
 
             for (int row = 0; row < Console.BufferHeight - 1; row++)
             {
-                Display[row] = read.ReadLine().ToCharArray();
+                try
+                {
+                    var line = read.ReadLine();
+                    Display[row] = line.ToCharArray();
+                }
+                catch(Exception e)
+                {
+                    //Debug.Fail(row.ToString());
+                }
             }
 
             read.Close();
@@ -202,7 +211,7 @@ namespace AlphaTank.Program.GameDisplay
 
         public void GameOver()
         {
-            StreamReader read = new StreamReader("../../Display/EndScreen/GameOver.txt");
+            StreamReader read = new StreamReader("../../GameDisplay/EndScreen/GameOver.txt");
 
             Console.Clear();
             Console.SetCursorPosition(0, 0);

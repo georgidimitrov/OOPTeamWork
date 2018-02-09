@@ -12,6 +12,10 @@ using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.GameObjects;
 using Autofac.Core;
+using AlphaTank.Program.Factories;
+using AlphaTank.Program.Factories.Contracts;
+using AlphaTank.Program.Logic;
+using AlphaTank.Program.Logic.Contracts;
 
 namespace AlphaTank.Program.Injections
 {
@@ -23,6 +27,8 @@ namespace AlphaTank.Program.Injections
             builder.RegisterType<GameDisplay.Display>().As<IDisplay>().SingleInstance();
             builder.RegisterType<MainMenu>().As<IMainMenu>().SingleInstance();
             builder.RegisterType<Rapper>().As<IRapper>().SingleInstance();
+            builder.RegisterType<EnvironmentFactory>().As<IEnvironmentFactory>().SingleInstance();
+            builder.RegisterType<Collision>().As<ICollision>().SingleInstance();
             builder.RegisterType<Map>().As<IMap>().SingleInstance().WithParameter("directory", "../../GameDisplay/Levels/Level1.txt");
 
             ICollection<Parameter> playerTankParams = new List<Parameter>();

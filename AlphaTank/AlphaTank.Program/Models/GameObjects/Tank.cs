@@ -2,20 +2,27 @@
 using System;
 using AlphaTank.Program.Logic;
 using AlphaTank.Program.Enums_and_Structs;
+using AlphaTank.Program.Factories.Contracts;
+using AlphaTank.Program.Logic.Contracts;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
     public abstract class Tank : GameObject, ITank, IMovableGameObject
     {
         private Direction direction = Direction.Up;
+        private readonly IEnvironmentFactory environmentFactory;
+        private readonly ICollision collision;
 
-        public Tank(int row, int col, IMap map) : base(row, col)
+        public Tank(int row, int col, IMap map, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col)
         {
             this.Map = map ?? throw new ArgumentException("Tank: No map instance.");
             this.Map[base.RowPosition, base.ColumnPosition] = this;
             this.Representative = '^';
+            this.environmentFactory = environmentFactory;
+            this.collision = collision;
         }
 
+        public ICollision Collision => this.collision;
         public Direction Direction
         {
             get { return this.direction; }
@@ -33,10 +40,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = 'v';
             this.Direction = Direction.Down;
-            if (!Collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
+            if (!collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
                 Map[this.RowPosition + 1, this.ColumnPosition] = this;
-                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
                 this.RowPosition++;
                 return true;
             }
@@ -57,10 +64,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '<';
             this.Direction = Direction.Left;
-            if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
+            if (!collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
                 Map[this.RowPosition, this.ColumnPosition - 1] = this;
-                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition--;
                 return true;
             }
@@ -81,10 +88,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '>';
             this.Direction = Direction.Right;
-            if (!Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
+            if (!collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
                 Map[this.RowPosition, this.ColumnPosition + 1] = this;
-                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
                 this.ColumnPosition++;
                 return true;
             }
@@ -105,10 +112,10 @@ namespace AlphaTank.Program.Models.GameObjects
 
             this.Representative = '^';
             this.Direction = Direction.Up;
-            if (!Collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
+            if (!collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
                 Map[this.RowPosition - 1, this.ColumnPosition] = this;
-                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
+                Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
                 this.RowPosition--;
                 return true;
             }
@@ -123,13 +130,13 @@ namespace AlphaTank.Program.Models.GameObjects
             switch (this.Direction)
             {
                 case Direction.Down:
-                    return new Shell(this.RowPosition + 1, this.ColumnPosition, this.Map, this.Direction);
+                    return environmentFactory.CreateShell(this.RowPosition + 1, this.ColumnPosition, this.Map, this.Direction, environmentFactory, Collision);
                 case Direction.Left:
-                    return new Shell(this.RowPosition, this.ColumnPosition - 1, this.Map, this.Direction);
+                    return environmentFactory.CreateShell(this.RowPosition, this.ColumnPosition - 1, this.Map, this.Direction, environmentFactory, Collision);
                 case Direction.Right:
-                    return new Shell(this.RowPosition, this.ColumnPosition + 1, this.Map, this.Direction);
+                    return environmentFactory.CreateShell(this.RowPosition, this.ColumnPosition + 1, this.Map, this.Direction, environmentFactory, Collision);
                 default:
-                    return new Shell(this.RowPosition - 1, this.ColumnPosition, this.Map, this.Direction);
+                    return environmentFactory.CreateShell(this.RowPosition - 1, this.ColumnPosition, this.Map, this.Direction, environmentFactory, Collision);
             }
         }
     }

@@ -2,6 +2,8 @@
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Enums_and_Structs;
 using System;
+using AlphaTank.Program.Factories.Contracts;
+using AlphaTank.Program.Logic.Contracts;
 
 namespace AlphaTank.Program.Models.GameObjects
 {
@@ -12,7 +14,7 @@ namespace AlphaTank.Program.Models.GameObjects
         private TimeSpan cooldown = new TimeSpan(0, 0, 0, 0, 1800);
         private DateTime time;
 
-        public EnemyTank(int row, int col, IMap map, IPlayerTank playerTank) : base(row, col, map)
+        public EnemyTank(int row, int col, IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, map, environmentFactory, collision)
         {
             this.Color = ConsoleColor.Red;
             this.map = map;

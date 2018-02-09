@@ -1,6 +1,8 @@
 ﻿ using AlphaTank.Program.CustomExceptions;
 using AlphaTank.Program.Enums_and_Structs;
+using AlphaTank.Program.Factories.Contracts;
 using AlphaTank.Program.Logic;
+using AlphaTank.Program.Logic.Contracts;
 using AlphaTank.Program.Models.Contracts;
 using System;
 using System.Threading;
@@ -10,13 +12,17 @@ namespace AlphaTank.Program.Models.GameObjects
     public class Shell : GameObject, IShell, IMovableGameObject
     {
         private readonly Direction direction;
+        private readonly IEnvironmentFactory environmentFactory;
+        private readonly ICollision collision;
 
-        public Shell(int row, int col, IMap map, Direction direction) : base(row, col)
+        public Shell(int row, int col, IMap map, Direction direction, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col)
         {
             this.Representative = '+';
             this.Color = ConsoleColor.DarkRed;
             this.Map = map;
             this.direction = direction;
+            this.environmentFactory = environmentFactory;
+            this.collision = collision;
             this.Spawn();
         }
 
@@ -62,8 +68,8 @@ namespace AlphaTank.Program.Models.GameObjects
         public bool MoveDown()
         {
             this.IsThereAMap();
-            Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
+            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+            if (collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition + 1, this.ColumnPosition];
                 if (gameObject is Obstacle)
@@ -71,7 +77,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     this.Destroy();
                     return true;
                 }
-                this.Map[this.RowPosition + 1, this.ColumnPosition] = new Road(this.RowPosition + 1, this.ColumnPosition);
+                this.Map[this.RowPosition + 1, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition + 1, this.ColumnPosition);
                 this.Destroy();
                 gameObject.Destroy();
                 return true;
@@ -87,8 +93,8 @@ namespace AlphaTank.Program.Models.GameObjects
         public bool MoveLeft()
         {
             this.IsThereAMap();
-            Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
+            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+            if (collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition - 1];
 
@@ -97,7 +103,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     this.Destroy();
                     return true;
                 }
-                this.Map[this.RowPosition, this.ColumnPosition - 1] = new Road(this.RowPosition, this.ColumnPosition - 1);
+                this.Map[this.RowPosition, this.ColumnPosition - 1] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition - 1);
                 this.Destroy();
                 gameObject.Destroy();
                 return true;
@@ -113,8 +119,8 @@ namespace AlphaTank.Program.Models.GameObjects
         public bool MoveRight()
         {
             this.IsThereAMap();
-            Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
+            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+            if (collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition + 1];
                 if (gameObject is Obstacle)
@@ -122,14 +128,13 @@ namespace AlphaTank.Program.Models.GameObjects
                     this.Destroy();
                     return true;
                 }
-                Map[this.RowPosition, this.ColumnPosition + 1] = new Road(this.RowPosition, this.ColumnPosition + 1);
+                Map[this.RowPosition, this.ColumnPosition + 1] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition + 1);
                 this.Destroy();
                 gameObject.Destroy();
                 return true;
             }
             else
             {
-                Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
                 Map[this.RowPosition, this.ColumnPosition + 1] = this;
                 this.ColumnPosition++;
                 return false;
@@ -139,8 +144,8 @@ namespace AlphaTank.Program.Models.GameObjects
         public bool MoveUp()
         {
             this.IsThereAMap();
-            Map[this.RowPosition, this.ColumnPosition] = new Road(this.RowPosition, this.ColumnPosition);
-            if (Collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
+            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition);
+            if (collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition - 1, this.ColumnPosition];
 
@@ -149,7 +154,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     this.Destroy();
                     return true;
                 }
-                Map[this.RowPosition - 1, this.ColumnPosition] = new Road(this.RowPosition - 1, this.ColumnPosition);
+                Map[this.RowPosition - 1, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition - 1, this.ColumnPosition);
                 this.Destroy();
                 gameObject.Destroy();
                 return true;

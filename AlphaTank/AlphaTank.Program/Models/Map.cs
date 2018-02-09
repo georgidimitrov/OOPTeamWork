@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.CustomExceptions;
+using AlphaTank.Program.Factories.Contracts;
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
@@ -9,7 +10,7 @@ namespace AlphaTank.Program.Models
     {
         private readonly IGameObject[,] map = new IGameObject[21, 30];
 
-        public Map(string directory)
+        public Map(string directory, IEnvironmentFactory environmentFactory)
         {
             ParseMap(directory);
         }

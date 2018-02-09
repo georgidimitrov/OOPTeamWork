@@ -1,12 +1,13 @@
-﻿using AlphaTank.Program.Models;
+﻿using AlphaTank.Program.Logic.Contracts;
+using AlphaTank.Program.Models;
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 
 namespace AlphaTank.Program.Logic
 {
-    public static class Collision
-    {
-        public static bool DetectCollision(IMap map, int X, int Y)
+    public class Collision : ICollision
+    {  
+        public bool DetectCollision(IMap map, int X, int Y)
         {
             if (map[X, Y] is Road)
             {
@@ -15,10 +16,10 @@ namespace AlphaTank.Program.Logic
             else
             {
                 return true;
-            }
+            } 
         }
 
-        public static bool IsObstacleOrAlly(IMap map, int X, int Y)
+        public bool IsObstacleOrAlly(IMap map, int X, int Y)
         {
             if (map[X, Y] is Obstacle || map[X, Y] is EnemyTank)
             {

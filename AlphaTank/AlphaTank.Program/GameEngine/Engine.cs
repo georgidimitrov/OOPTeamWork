@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using AlphaTank.Program.Contracts;
+using AlphaTank.Program.Factories.Contracts;
+using AlphaTank.Program.Logic.Contracts;
 
 namespace AlphaTank.Program.GameEngine
 {
@@ -33,13 +35,17 @@ namespace AlphaTank.Program.GameEngine
         //private readonly IMainMenu menu;
         private readonly IMap map;
         private readonly IPlayerTank playerTank;
+        private readonly IEnvironmentFactory environmentFactory;
+        private readonly ICollision collision;
         private readonly IDisplay display;
 
-        public Engine(IDisplay display/*, IMainMenu menu*/, IMap map, IPlayerTank playerTank)
+        public Engine(IDisplay display, /*IMainMenu menu, */IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision)
         {
             //this.menu = menu;
             this.map = map;
             this.playerTank = playerTank;
+            this.environmentFactory = environmentFactory;
+            this.collision = collision;
             this.display = display;
         }
 
@@ -55,14 +61,10 @@ namespace AlphaTank.Program.GameEngine
 
             //IMap map = new Map("../../Display/Levels/Level1.txt");
             //IPlayerTank playerTank = new PlayerTank(17, 14, map);
-            IEnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
-            IEnemyTank enemy2 = new EnemyTank(2, 20, map, playerTank);
-            IEnemyTank enemy3 = new EnemyTank(4, 28, map, playerTank);
-            IEnemyTank enemy4 = new EnemyTank(4, 4, map, playerTank);
-            enemyTanks.Add(enemy1);
-            enemyTanks.Add(enemy2);
-            enemyTanks.Add(enemy3);
-            enemyTanks.Add(enemy4);
+            enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, map, playerTank, environmentFactory, collision));
+            enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, map, playerTank, environmentFactory, collision));
+            enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, map, playerTank, environmentFactory, collision));
+            enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, map, playerTank, environmentFactory, collision));
 
             playerTank.Shots += new EventHandler(ShotCount);
             playerTank.OnShots();

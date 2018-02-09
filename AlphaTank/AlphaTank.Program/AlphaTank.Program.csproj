@@ -56,12 +56,14 @@
     <Compile Include="CustomExceptions\NoMapException.cs" />
     <Compile Include="Contracts\IDisplay.cs" />
     <Compile Include="Contracts\IMainMenu.cs" />
+    <Compile Include="Factories\Contracts\IEnvironmentFactory.cs" />
+    <Compile Include="Factories\EnvironmentFactory.cs" />
     <Compile Include="GameDisplay\Ghetto\Rapper.cs" />
     <Compile Include="GameEngine\Engine.cs" />
     <Compile Include="Enums and Structs\GameSettings.cs" />
-    <Compile Include="Factories\ShellFactory.cs" />
     <Compile Include="Injections\DIModule.cs" />
     <Compile Include="Logic\Collision.cs" />
+    <Compile Include="Logic\Contracts\ICollision.cs" />
     <Compile Include="Models\Contracts\IMap.cs" />
     <Compile Include="Models\Contracts\IPlayerTank.cs" />
     <Compile Include="Models\Contracts\IShell.cs" />
@@ -99,5 +101,6 @@
   <ItemGroup>
     <None Include="GameDisplay\MainMenu\MainMenu.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
