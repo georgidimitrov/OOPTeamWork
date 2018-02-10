@@ -14,32 +14,32 @@ namespace AlphaTank.UnitTests.Logic.CollisionTests
         {
             //arrange
             var mapMock = new Mock<IMap>();
-            var notObstacleStub = new Mock<INonObstacle>();
+            var notObstacleStub = new Mock<IShell>();
 
             mapMock.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(notObstacleStub.Object);
 
             var collision = new Collision();
 
             //act
-            bool detectResult = collision.DetectCollision(mapMock.Object, 0, 0);
+            bool detectResult = collision.IsObstacleOrAlly(mapMock.Object, 0, 0);
 
             //assert
             Assert.IsFalse(detectResult);
         }
 
         [TestMethod]
-        public void Return_True_IfObject_IsNot_NotObstacle()
+        public void Return_True_IfObject_Is_Obstacle()
         {
             //arrange
             var mapMock = new Mock<IMap>();
-            var obstacleStub = new Mock<IPlayerTank>();
+            var obstacleStub = new Mock<IObstacle>();
 
             mapMock.SetupGet((x) => x[It.IsAny<int>(), It.IsAny<int>()]).Returns(obstacleStub.Object);
 
             var collision = new Collision();
 
             //act
-            bool detectResult = collision.DetectCollision(mapMock.Object, 0, 0);
+            bool detectResult = collision.IsObstacleOrAlly(mapMock.Object, 0, 0);
 
             //assert
             Assert.IsTrue(detectResult);
@@ -51,7 +51,7 @@ namespace AlphaTank.UnitTests.Logic.CollisionTests
         {
             var collision = new Collision();
 
-            Assert.ThrowsException<NoMapException>(() => collision.DetectCollision(null, 0, 0));
+            Assert.ThrowsException<NoMapException>(() => collision.IsObstacleOrAlly(null, 0, 0));
         }
     }
 }
