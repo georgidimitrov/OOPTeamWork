@@ -12,7 +12,7 @@ namespace AlphaTank.Program.GameDisplay
         //Ctors
         public Display(IRapper rapper)
         {
-            this.rapper = rapper;
+            this.rapper = rapper ?? throw new ArgumentNullException();
         }
 
         //Methods

@@ -8,7 +8,7 @@ namespace AlphaTank.Program.Models.GameObjects
 {
     public class PlayerTank : Tank, IPlayerTank
     {
-        public PlayerTank(int row, int col, IMap map, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, map, environmentFactory, collision)
+        public PlayerTank(int row, int col, Direction direction, IMap map, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, direction, map, environmentFactory, collision)
         {
             this.Color = ConsoleColor.Yellow;
         }

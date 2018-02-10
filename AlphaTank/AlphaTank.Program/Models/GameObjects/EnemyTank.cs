@@ -10,10 +10,10 @@ namespace AlphaTank.Program.Models.GameObjects
     class EnemyTank : Tank, IEnemyTank
     {
         private readonly IPlayerTank playerTank;
-        private TimeSpan cooldown = new TimeSpan(0, 0, 0, 0, 1800);
+        private TimeSpan shootCooldown = new TimeSpan(0, 0, 0, 0, 1800);
         private DateTime time;
 
-        public EnemyTank(int row, int col, IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, map, environmentFactory, collision)
+        public EnemyTank(int row, int col, Direction direction, IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision) : base(row, col, direction, map, environmentFactory, collision)
         {
             this.Color = ConsoleColor.Red;
             this.playerTank = playerTank;
@@ -59,7 +59,7 @@ namespace AlphaTank.Program.Models.GameObjects
         public IShell DetectPlayer()
         {
 
-            if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShellCooldown())
+            if (playerTank.RowPosition == this.RowPosition && IsRowClean(playerTank.ColumnPosition) && ShootCooldown())
             {
                 if (playerTank.ColumnPosition > this.ColumnPosition)
                 {
@@ -72,7 +72,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     return this.Shoot();
                 }
             }
-            else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShellCooldown())
+            else if (playerTank.ColumnPosition == this.ColumnPosition && IsColumnClean(playerTank.RowPosition) && ShootCooldown())
             {
                 if (playerTank.RowPosition > this.RowPosition)
                 {
@@ -86,16 +86,6 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
             }
             return null;
-        }
-
-        private bool ShellCooldown()
-        {
-            if (this.cooldown < DateTime.Now - this.time)
-            {
-                this.time = DateTime.Now;
-                return true;
-            }
-            return false;
         }
 
         private bool IsRowClean(int playerColumn)
@@ -148,6 +138,16 @@ namespace AlphaTank.Program.Models.GameObjects
                 }
                 return true;
             }
+        }
+
+        private bool ShootCooldown()
+        {
+            if (this.shootCooldown < DateTime.Now - this.time)
+            {
+                this.time = DateTime.Now;
+                return true;
+            }
+            return false;
         }
     }
 }

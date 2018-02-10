@@ -49,7 +49,7 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool Move()
         {
-            if (Map != null)
+            if (this.Map != null)
             {
                 switch (Direction)
                 {
@@ -68,31 +68,38 @@ namespace AlphaTank.Program.Models.GameObjects
 
         public bool MoveDown()
         {
-            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+            this.Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+
             if (this.collision.DetectCollision(this.Map, this.RowPosition + 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition + 1, this.ColumnPosition];
+
                 if (gameObject is IIndestructable)
                 {
                     this.Destroy();
-                    return true;
+                    return false;
                 }
+
                 this.Map[this.RowPosition + 1, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition + 1, this.ColumnPosition, this.Map);
                 this.Destroy();
                 gameObject.Destroy();
-                return true;
+                this.RowPosition++;
+
+                return false;
             }
             else
             {
-                Map[this.RowPosition + 1, this.ColumnPosition] = this;
+                this.Map[this.RowPosition + 1, this.ColumnPosition] = this;
                 this.RowPosition++;
-                return false;
+
+                return true;
             }
         }
 
         public bool MoveLeft()
         {
-            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+            this.Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+
             if (this.collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition - 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition - 1];
@@ -100,48 +107,59 @@ namespace AlphaTank.Program.Models.GameObjects
                 if (gameObject is IIndestructable)
                 {
                     this.Destroy();
-                    return true;
+                    return false;
                 }
+
                 this.Map[this.RowPosition, this.ColumnPosition - 1] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition - 1, this.Map);
                 this.Destroy();
                 gameObject.Destroy();
-                return true;
+                this.ColumnPosition--;
+
+                return false;
             }
             else
             {
-                Map[this.RowPosition, this.ColumnPosition - 1] = this;
+                this.Map[this.RowPosition, this.ColumnPosition - 1] = this;
                 this.ColumnPosition--;
-                return false;
+
+                return true;
             }
         }
 
         public bool MoveRight()
         {
-            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+            this.Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+
             if (this.collision.DetectCollision(this.Map, this.RowPosition, this.ColumnPosition + 1))
             {
                 IGameObject gameObject = this.Map[this.RowPosition, this.ColumnPosition + 1];
+
                 if (gameObject is IIndestructable)
                 {
                     this.Destroy();
-                    return true;
+                    return false;
                 }
-                Map[this.RowPosition, this.ColumnPosition + 1] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition + 1, this.Map);
+
+                this.Map[this.RowPosition, this.ColumnPosition + 1] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition + 1, this.Map);
                 this.Destroy();
                 gameObject.Destroy();
-                return true;
+                this.ColumnPosition++;
+
+                return false;
             }
             else
             {
-                Map[this.RowPosition, this.ColumnPosition + 1] = this;
+                this.Map[this.RowPosition, this.ColumnPosition + 1] = this;
                 this.ColumnPosition++;
-                return false;
+
+                return true;
             }
         }
 
         public bool MoveUp()
         {
-            Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+            this.Map[this.RowPosition, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition, this.ColumnPosition, this.Map);
+
             if (this.collision.DetectCollision(this.Map, this.RowPosition - 1, this.ColumnPosition))
             {
                 IGameObject gameObject = this.Map[this.RowPosition - 1, this.ColumnPosition];
@@ -149,18 +167,22 @@ namespace AlphaTank.Program.Models.GameObjects
                 if (gameObject is IIndestructable)
                 {
                     this.Destroy();
-                    return true;
+                    return false;
                 }
-                Map[this.RowPosition - 1, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition - 1, this.ColumnPosition, this.Map);
+
+                this.Map[this.RowPosition - 1, this.ColumnPosition] = environmentFactory.CreateRoad(this.RowPosition - 1, this.ColumnPosition, this.Map);
                 this.Destroy();
                 gameObject.Destroy();
-                return true;
+                this.RowPosition--;
+
+                return false;
             }
             else
             {
-                Map[this.RowPosition - 1, this.ColumnPosition] = this;
+                this.Map[this.RowPosition - 1, this.ColumnPosition] = this;
                 this.RowPosition--;
-                return false;
+
+                return true;
             }
         }
     }

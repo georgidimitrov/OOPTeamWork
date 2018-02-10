@@ -16,6 +16,7 @@ using AlphaTank.Program.Factories;
 using AlphaTank.Program.Factories.Contracts;
 using AlphaTank.Program.Logic;
 using AlphaTank.Program.Logic.Contracts;
+using AlphaTank.Program.Enums_and_Structs;
 
 namespace AlphaTank.Program.Injections
 {
@@ -34,6 +35,7 @@ namespace AlphaTank.Program.Injections
             ICollection<Parameter> playerTankParams = new List<Parameter>();
             playerTankParams.Add(new NamedParameter("row", 17));
             playerTankParams.Add(new NamedParameter("col", 14));
+            playerTankParams.Add(new NamedParameter("direction", Direction.Up));
 
             builder.RegisterType<PlayerTank>().As<IPlayerTank>().SingleInstance().WithParameters(playerTankParams);
         }
