@@ -2,22 +2,8 @@
 
 ![](https://image.ibb.co/mwz6Pw/Game.png)
 
-## Getting Started
-
-1.Open map file in Engine
-
-2.Create a Player tank in Engine
- ```
- new PlayerTank(x, y, map) 
- ```
-
-3.Create Enemy tanks and add them to the collection in Engine
- ```
- EnemyTank enemy1 = new EnemyTank(1, 1, map, playerTank);
- enemyTanks.Add(enemy1);
- ```
 ## Architecture
- ![](https://preview.ibb.co/bZuWPw/Class_Diagram.png)
+ ![](https://preview.ibb.co/icKcAn/diag.png)
 
 ## Authors
 
