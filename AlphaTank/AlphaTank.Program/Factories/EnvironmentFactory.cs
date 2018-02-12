@@ -5,14 +5,30 @@ using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.Logic.Contracts;
 using Autofac;
 using AlphaTank.Program.GameEngine.TimerProvider;
+using Autofac.Core;
+using System.Collections.Generic;
 
 namespace AlphaTank.Program.Factories
 {
     public class EnvironmentFactory : IEnvironmentFactory
     {
-        public IEnemyTank CreateEnemyTank(int row, int col, Direction direction, IMap map, IPlayerTank playerTank, IEnvironmentFactory factory, ICollision collision, IGameTimer gameTimer)
+        private readonly IComponentContext container;
+
+        public EnvironmentFactory(IComponentContext container)
         {
-            return new EnemyTank(row, col, direction, map, playerTank, factory, collision,  gameTimer);
+            this.container = container;
+        }
+
+        public IEnemyTank CreateEnemyTank(int row, int col, Direction direction)
+        {
+            var parameters = new List<Parameter>
+            {
+                new NamedParameter("row", row),
+                new NamedParameter("col", col),
+                new NamedParameter("direction", direction)
+            };
+
+            return container.Resolve<IEnemyTank>(parameters);
         }
 
         public IObstacle CreateObstacle(int row, int col, IMap map)

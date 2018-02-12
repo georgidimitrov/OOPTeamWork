@@ -56,10 +56,10 @@ namespace AlphaTank.Program.GameEngine
         {
             this.display.Resize(this.gameSettings.RowsSize, this.gameSettings.ColsSize);
 
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right));
 
             this.playerTank.Shots += new EventHandler(ShotCount);
             this.playerTank.OnShots();
@@ -174,9 +174,10 @@ namespace AlphaTank.Program.GameEngine
                                 this.display.OldX = this.enemyTanks[tank].RowPosition;
                                 this.display.OldY = this.enemyTanks[tank].ColumnPosition;
 
-                                if (this.enemyTanks[tank].DetectPlayer())
+                                IShell shell = this.enemyTanks[tank].DetectPlayer();
+
+                                if (shell != null)
                                 {
-                                    IShell shell = this.enemyTanks[tank].Shoot();
                                     this.shells.Add(shell);
                                 }
                                 else if (this.enemyTanks[tank].Move())

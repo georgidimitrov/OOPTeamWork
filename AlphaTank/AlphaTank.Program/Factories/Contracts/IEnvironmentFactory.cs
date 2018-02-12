@@ -8,7 +8,7 @@ namespace AlphaTank.Program.Factories.Contracts
     {
         IShell CreateShell(int row, int col, IMap map, Direction direction, IEnvironmentFactory environmentFactory, ICollision collision);
         INonObstacle CreateRoad(int row, int col, IMap map);
-        IEnemyTank CreateEnemyTank(int row, int col, Direction direction, IMap map, IPlayerTank playerTank, IEnvironmentFactory factory, ICollision collision, IGameTimer gameTimer);
+        IEnemyTank CreateEnemyTank(int row, int col, Direction direction);
         IObstacle CreateObstacle(int row, int col, IMap map);
     }
 }
