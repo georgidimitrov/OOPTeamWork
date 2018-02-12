@@ -1,71 +1,68 @@
-﻿using AlphaTank.Program.GameDisplay;
-using AlphaTank.Program.Enums_and_Structs;
-using AlphaTank.Program.Models;
+﻿using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.Models.Contracts;
 using AlphaTank.Program.Models.GameObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 using AlphaTank.Program.Contracts;
 using AlphaTank.Program.Factories.Contracts;
 using AlphaTank.Program.Logic.Contracts;
+using AlphaTank.Program.GameEngine.ControlProvider;
+using AlphaTank.Program.GameEngine.TimerProvider;
+using AlphaTank.Program.CustomExceptions;
 
 namespace AlphaTank.Program.GameEngine
 {
     public class Engine
     {
-        private GameSettings gameSettings;
-        private readonly List<IShell> shells = new List<IShell>();
-        private readonly List<IEnemyTank> enemyTanks = new List<IEnemyTank>();
-        private DateTime timerGameRefresh;
-        private DateTime timerShell;
-        private DateTime shellTimer;
+        private readonly List<IShell> shells;
+        private readonly List<IEnemyTank> enemyTanks;
+
         private static int shots = 0;
 
-
-        private int objOldX;
-        private int objOldY;
-
-        private int objNewX;
-        private int objNewY;
-
-        private bool isPlayerAlive = true;
         //private readonly IMainMenu menu;
         private readonly IMap map;
         private readonly IPlayerTank playerTank;
         private readonly IEnvironmentFactory environmentFactory;
         private readonly ICollision collision;
+        private readonly IKeyboardWraper keyboard;
+        private readonly IGameTimer timer;
+        private readonly IGameSettings gameSettings;
         private readonly IDisplay display;
 
-        public Engine(IDisplay display, /*IMainMenu menu, */IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision)
+
+
+        public Engine(IDisplay display, /*IMainMenu menu, */IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision, IKeyboardWraper keyboard, IGameTimer timer, IGameSettings gameSettings)
         {
             //this.menu = menu;
-            this.map = map;
-            this.playerTank = playerTank;
-            this.environmentFactory = environmentFactory;
-            this.collision = collision;
-            this.display = display;
+            this.map = map ?? throw new NoMapException();
+            this.playerTank = playerTank ?? throw new ArgumentNullException();
+            this.environmentFactory = environmentFactory ?? throw new ArgumentNullException();
+            this.collision = collision ?? throw new ArgumentNullException();
+            this.keyboard = keyboard ?? throw new ArgumentNullException();
+            this.timer = timer ?? throw new ArgumentNullException();
+            this.gameSettings = gameSettings ?? throw new ArgumentNullException();
+            this.display = display ?? throw new ArgumentNullException();
+
+            shells = new List<IShell>();
+            enemyTanks = new List<IEnemyTank>();
         }
 
+        public List<IEnemyTank> EnemyTanks { get { return this.enemyTanks; } }
+
+        public List<IShell> Shells { get { return this.shells; } }
 
         public void Start()
         {
-            gameSettings = new GameSettings(21, 30, new TimeSpan(0, 0, 0, 0, 200), new TimeSpan(0, 0, 0, 0, 600), new TimeSpan(0, 0, 0, 0, 100));
+            this.display.Resize(this.gameSettings.RowsSize, this.gameSettings.ColsSize);
 
-            display.Resize(gameSettings.RowsSize, gameSettings.ColsSize);
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
+            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right, this.map, this.playerTank, this.environmentFactory, this.collision, this.timer));
 
-            timerGameRefresh = DateTime.Now;
-            timerShell = DateTime.Now;
-
-            enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left, map, playerTank, environmentFactory, collision));
-            enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down, map, playerTank, environmentFactory, collision));
-            enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up, map, playerTank, environmentFactory, collision));
-            enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right, map, playerTank, environmentFactory, collision));
-
-            playerTank.Shots += new EventHandler(ShotCount);
-            playerTank.OnShots();
+            this.playerTank.Shots += new EventHandler(ShotCount);
+            this.playerTank.OnShots();
 
             //Enemy
 
@@ -74,187 +71,146 @@ namespace AlphaTank.Program.GameEngine
             //    return;
             //}
 
-            display.Print(map);
+            this.display.Print();
 
             //After Start
-            while (isPlayerAlive)
+            while (this.gameSettings.IsPlayerAlive)
             {
-                if (ShellSpeed())
+                if (this.timer.ShellSpeed())
                 {
-                    for (int shell = shells.Count - 1; shell >= 0; shell--)
+                    for (int shell = this.shells.Count - 1; shell >= 0; shell--)
                     {
-                        if (shells[shell].Map == null)
+                        if (this.shells[shell].Map == null)
                         {
                             continue;
                         }
 
-                        objOldX = shells[shell].RowPosition;
-                        objOldY = shells[shell].ColumnPosition;
+                        this.display.OldX = shells[shell].RowPosition;
+                        this.display.OldY = shells[shell].ColumnPosition;
 
-                        bool isMoved = shells[shell].Move();
+                        bool isMoved = this.shells[shell].Move();
 
-                        objNewX = shells[shell].RowPosition;
-                        objNewY = shells[shell].ColumnPosition;
+                        this.display.NewX = shells[shell].RowPosition;
+                        this.display.NewY = shells[shell].ColumnPosition;
 
                         if (!isMoved)
                         {
-                            shells.Remove(shells[shell]);
+                            this.shells.Remove(shells[shell]);
                         }
 
-                        if (playerTank.Map == null)
+                        if (this.playerTank.Map == null)
                         {
-                            isPlayerAlive = false;
+                            this.gameSettings.IsPlayerAlive = false;
                             return;
                         }
 
-                        display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                        this.display.Update();
                     }
                     //Shell Move Update
 
-                    if (GameTimePassed())
+                    if (this.timer.GameTimePassed())
                     {
-                        objOldX = playerTank.RowPosition;
-                        objOldY = playerTank.ColumnPosition;
-                        if (!Keyboard.IsKeyUp(Key.Space) && ShellTimePassed())
+                        this.display.OldX = playerTank.RowPosition;
+                        this.display.OldY = playerTank.ColumnPosition;
+
+                        if (!this.keyboard.IsKeyUp(Key.Space) && this.timer.ShellCooldownPassed())
                         {
-                            var shell = playerTank.Shoot();
+                            var shell = this.playerTank.Shoot();
 
                             if (shell.Map != null)
                             {
-                                objNewX = shell.RowPosition;
-                                objNewY = shell.ColumnPosition;
+                                this.display.NewX = shell.RowPosition;
+                                this.display.NewY = shell.ColumnPosition;
 
-                                display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                                this.display.Update();
 
-                                shells.Add(shell);
+                                this.shells.Add(shell);
                             }
                         }
                         //Shell Shoot Update
 
-                        else if (!Keyboard.IsKeyUp(Key.Up))
+                        else if (!this.keyboard.IsKeyUp(Key.Up))
                         {
-                            var info = playerTank.MoveUp();
+                            var info = this.playerTank.MoveUp();
 
-                            objNewX = playerTank.RowPosition;
-                            objNewY = playerTank.ColumnPosition;
+                            this.display.NewX = this.playerTank.RowPosition;
+                            this.display.NewY = this.playerTank.ColumnPosition;
 
-                            display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                            this.display.Update();
                         }
-                        else if (!Keyboard.IsKeyUp(Key.Down))
+                        else if (!this.keyboard.IsKeyUp(Key.Down))
                         {
-                            var info = playerTank.MoveDown();
+                            var info = this.playerTank.MoveDown();
 
-                            objNewX = playerTank.RowPosition;
-                            objNewY = playerTank.ColumnPosition;
+                            this.display.NewX = this.playerTank.RowPosition;
+                            this.display.NewY = this.playerTank.ColumnPosition;
 
-                            display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                            this.display.Update();
                         }
-                        else if (!Keyboard.IsKeyUp(Key.Left))
+                        else if (!this.keyboard.IsKeyUp(Key.Left))
                         {
-                            var info = playerTank.MoveLeft();
+                            var info = this.playerTank.MoveLeft();
 
-                            objNewX = playerTank.RowPosition;
-                            objNewY = playerTank.ColumnPosition;
+                            this.display.NewX = this.playerTank.RowPosition;
+                            this.display.NewY = this.playerTank.ColumnPosition;
 
-                            display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                            this.display.Update();
                         }
-                        else if (!Keyboard.IsKeyUp(Key.Right))
+                        else if (!this.keyboard.IsKeyUp(Key.Right))
                         {
-                            var info = playerTank.MoveRight();
+                            var info = this.playerTank.MoveRight();
 
-                            objNewX = playerTank.RowPosition;
-                            objNewY = playerTank.ColumnPosition;
+                            this.display.NewX = this.playerTank.RowPosition;
+                            this.display.NewY = this.playerTank.ColumnPosition;
 
-                            display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                            this.display.Update();
                         }
                         //Player Tank Update
 
-                        for (int tank = enemyTanks.Count - 1; tank >= 0; tank--)
+                        for (int tank = this.enemyTanks.Count - 1; tank >= 0; tank--)
                         {
-                            if (enemyTanks[tank].Map != null)
+                            if (this.enemyTanks[tank].Map != null)
                             {
-                                objOldX = enemyTanks[tank].RowPosition;
-                                objOldY = enemyTanks[tank].ColumnPosition;
-                                IShell shell = enemyTanks[tank].DetectPlayer();
-                                if (shell != null)
-                                {
-                                    shells.Add(shell);
-                                }
-                                else if (enemyTanks[tank].Move())
-                                {
-                                    objNewX = enemyTanks[tank].RowPosition;
-                                    objNewY = enemyTanks[tank].ColumnPosition;
+                                this.display.OldX = this.enemyTanks[tank].RowPosition;
+                                this.display.OldY = this.enemyTanks[tank].ColumnPosition;
 
-                                    display.Update(map, objOldX, objOldY, objNewX, objNewY);
+                                if (this.enemyTanks[tank].DetectPlayer())
+                                {
+                                    IShell shell = this.enemyTanks[tank].Shoot();
+                                    this.shells.Add(shell);
+                                }
+                                else if (this.enemyTanks[tank].Move())
+                                {
+                                    this.display.NewX = this.enemyTanks[tank].RowPosition;
+                                    this.display.NewY = this.enemyTanks[tank].ColumnPosition;
+
+                                    this.display.Update();
                                 }
                             }
                             else
                             {
-                                display.Update(map, objOldX, objOldY, objNewX, objNewY);
-                                enemyTanks.RemoveAt(tank);
+                                this.display.Update();
+                                this.enemyTanks.RemoveAt(tank);
                             }
                         }
-                        if (enemyTanks.Count == 0)
+                        if (this.enemyTanks.Count == 0)
                         {
                             //menu.Victory();
                             return;
                         }
                         //Enemy Tanks Update
 
-                        if (map[playerTank.RowPosition, playerTank.ColumnPosition] is Road)
+                        if (this.map[this.playerTank.RowPosition, this.playerTank.ColumnPosition] is Road)
                         {
-                            isPlayerAlive = false;
+                            this.gameSettings.IsPlayerAlive = false;
                         }
                     }
-
                 }
             }
 
             //menu.GameOver();
-
         }
 
-        private bool ShellSpeed()
-        {
-            TimeSpan timespan = DateTime.Now - timerShell;
-            if (timespan > gameSettings.ShellSpeed)
-            {
-                timerShell = DateTime.Now;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool GameTimePassed()
-        {
-            TimeSpan timespan = DateTime.Now - timerGameRefresh;
-            if (timespan > gameSettings.RefreshRate)
-            {
-                timerGameRefresh = DateTime.Now;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool ShellTimePassed()
-        {
-            TimeSpan timespan = DateTime.Now - shellTimer;
-            if (timespan > gameSettings.ShellCooldown)
-            {
-                shellTimer = DateTime.Now;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         private static void ShotCount(object sender, EventArgs args)
         {

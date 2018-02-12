@@ -23,7 +23,7 @@ namespace AlphaTank.UnitTests.Models.GameObjects.PlayerTankTests
         }
 
         [TestMethod]
-        public void Return_Correct_Value_When_Invoked()
+        public void Return_Correct_Value_When_Direction_IsUp()
         {
             //arrange
             var row = 2;
@@ -35,7 +35,79 @@ namespace AlphaTank.UnitTests.Models.GameObjects.PlayerTankTests
 
             var expectedShell = new Mock<IShell>();
 
-            envFactoryStub.Setup(f => f.CreateShell(row - 1, col, mapMock.Object, Direction.Up, envFactoryStub.Object, collisionStub.Object)).Returns(expectedShell.Object);
+            envFactoryStub.Setup(f => f.CreateShell(row - 1, col, mapMock.Object, direction, envFactoryStub.Object, collisionStub.Object)).Returns(expectedShell.Object);
+
+            var playerTank = new PlayerTank(row, col, direction, mapMock.Object, envFactoryStub.Object, collisionStub.Object);
+
+            //act
+            var actualShell = playerTank.Shoot();
+
+            //assert
+            Assert.AreSame(expectedShell.Object, actualShell);
+        }
+
+        [TestMethod]
+        public void Return_Correct_Value_When_Direction_IsRight()
+        {
+            //arrange
+            var row = 2;
+            var col = 3;
+            var direction = Direction.Right;
+
+            var envFactoryStub = new Mock<IEnvironmentFactory>();
+            var collisionStub = new Mock<ICollision>();
+
+            var expectedShell = new Mock<IShell>();
+
+            envFactoryStub.Setup(f => f.CreateShell(row, col + 1, mapMock.Object, direction, envFactoryStub.Object, collisionStub.Object)).Returns(expectedShell.Object);
+
+            var playerTank = new PlayerTank(row, col, direction, mapMock.Object, envFactoryStub.Object, collisionStub.Object);
+
+            //act
+            var actualShell = playerTank.Shoot();
+
+            //assert
+            Assert.AreSame(expectedShell.Object, actualShell);
+        }
+
+        [TestMethod]
+        public void Return_Correct_Value_When_Direction_IsDown()
+        {
+            //arrange
+            var row = 2;
+            var col = 3;
+            var direction = Direction.Down;
+
+            var envFactoryStub = new Mock<IEnvironmentFactory>();
+            var collisionStub = new Mock<ICollision>();
+
+            var expectedShell = new Mock<IShell>();
+
+            envFactoryStub.Setup(f => f.CreateShell(row + 1, col, mapMock.Object, direction, envFactoryStub.Object, collisionStub.Object)).Returns(expectedShell.Object);
+
+            var playerTank = new PlayerTank(row, col, direction, mapMock.Object, envFactoryStub.Object, collisionStub.Object);
+
+            //act
+            var actualShell = playerTank.Shoot();
+
+            //assert
+            Assert.AreSame(expectedShell.Object, actualShell);
+        }
+
+        [TestMethod]
+        public void Return_Correct_Value_When_Direction_IsLeft()
+        {
+            //arrange
+            var row = 2;
+            var col = 3;
+            var direction = Direction.Left;
+
+            var envFactoryStub = new Mock<IEnvironmentFactory>();
+            var collisionStub = new Mock<ICollision>();
+
+            var expectedShell = new Mock<IShell>();
+
+            envFactoryStub.Setup(f => f.CreateShell(row, col - 1, mapMock.Object, direction, envFactoryStub.Object, collisionStub.Object)).Returns(expectedShell.Object);
 
             var playerTank = new PlayerTank(row, col, direction, mapMock.Object, envFactoryStub.Object, collisionStub.Object);
 

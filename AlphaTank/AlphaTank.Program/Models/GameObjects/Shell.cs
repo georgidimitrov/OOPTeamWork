@@ -60,7 +60,7 @@ namespace AlphaTank.Program.Models.GameObjects
                     case Direction.Left:
                         return this.MoveLeft();
                     case Direction.Right:
-                        return this.MoveRight();
+                        return this.MoveRight(); 
                 }
             }
             return false;

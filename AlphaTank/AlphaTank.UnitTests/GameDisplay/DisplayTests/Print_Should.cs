@@ -1,4 +1,5 @@
 ﻿using AlphaTank.Program.Contracts;
+using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.GameDisplay;
 using AlphaTank.Program.Models.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,13 +24,15 @@ namespace AlphaTank.UnitTests.GameDisplay.DisplayTests
             var gameObjectMock = new Mock<IGameObject>();
             mapMock.SetupGet(map => map[It.IsAny<int>(), It.IsAny<int>()]).Returns(gameObjectMock.Object);
 
+            var gameSettingStub = new Mock<IGameSettings>();
+
             var wraperMock = new Mock<IRapper>();
             wraperMock.Setup(io => io.Write(It.IsAny<string>())).Verifiable();
 
-            var display = new Display(wraperMock.Object);
+            var display = new Display(wraperMock.Object, mapMock.Object, gameSettingStub.Object);
 
             //act
-            display.Print(mapMock.Object);
+            display.Print();
 
             //assert
             wraperMock.Verify(io => io.Write(It.IsAny<string>()), Times.Exactly((mapHeight - 1) * mapWidth));
