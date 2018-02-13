@@ -70,9 +70,9 @@
     <Compile Include="GameDisplay\DisplayTests\Print_Should.cs" />
     <Compile Include="GameDisplay\DisplayTests\Update_Should.cs" />
     <Compile Include="GameEngine\EngineTests\Constructor_Should.cs" />
-    <Compile Include="GameEngine\EngineTests\Start_Should.cs" />
     <Compile Include="Logic\CollisionTests\DecectCollision_Should.cs" />
     <Compile Include="Logic\CollisionTests\IsObstacleOrAlly_Should.cs" />
+    <Compile Include="Models\GameObjects\EnemyTankTests\TryToShoot_Should.cs" />
     <Compile Include="Models\GameObjects\PlayerTankTests\MoveDown_Should.cs" />
     <Compile Include="Models\GameObjects\PlayerTankTests\MoveLeft_Should.cs" />
     <Compile Include="Models\GameObjects\PlayerTankTests\MoveRight_Should.cs" />
@@ -97,9 +97,7 @@
       <Name>AlphaTank.Program</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\GameObjects\EnemyTankTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

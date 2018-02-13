@@ -10,13 +10,12 @@ using AlphaTank.Program.Logic.Contracts;
 using AlphaTank.Program.GameEngine.ControlProvider;
 using AlphaTank.Program.GameEngine.TimerProvider;
 using AlphaTank.Program.CustomExceptions;
+using AlphaTank.Program.GameEngine.DataProvider;
 
 namespace AlphaTank.Program.GameEngine
 {
     public class Engine
     {
-        private readonly List<IShell> shells;
-        private readonly List<IEnemyTank> enemyTanks;
 
         private static int shots = 0;
 
@@ -28,11 +27,12 @@ namespace AlphaTank.Program.GameEngine
         private readonly IKeyboardWraper keyboard;
         private readonly IGameTimer timer;
         private readonly IGameSettings gameSettings;
+        private readonly IData data;
         private readonly IDisplay display;
 
 
 
-        public Engine(IDisplay display, /*IMainMenu menu, */IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision, IKeyboardWraper keyboard, IGameTimer timer, IGameSettings gameSettings)
+        public Engine(IDisplay display, /*IMainMenu menu, */IMap map, IPlayerTank playerTank, IEnvironmentFactory environmentFactory, ICollision collision, IKeyboardWraper keyboard, IGameTimer timer, IGameSettings gameSettings, IData data)
         {
             //this.menu = menu;
             this.map = map ?? throw new NoMapException();
@@ -42,24 +42,18 @@ namespace AlphaTank.Program.GameEngine
             this.keyboard = keyboard ?? throw new ArgumentNullException();
             this.timer = timer ?? throw new ArgumentNullException();
             this.gameSettings = gameSettings ?? throw new ArgumentNullException();
+            this.data = data;
             this.display = display ?? throw new ArgumentNullException();
-
-            shells = new List<IShell>();
-            enemyTanks = new List<IEnemyTank>();
         }
-
-        public List<IEnemyTank> EnemyTanks { get { return this.enemyTanks; } }
-
-        public List<IShell> Shells { get { return this.shells; } }
 
         public void Start()
         {
             this.display.Resize(this.gameSettings.RowsSize, this.gameSettings.ColsSize);
 
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up));
-            this.enemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right));
+            this.data.EnemyTanks.Add(environmentFactory.CreateEnemyTank(1, 1, Direction.Left));
+            this.data.EnemyTanks.Add(environmentFactory.CreateEnemyTank(2, 20, Direction.Down));
+            this.data.EnemyTanks.Add(environmentFactory.CreateEnemyTank(4, 28, Direction.Up));
+            this.data.EnemyTanks.Add(environmentFactory.CreateEnemyTank(4, 4, Direction.Right));
 
             this.playerTank.Shots += new EventHandler(ShotCount);
             this.playerTank.OnShots();
@@ -78,24 +72,24 @@ namespace AlphaTank.Program.GameEngine
             {
                 if (this.timer.ShellSpeed())
                 {
-                    for (int shell = this.shells.Count - 1; shell >= 0; shell--)
+                    for (int shell = this.data.Shells.Count - 1; shell >= 0; shell--)
                     {
-                        if (this.shells[shell].Map == null)
+                        if (this.data.Shells[shell].Map == null)
                         {
                             continue;
                         }
 
-                        this.display.OldX = shells[shell].RowPosition;
-                        this.display.OldY = shells[shell].ColumnPosition;
+                        this.display.OldX = this.data.Shells[shell].RowPosition;
+                        this.display.OldY = this.data.Shells[shell].ColumnPosition;
 
-                        bool isMoved = this.shells[shell].Move();
+                        bool isMoved = this.data.Shells[shell].Move();
 
-                        this.display.NewX = shells[shell].RowPosition;
-                        this.display.NewY = shells[shell].ColumnPosition;
+                        this.display.NewX = this.data.Shells[shell].RowPosition;
+                        this.display.NewY = this.data.Shells[shell].ColumnPosition;
 
                         if (!isMoved)
                         {
-                            this.shells.Remove(shells[shell]);
+                            this.data.Shells.Remove(this.data.Shells[shell]);
                         }
 
                         if (this.playerTank.Map == null)
@@ -124,7 +118,7 @@ namespace AlphaTank.Program.GameEngine
 
                                 this.display.Update();
 
-                                this.shells.Add(shell);
+                                this.data.Shells.Add(shell);
                             }
                         }
                         //Shell Shoot Update
@@ -167,23 +161,23 @@ namespace AlphaTank.Program.GameEngine
                         }
                         //Player Tank Update
 
-                        for (int tank = this.enemyTanks.Count - 1; tank >= 0; tank--)
+                        for (int tank = this.data.EnemyTanks.Count - 1; tank >= 0; tank--)
                         {
-                            if (this.enemyTanks[tank].Map != null)
+                            if (this.data.EnemyTanks[tank].Map != null)
                             {
-                                this.display.OldX = this.enemyTanks[tank].RowPosition;
-                                this.display.OldY = this.enemyTanks[tank].ColumnPosition;
+                                this.display.OldX = this.data.EnemyTanks[tank].RowPosition;
+                                this.display.OldY = this.data.EnemyTanks[tank].ColumnPosition;
 
-                                IShell shell = this.enemyTanks[tank].DetectPlayer();
+                                IShell shell = this.data.EnemyTanks[tank].DetectPlayer();
 
                                 if (shell != null)
                                 {
-                                    this.shells.Add(shell);
+                                    this.data.Shells.Add(shell);
                                 }
-                                else if (this.enemyTanks[tank].Move())
+                                else if (this.data.EnemyTanks[tank].Move())
                                 {
-                                    this.display.NewX = this.enemyTanks[tank].RowPosition;
-                                    this.display.NewY = this.enemyTanks[tank].ColumnPosition;
+                                    this.display.NewX = this.data.EnemyTanks[tank].RowPosition;
+                                    this.display.NewY = this.data.EnemyTanks[tank].ColumnPosition;
 
                                     this.display.Update();
                                 }
@@ -191,10 +185,10 @@ namespace AlphaTank.Program.GameEngine
                             else
                             {
                                 this.display.Update();
-                                this.enemyTanks.RemoveAt(tank);
+                                this.data.EnemyTanks.RemoveAt(tank);
                             }
                         }
-                        if (this.enemyTanks.Count == 0)
+                        if (this.data.EnemyTanks.Count == 0)
                         {
                             //menu.Victory();
                             return;

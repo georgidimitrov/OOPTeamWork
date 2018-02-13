@@ -62,6 +62,8 @@
     <Compile Include="GameDisplay\Ghetto\Rapper.cs" />
     <Compile Include="GameEngine\ControlProvider\IKeyboardWraper.cs" />
     <Compile Include="GameEngine\ControlProvider\KeyboardWraper.cs" />
+    <Compile Include="GameEngine\DataProvider\Data.cs" />
+    <Compile Include="GameEngine\DataProvider\IData.cs" />
     <Compile Include="GameEngine\Engine.cs" />
     <Compile Include="Enums and Structs\GameSettings.cs" />
     <Compile Include="GameEngine\TimerProvider\GameTimer.cs" />
