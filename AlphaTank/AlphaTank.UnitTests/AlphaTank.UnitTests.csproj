@@ -69,8 +69,6 @@
     <Compile Include="GameDisplay\DisplayTests\OldY_Should.cs" />
     <Compile Include="GameDisplay\DisplayTests\Print_Should.cs" />
     <Compile Include="GameDisplay\DisplayTests\Update_Should.cs" />
-    <Compile Include="GameEngine\EngineTests\Constructor_Should.cs" />
-    <Compile Include="GameEngine\EngineTests\Start_Should.cs" />
     <Compile Include="Logic\CollisionTests\DecectCollision_Should.cs" />
     <Compile Include="Logic\CollisionTests\IsObstacleOrAlly_Should.cs" />
     <Compile Include="Models\GameObjects\PlayerTankTests\MoveDown_Should.cs" />
@@ -98,6 +96,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GameEngine\" />
     <Folder Include="Models\GameObjects\EnemyTankTests\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
