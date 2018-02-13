@@ -19,6 +19,7 @@ using AlphaTank.Program.Logic.Contracts;
 using AlphaTank.Program.Enums_and_Structs;
 using AlphaTank.Program.GameEngine.ControlProvider;
 using AlphaTank.Program.GameEngine.TimerProvider;
+using AlphaTank.Program.GameEngine.DataProvider;
 
 namespace AlphaTank.Program.Injections
 {
@@ -39,6 +40,7 @@ namespace AlphaTank.Program.Injections
             builder.RegisterType<GameTimer>().As<IGameTimer>();
             builder.RegisterType<EnvironmentFactory>().As<IEnvironmentFactory>().SingleInstance();
             builder.RegisterType<Collision>().As<ICollision>().SingleInstance();
+            builder.RegisterType<Data>().As<IData>().SingleInstance();
             builder.RegisterType<Rapper>().As<IRapper>().SingleInstance();
 
             builder.RegisterType<GameDisplay.Display>().As<IDisplay>().SingleInstance();
